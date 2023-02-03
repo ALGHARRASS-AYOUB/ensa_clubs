@@ -23,8 +23,36 @@ class UpdateClubRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        $method=$this->method();
+        if($method=='PUT'){
+            return [
+
+                'name'=>['required'],
+                'activity_domaine'=>['required'],
+                'email'=>['email'],
+                'president'=>['required','int'],
+                'bureau_members_file'=>['required'],
+            ];
+        }else{
+            return [
+
+                'name'=>['required','sometimes'],
+                'activity_domaine'=>['required','sometimes'],
+                'email'=>['email'],
+                'president'=>['required','sometimes','int'],
+                'bureau_members_file'=>['required','sometimes'],
+            ];
+        }
+
+    }
+
+    protected function prepareForValidation()
+    {
+        if($this->bureauMembersFile && $this->activityDomaine){
+            $this->merge([
+                'activity_domaine'=>$this->bureauMembersFile,
+                'bureau_members_file'=> $this->activityDomaine,
+            ]);
+        }
     }
 }

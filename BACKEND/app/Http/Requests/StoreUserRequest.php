@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class StoreClubRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,21 +25,22 @@ class StoreClubRequest extends FormRequest
     public function rules()
     {
         return [
-
-            'name'=>['required'],
-            'activity_domaine'=>['required'],
-            'email'=>['email'],
-            'bureau_members_file'=>['required','file','mimes:doc,docx,pdf,csv,xlx,xls,txt','max:2048'],
-            'logo'=>['image','mimes:png,jpg,jpeg','max:2048'],
+            'first_name'=>['required'],
+            'last_name'=>['required'],
+            'role'=>['required',Rule::in(['president','admin'])],
+            'email'=>['required','email'],
+            'password'=>['required'],
+            'cpassword'=>['required','same:password'],
         ];
+
     }
 
     protected function prepareForValidation()
     {
-        if($this->bureauMembersFile && $this->activityDomaine){
+        if($this->firstName && $this->lastName){
             $this->merge([
-                'activity_domaine'=>$this->activityDomaine,
-                'bureau_members_file'=> $this->bureauMembersFile,
+                'first_name'=>$this->firstName,
+                'last_name'=> $this->lastName,
             ]);
         }
     }

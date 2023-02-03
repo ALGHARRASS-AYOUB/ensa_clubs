@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\v1;
 
-use App\Models\Reservation;
-use App\Http\Requests\StoreReservationRequest;
-use App\Http\Requests\UpdateReservationRequest;
+use App\Http\Requests\StoreConversationRequest;
+use App\Http\Requests\UpdateConversationRequest;
+use App\Models\Conversation;
 
-class ReservationController extends Controller
+class ConversationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +31,10 @@ class ReservationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreReservationRequest  $request
+     * @param  \App\Http\Requests\StoreConversationRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreReservationRequest $request)
+    public function store(StoreConversationRequest $request)
     {
         //
     }
@@ -42,10 +42,10 @@ class ReservationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Reservation  $reservation
+     * @param  \App\Models\Conversation  $conversation
      * @return \Illuminate\Http\Response
      */
-    public function show(Reservation $reservation)
+    public function show(Conversation $conversation)
     {
         //
     }
@@ -53,10 +53,10 @@ class ReservationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Reservation  $reservation
+     * @param  \App\Models\Conversation  $conversation
      * @return \Illuminate\Http\Response
      */
-    public function edit(Reservation $reservation)
+    public function edit(Conversation $conversation)
     {
         //
     }
@@ -64,11 +64,11 @@ class ReservationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateReservationRequest  $request
-     * @param  \App\Models\Reservation  $reservation
+     * @param  \App\Http\Requests\UpdateConversationRequest  $request
+     * @param  \App\Models\Conversation  $conversation
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateReservationRequest $request, Reservation $reservation)
+    public function update(UpdateConversationRequest $request, Conversation $conversation)
     {
         //
     }
@@ -76,10 +76,10 @@ class ReservationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Reservation  $reservation
+     * @param  \App\Models\Conversation  $conversation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reservation $reservation)
+    public function destroy(Conversation $conversation)
     {
         //
     }

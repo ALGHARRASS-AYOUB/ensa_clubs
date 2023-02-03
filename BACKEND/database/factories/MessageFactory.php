@@ -27,6 +27,7 @@ class MessageFactory extends Factory
             'sent_at'=>$this->faker->dateTimeThisMonth(),
             'conversation_id'=>Conversation::factory()->hasAttached($clubs->random(2),[
                 'name'=>$this->faker->title(),
+                'isGroupAdmin'=>$this->faker->randomElement([true,false]),
                 'joined_at'=>now(),
                 'left_at'=>$this->faker->randomElement([null,Carbon::now()->addHour()]),
             ])->create()

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\v1;
 
-use App\Models\Actualities;
-use App\Http\Requests\StoreActualitiesRequest;
-use App\Http\Requests\UpdateActualitiesRequest;
+use App\Http\Requests\StoreactualityRequest;
+use App\Http\Requests\UpdateactualityRequest;
+use App\Models\actuality;
 
-class ActualitiesController extends Controller
+class ActualityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +31,10 @@ class ActualitiesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreActualitiesRequest  $request
+     * @param  \App\Http\Requests\StoreactualityRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreActualitiesRequest $request)
+    public function store(StoreactualityRequest $request)
     {
         //
     }
@@ -42,10 +42,10 @@ class ActualitiesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Actualities  $actualities
+     * @param  \App\Models\actuality  $actuality
      * @return \Illuminate\Http\Response
      */
-    public function show(Actualities $actualities)
+    public function show(actuality $actuality)
     {
         //
     }
@@ -53,10 +53,10 @@ class ActualitiesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Actualities  $actualities
+     * @param  \App\Models\actuality  $actuality
      * @return \Illuminate\Http\Response
      */
-    public function edit(Actualities $actualities)
+    public function edit(actuality $actuality)
     {
         //
     }
@@ -64,11 +64,11 @@ class ActualitiesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateActualitiesRequest  $request
-     * @param  \App\Models\Actualities  $actualities
+     * @param  \App\Http\Requests\UpdateactualityRequest  $request
+     * @param  \App\Models\actuality  $actuality
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateActualitiesRequest $request, Actualities $actualities)
+    public function update(UpdateactualityRequest $request, actuality $actuality)
     {
         //
     }
@@ -76,10 +76,10 @@ class ActualitiesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Actualities  $actualities
+     * @param  \App\Models\actuality  $actuality
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Actualities $actualities)
+    public function destroy(actuality $actuality)
     {
         //
     }

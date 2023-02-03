@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\v1;
 
-use App\Models\Salle;
 use App\Http\Requests\StoreSalleRequest;
 use App\Http\Requests\UpdateSalleRequest;
+use App\Models\Salle;
 
 class SalleController extends Controller
 {

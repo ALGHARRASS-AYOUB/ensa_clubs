@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\v1;
 
-use App\Models\actuality;
-use App\Http\Requests\StoreactualityRequest;
-use App\Http\Requests\UpdateactualityRequest;
+use App\Http\Requests\StoreReservationRequest;
+use App\Http\Requests\UpdateReservationRequest;
+use App\Models\Reservation;
 
-class ActualityController extends Controller
+class ReservationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +31,10 @@ class ActualityController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreactualityRequest  $request
+     * @param  \App\Http\Requests\StoreReservationRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreactualityRequest $request)
+    public function store(StoreReservationRequest $request)
     {
         //
     }
@@ -42,10 +42,10 @@ class ActualityController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\actuality  $actuality
+     * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function show(actuality $actuality)
+    public function show(Reservation $reservation)
     {
         //
     }
@@ -53,10 +53,10 @@ class ActualityController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\actuality  $actuality
+     * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function edit(actuality $actuality)
+    public function edit(Reservation $reservation)
     {
         //
     }
@@ -64,11 +64,11 @@ class ActualityController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateactualityRequest  $request
-     * @param  \App\Models\actuality  $actuality
+     * @param  \App\Http\Requests\UpdateReservationRequest  $request
+     * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateactualityRequest $request, actuality $actuality)
+    public function update(UpdateReservationRequest $request, Reservation $reservation)
     {
         //
     }
@@ -76,10 +76,10 @@ class ActualityController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\actuality  $actuality
+     * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(actuality $actuality)
+    public function destroy(Reservation $reservation)
     {
         //
     }

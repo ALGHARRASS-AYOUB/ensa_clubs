@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::create('clubs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('email')->nullable();
             $table->string('activity_domaine');
             $table->text('description')->nullable();
             $table->string('supervisor')->nullable();
@@ -26,7 +27,6 @@ return new class extends Migration
             $table->string('bureau_members_file');
             $table->boolean('suspended')->default(false);
             $table->string('slugon')->nullable();
-            $table->boolean('isGroupAdmin')->default(false);
             $table->dateTimeTz('verified_at')->nullable();
             $table->dateTimeTz('suspended_at')->nullable();
             $table->timestamps();

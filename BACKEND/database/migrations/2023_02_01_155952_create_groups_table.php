@@ -18,6 +18,7 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->boolean('isGroupAdmin')->default(false);
             $table->foreignIdFor(Club::class)->constrained();
             $table->foreignIdFor(Conversation::class)->constrained();
             $table->dateTimeTz('joined_at');

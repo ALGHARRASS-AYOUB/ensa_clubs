@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\v1;
 
-use App\Models\Conversation;
-use App\Http\Requests\StoreConversationRequest;
-use App\Http\Requests\UpdateConversationRequest;
+use App\Http\Requests\StoreGroupRequest;
+use App\Http\Requests\UpdateGroupRequest;
+use App\Models\Group;
 
-class ConversationController extends Controller
+class GroupController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +31,10 @@ class ConversationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreConversationRequest  $request
+     * @param  \App\Http\Requests\StoreGroupRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreConversationRequest $request)
+    public function store(StoreGroupRequest $request)
     {
         //
     }
@@ -42,10 +42,10 @@ class ConversationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Conversation  $conversation
+     * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function show(Conversation $conversation)
+    public function show(Group $group)
     {
         //
     }
@@ -53,10 +53,10 @@ class ConversationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Conversation  $conversation
+     * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function edit(Conversation $conversation)
+    public function edit(Group $group)
     {
         //
     }
@@ -64,11 +64,11 @@ class ConversationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateConversationRequest  $request
-     * @param  \App\Models\Conversation  $conversation
+     * @param  \App\Http\Requests\UpdateGroupRequest  $request
+     * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateConversationRequest $request, Conversation $conversation)
+    public function update(UpdateGroupRequest $request, Group $group)
     {
         //
     }
@@ -76,10 +76,10 @@ class ConversationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Conversation  $conversation
+     * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Conversation $conversation)
+    public function destroy(Group $group)
     {
         //
     }
