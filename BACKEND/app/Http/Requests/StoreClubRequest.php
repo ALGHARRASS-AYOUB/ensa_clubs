@@ -28,9 +28,9 @@ class StoreClubRequest extends FormRequest
         return [
 
             'name'=>['required'],
-            'activity_domaine'=>['required'],
+            'activityDomaine'=>['required'],
             'email'=>['email'],
-            'bureau_members_file'=>['required','file','mimes:doc,docx,pdf,csv,xlx,xls,txt','max:2048'],
+            'bureauMembersFile'=>['required','file','mimes:doc,docx,pdf,csv,xlx,xls,txt','max:2048'],
             'logo'=>['image','mimes:png,jpg,jpeg','max:2048'],
         ];
     }

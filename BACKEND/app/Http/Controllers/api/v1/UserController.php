@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\api\v1;
 
-use App\Http\Controllers\Controller;
+use App\Filters\v1\UserFilter;
+use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\api\v1\UserCollection;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -12,20 +15,23 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
+      public function index(Request $request )
+      {
+          if(auth()->user()->role!='admin')
+              return response()->json()->setData(['error'=>'unauthorized']);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+          $filter=new UserFilter();
+          $queryItems=$filter->transform($request);
+
+          if(count($queryItems)==0){
+              $users= User::paginate();
+              return  new UserCollection($users);
+          }
+          else{
+              $users= User::where($queryItems)->paginate();
+              return  new UserCollection($users);
+          }
+      }
 
     /**
      * Store a newly created resource in storage.
@@ -49,16 +55,7 @@ class UserController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
@@ -67,9 +64,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        if(auth()->user()->role!='admin')
+            return response()->json()->setData(['error'=>'unauthorized']);
+            $user->update($request->all());
+            return User::find($user->id);
     }
 
     /**

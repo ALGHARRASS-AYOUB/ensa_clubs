@@ -14,7 +14,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -42,6 +42,7 @@ class UpdateUserRequest extends FormRequest
                'email'=>['required','sometimes','email'],
                'password'=>['required','sometimes'],
                'cpassword'=>['required','sometimes','same:password'],
+
            ];
        }
     }

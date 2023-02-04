@@ -9,8 +9,10 @@ use App\Http\Resources\api\v1\ClubCollection;
 use App\Http\Resources\api\v1\ClubResource;
 use App\Models\Club;
 use Cloudinary\Cloudinary;
+use http\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ClubController extends Controller
 {
@@ -24,7 +26,6 @@ class ClubController extends Controller
         $filter=new ClubFilter();
         $queryItems=$filter->transform($request);
         $includeUser=$request->query('includeUser');
-
 
         if(count($queryItems)==0){
             $clubs= ($includeUser)?Club::with('user')->paginate():Club::paginate();
@@ -47,10 +48,26 @@ class ClubController extends Controller
     public function store(StoreClubRequest $request)
     {
         try {
-            $logo=cloudinary()->upload($request->file('bureauMembersFile')->getRealPath())->getSecurePath();
-            $bureauMemeberFile=cloudinary()->upload($request->file('logo')->getRealPath())->getSecurePath();
+//            $logo=cloudinary()->upload($request->file('logo')->getRealPath())->getSecurePath();
+//            $bureauMemeberFile=cloudinary()->upload($request->file('bureauMembersFile')->getRealPath())->getSecurePath();
+
+        //storing in the local folder app/storage/public/logos and app/storage/public/files
+            if($request->hasFile('logo')){
+                $logoName=time().'.'.$request->file('logo')->getClientOriginalExtension();
+                $logoLocalPath=$request->file('logo')->storeAs('/public/logos',$logoName);
+//                $logo=env('APP_URL').Storage::url($logoLocalPath);
+                $logo=Storage::url($logoLocalPath);
+            }
+
+            if($request->hasFile('bureauMembersFile')){
+                $bureauMemeberFileName=time().'.'.$request->file('bureauMembersFile')->getClientOriginalExtension();
+                $bureauMemeberFileLocalPath=$request->file('bureauMembersFile')->storeAs('/public/files',$bureauMemeberFileName);
+//                $bureauMemeberFile=env('APP_URL').Storage::url($bureauMemeberFileLocalPath);
+                $bureauMemeberFile=Storage::url($bureauMemeberFileLocalPath);
+            }
+
         }catch (Exception $e){
-            return response()->json('failed to upload');
+            return response()->json('failed to download');
         }
 
         $clubToStore=[
@@ -91,6 +108,33 @@ class ClubController extends Controller
      */
     public function update(UpdateClubRequest $request, Club $club)
     {
+        if($club->user_id!=auth()->user()->id && auth()->user()->role!='admin')
+            return response()->json(['error' => 'Not authorized.'],403);
+
+        try {
+
+//            $bureauMemeberFile=cloudinary()->upload($request->file('logo')->getRealPath())->getSecurePath();
+
+     //storing in the local folder app/storage/public/logos and app/storage/public/files
+            if($request->hasFile('logo')){
+                Storage::delete($club->logo);
+
+                $logoName=time().'.'.$request->file('logo')->getClientOriginalExtension();
+                $logoLocalPath=$request->file('logo')->storeAs('/public/logos',$logoName);
+//                $logo=env('APP_URL').Storage::url($logoLocalPath);
+                 $logo=Storage::url($logoLocalPath);
+            }
+
+            if($request->hasFile('bureauMembersFile')){
+                Storage::delete($club->bureauMembersFile);
+                $bureauMemeberFileName=time().'.'.$request->file('bureauMembersFile')->getClientOriginalExtension();
+                $bureauMemeberFileLocalPath=$request->file('bureauMembersFile')->storeAs('/public/files',$bureauMemeberFileName);
+//                $bureauMemeberFile=env('APP_URL').Storage::url($bureauMemeberFileLocalPath);
+                 $bureauMemeberFile=Storage::url($bureauMemeberFileLocalPath);
+            }
+            }catch (Exception $e){
+                return response()->json('failed to download');
+            }
         $club->update($request->all());
         return new ClubResource(Club::with('user')->findOrFail($club->id));
     }
@@ -103,6 +147,18 @@ class ClubController extends Controller
      */
     public function destroy(Club $club)
     {
-        $club->delete();
+
+         $file=trim(str_replace('/storage/','',$club->bureau_members_file));
+         $logo=trim(str_replace('/storage/','',$club->logo));
+         //dd('/storage/app/'.$file,'/storage/app/'.$logo);
+        if(Storage::has('public/'.$logo))
+            Storage::delete('public/'.$logo);
+         Storage::delete('public/'.$file);
+         if($club->user_id==auth()->user()->id || auth()->user()->role=='admin')
+             $club->delete();
+        else
+            return response()->json(['error' => 'Not authorized.'],403);
+         return true;
+
     }
 }

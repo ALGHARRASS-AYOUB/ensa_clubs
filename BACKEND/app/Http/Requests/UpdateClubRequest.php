@@ -13,7 +13,7 @@ class UpdateClubRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -28,19 +28,19 @@ class UpdateClubRequest extends FormRequest
             return [
 
                 'name'=>['required'],
-                'activity_domaine'=>['required'],
+                'activityDomaine'=>['required'],
                 'email'=>['email'],
-                'president'=>['required','int'],
-                'bureau_members_file'=>['required'],
+                'bureauMembersFile'=>['required','file','mimes:doc,docx,pdf,csv,xlx,xls,txt','max:2048'],
+                'logo'=>['image','mimes:png,jpg,jpeg','max:2048'],
             ];
         }else{
             return [
 
                 'name'=>['required','sometimes'],
-                'activity_domaine'=>['required','sometimes'],
+                'activityDomaine'=>['required','sometimes'],
                 'email'=>['email'],
-                'president'=>['required','sometimes','int'],
-                'bureau_members_file'=>['required','sometimes'],
+                'bureauMembersFile'=>['required','sometimes','file','mimes:doc,docx,pdf,csv,xlx,xls,txt','max:2048'],
+                'logo'=>['image','mimes:png,jpg,jpeg','max:2048'],
             ];
         }
 
@@ -50,8 +50,8 @@ class UpdateClubRequest extends FormRequest
     {
         if($this->bureauMembersFile && $this->activityDomaine){
             $this->merge([
-                'activity_domaine'=>$this->bureauMembersFile,
-                'bureau_members_file'=> $this->activityDomaine,
+                'activity_domaine'=>$this->activityDomaine,
+                'bureau_members_file'=> $this->bureauMembersFile,
             ]);
         }
     }

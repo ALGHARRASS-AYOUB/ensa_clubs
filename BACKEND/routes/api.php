@@ -4,6 +4,7 @@ use App\Http\Controllers\api\v1\ActualityController;
 use App\Http\Controllers\api\v1\ClubController;
 use App\Http\Controllers\api\v1\EvenementController;
 use App\Http\Controllers\api\v1\SalleController;
+use App\Http\Controllers\api\v1\UpdateProfileController;
 use App\Http\Controllers\api\v1\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
@@ -23,6 +24,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::patch('updateProfile',[UpdateProfileController::class,'updateProfile'])->middleware('auth:sanctum');
+Route::put('updateProfile',[UpdateProfileController::class,'updateProfile'])->middleware('auth:sanctum');
 
 Route::post('login',[AuthController::class,'login']);
 Route::post('register',[AuthController::class,'register']);
