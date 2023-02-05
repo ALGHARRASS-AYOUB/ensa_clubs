@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\api\v1;
 
+use App\Models\Evenement;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ClubResource extends JsonResource
@@ -27,6 +28,7 @@ class ClubResource extends JsonResource
             'suspended'=>$this->suspended,
             'verified'=>$this->verified,
             'president'=>UserResource::make($this->user),
+//            'evenements'=>EvenementResource::collection($this->evenements),
             'bureauMembersFile'=>$this->bureau_members_file,
             'spervisor'=>$this->supervisor,
             'logo'=>$this->logo,

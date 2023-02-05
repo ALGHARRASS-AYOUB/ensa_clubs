@@ -7,6 +7,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\api\v1\AuthResource;
 use App\Models\User;
 use Carbon\Carbon;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -49,6 +50,8 @@ class AuthController extends Controller
 
     public function register(StoreUserRequest $request){
 
+        if(!($request->role=='admin' && Auth::check() && Auth::user()->role=='admin'))
+                return response()->json()->setData(['error'=>'admins only could create admins']);
         $user=new User();
         $user->first_name=$request->firstName;
         $user->last_name=$request->lastName;

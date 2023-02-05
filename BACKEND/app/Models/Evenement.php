@@ -9,6 +9,15 @@ class Evenement extends Model
 {
     use HasFactory;
 
+    protected $fillable=[
+        'name',
+        'description',
+        'date_event',
+        'isApprouved',
+        'image',
+        'club_id',
+    ];
+
     public function actuality(){
         return $this->belongsTo(actuality::class  );
     }
@@ -17,5 +26,9 @@ class Evenement extends Model
         return $this->belongsToMany(Salle::class)
             ->withPivot(['start_at','end_at'])
             ->withTimestamps();
+    }
+
+    public function club(){
+        return $this->belongsTo(Club::class);
     }
 }

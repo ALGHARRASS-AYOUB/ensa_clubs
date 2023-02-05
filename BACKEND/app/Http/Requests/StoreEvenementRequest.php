@@ -13,7 +13,7 @@ class StoreEvenementRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,20 @@ class StoreEvenementRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'=>['required'],
+            'description'=>['required'],
+            'dateEvent'=>['required','date_format:Y-m-d H:i:s'],
+            'isApprouved'=>['required','boolean'],
+            'image'=>['image','mimes:png,jpg,jpeg','size:2048'],
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        if($this->dateEvent){
+            return $this->merge([
+                'date_event'=>$this->dateEvent,
+            ]);
+        }
     }
 }

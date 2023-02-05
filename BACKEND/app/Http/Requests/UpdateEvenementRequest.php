@@ -13,7 +13,7 @@ class UpdateEvenementRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,32 @@ class UpdateEvenementRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        $method=$this->method();
+        if($method=='PUT')
+            return [
+                'name'=>['required'],
+                'description'=>['required'],
+                'dateEvent'=>['required','date_format:Y-m-d H:i:s'],
+                'isApprouved'=>['required','boolean'],
+                'image'=>['image','mimes:png,jpg,jpeg','size:2048'],
+            ];
+        else{
+            return [
+                'name'=>['required','sometimes'],
+                'description'=>['required','sometimes'],
+                'dateEvent'=>['required','sometimes','date_format:Y-m-d H:i:s'],
+                'isApprouved'=>['required','sometimes','boolean'],
+                'image'=>['image','mimes:png,jpg,jpeg','size:2048'],
+            ];
+        }
+    }
+
+    public function prepareForValidation()
+    {
+        if($this->dateEvent){
+            return $this->merge([
+                'date_event'=>$this->dateEvent,
+            ]);
+        }
     }
 }

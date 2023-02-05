@@ -24,6 +24,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::group(['prefix'=>'v1','namespace'=>'App\Http\Controllers\api\v1'],function (){
+        Route::apiResource('evenements',EvenementController::class);
+        Route::apiResource('actualities',ActualityController::class);
+});
+
+
+
 Route::patch('updateProfile',[UpdateProfileController::class,'updateProfile'])->middleware('auth:sanctum');
 Route::put('updateProfile',[UpdateProfileController::class,'updateProfile'])->middleware('auth:sanctum');
 
@@ -35,7 +42,5 @@ Route::group(['prefix'=>'v1','middleware'=>'auth:sanctum','namespace'=>'App\Http
     Route::apiResource('clubs',ClubController::class);
     Route::apiResource('salles',SalleController::class);
     Route::patch('salles/changeDisponibility/{id}',[SalleController::class,'changeDisponibility']);
-    Route::apiResource('events',EvenementController::class);
-    Route::apiResource('actualities',ActualityController::class);
 
 });

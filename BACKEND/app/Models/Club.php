@@ -40,4 +40,7 @@ class Club extends Model
             ->withPivot(['name','isGroupAdmin','joined_at','left_at']);
     }
 
+    public function evenements(){
+        $this->belongsTo(Evenement::class);
+    }
 }
