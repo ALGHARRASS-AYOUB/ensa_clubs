@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateSalleRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdateSalleRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +24,17 @@ class UpdateSalleRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        $method=$this->method();
+        if($method=='PUT'){
+            return [
+                'name'=>['required'],
+                'isDisponible'=>['required','boolean'],
+            ];
+        }else{
+            return [
+                'name'=>['required','sometimes'],
+                'isDisponible'=>['required','sometimes','boolean'],
+            ];
+        }
     }
 }

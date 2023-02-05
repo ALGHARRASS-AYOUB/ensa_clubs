@@ -34,6 +34,7 @@ Route::group(['prefix'=>'v1','middleware'=>'auth:sanctum','namespace'=>'App\Http
     Route::apiResource('users',UserController::class);
     Route::apiResource('clubs',ClubController::class);
     Route::apiResource('salles',SalleController::class);
+    Route::patch('salles/changeDisponibility/{id}',[SalleController::class,'changeDisponibility']);
     Route::apiResource('events',EvenementController::class);
     Route::apiResource('actualities',ActualityController::class);
 

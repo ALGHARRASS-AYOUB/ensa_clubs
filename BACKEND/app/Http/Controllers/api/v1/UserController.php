@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\Filters\v1\UserFilter;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\api\v1\UserCollection;
+use App\Http\Resources\api\v1\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -50,9 +51,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        if(auth()->user()->role!='admin')
+            return response()->json()->setData(['error'=>'unauthorized']);
+        $user=User::findOrFail($user->id);
+        return  new UserResource($user);
     }
 
 
@@ -69,7 +73,7 @@ class UserController extends Controller
         if(auth()->user()->role!='admin')
             return response()->json()->setData(['error'=>'unauthorized']);
             $user->update($request->all());
-            return User::find($user->id);
+            return new UserResource(User::find($user->id));
     }
 
     /**

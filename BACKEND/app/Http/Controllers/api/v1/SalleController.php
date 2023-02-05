@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\api\v1;
 
+use App\Filters\v1\SalleFilter;
 use App\Http\Requests\StoreSalleRequest;
 use App\Http\Requests\UpdateSalleRequest;
+use App\Http\Resources\api\v1\SalleCollection;
+use App\Http\Resources\api\v1\SalleResource;
 use App\Models\Salle;
+use Illuminate\Http\Request;
 
 class SalleController extends Controller
 {
@@ -13,20 +17,22 @@ class SalleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request )
     {
-        //
+        $filter=new SalleFilter();
+        $queryItems=$filter->transform($request);
+        $includeEvenement=$request->query('includeEvenement');
+
+        if(count($queryItems)==0){
+            $salles= ($includeEvenement)?Salle::with('evenements')->paginate():Salle::paginate();
+            return  new SalleCollection($salles);
+        }
+        else{
+            $salles= ($includeEvenement)?Salle::with('evenements')->where($queryItems)->paginate():Salle::where($queryItems)->paginate();
+            return  new SalleCollection($salles->appends($request->query()));
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -36,7 +42,9 @@ class SalleController extends Controller
      */
     public function store(StoreSalleRequest $request)
     {
-        //
+        if(auth()->user()->role!='admin')
+            return response()->json()->setData(['error'=>'unauthorized']);
+       return new SalleResource(Salle::create($request->all()));
     }
 
     /**
@@ -47,19 +55,10 @@ class SalleController extends Controller
      */
     public function show(Salle $salle)
     {
-        //
+        $salle=Salle::findOrFail($salle->id);
+        return new SalleResource($salle);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Salle  $salle
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Salle $salle)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -70,7 +69,11 @@ class SalleController extends Controller
      */
     public function update(UpdateSalleRequest $request, Salle $salle)
     {
-        //
+        if(auth()->user()->role!='admin')
+            return response()->json()->setData(['error'=>'unauthorized']);
+        $salleToUpdate=Salle::findOrFail($salle->id);
+        $salleToUpdate->update($request->all());
+        return new SalleResource(Salle::findOrFail($salleToUpdate->id));
     }
 
     /**
@@ -81,6 +84,20 @@ class SalleController extends Controller
      */
     public function destroy(Salle $salle)
     {
-        //
+        if(auth()->user()->role!='admin')
+            return response()->json()->setData(['error'=>'unauthorized']);
+
+        $salle->delete();
+        return response()->json()->setData(['res'=>true]);
     }
+
+    public function changeDisponibility($id)
+    {
+        if(auth()->user()->role!='admin')
+            return response()->json()->setData(['error'=>'unauthorized']);
+        $salleToUpdate=Salle::findOrFail($id);
+        $salleToUpdate->update(['isDisponible'=>($salleToUpdate->isDisponible=='1')?false:true]);
+        return new SalleResource(Salle::findOrFail($salleToUpdate->id));
+    }
+
 }
