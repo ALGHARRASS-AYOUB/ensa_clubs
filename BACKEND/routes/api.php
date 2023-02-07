@@ -25,8 +25,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::group(['prefix'=>'v1','namespace'=>'App\Http\Controllers\api\v1'],function (){
-        Route::apiResource('evenements',EvenementController::class);
-        Route::apiResource('actualities',ActualityController::class);
+
+    Route::apiResource('evenements',EvenementController::class);
+    Route::post('evenements',[EvenementController::class,'store'])->middleware('auth:sanctum');
+    Route::put('evenements/{evenement}',[EvenementController::class,'update'])->middleware('auth:sanctum');
+    Route::patch('evenements/{evenement}',[EvenementController::class,'update'])->middleware('auth:sanctum');
+    Route::delete('evenements/{evenement}',[EvenementController::class,'destroy'])->middleware('auth:sanctum');
+    Route::patch('evenements/changeApprouvement/{id}',[EvenementController::class,'ApprouveEvent'])->middleware('auth:sanctum');
+
+    Route::apiResource('actualities',ActualityController::class);
 });
 
 

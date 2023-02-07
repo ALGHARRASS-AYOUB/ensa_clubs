@@ -26,17 +26,19 @@ class StoreEvenementRequest extends FormRequest
         return [
             'name'=>['required'],
             'description'=>['required'],
-            'dateEvent'=>['required','date_format:Y-m-d H:i:s'],
-            'isApprouved'=>['required','boolean'],
-            'image'=>['image','mimes:png,jpg,jpeg','size:2048'],
+            'startAt'=>['required','date_format:Y-m-d H:i:s','before_or_equal:endAt'],
+            'endAt'=>['required','date_format:Y-m-d H:i:s','after_or_equal:startAt'],
+            'image'=>['image','mimes:png,jpg,jpeg','max:2048'],
         ];
     }
 
     public function prepareForValidation()
     {
-        if($this->dateEvent){
+        if($this->dateEvent && $this->startAt && $this->endAt){
             return $this->merge([
                 'date_event'=>$this->dateEvent,
+                'start_at'=>$this->startAt,
+                'end_at'=>$this->endAt,
             ]);
         }
     }
