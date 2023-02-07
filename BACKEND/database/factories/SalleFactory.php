@@ -20,6 +20,7 @@ class SalleFactory extends Factory
             'name'=>$this->faker->unique()->name(),
             'description'=>$this->faker->text(),
             'isDisponible'=>$this->faker->randomElement([true,false]    ),
+            'isReserved'=>$this->faker->randomElement([true,false]    ),
         ];
     }
 }

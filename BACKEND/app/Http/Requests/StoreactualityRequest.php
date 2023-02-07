@@ -13,7 +13,7 @@ class StoreactualityRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,20 @@ class StoreactualityRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'body'=>['required'],
+            'startAt'=>['required','date_format:Y-m-d H:i:s','before_or_equal:endAt'],
+            'endAt'=>['required','date_format:Y-m-d H:i:s','after_or_equal:startAt'],
+            'image'=>['image','mimes:png,jpg,jpeg','max:2048'],
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        if($this->dateEvent && $this->startAt && $this->endAt){
+            return $this->merge([
+                'start_at'=>$this->startAt,
+                'end_at'=>$this->endAt,
+            ]);
+        }
     }
 }

@@ -34,6 +34,11 @@ Route::group(['prefix'=>'v1','namespace'=>'App\Http\Controllers\api\v1'],functio
     Route::patch('evenements/changeApprouvement/{id}',[EvenementController::class,'ApprouveEvent'])->middleware('auth:sanctum');
 
     Route::apiResource('actualities',ActualityController::class);
+    Route::post('actualities',[ActualityController::class,'store'])->middleware('auth:sanctum');
+    Route::put('actualities/{actuality}',[ActualityController::class,'update'])->middleware('auth:sanctum');
+    Route::patch('actualities/{actuality}',[ActualityController::class,'update'])->middleware('auth:sanctum');
+    Route::delete('actualities/{actuality}',[ActualityController::class,'destroy'])->middleware('auth:sanctum');
+    Route::patch('actualities/newest/',[ActualityController::class,'actualitiesToPost'])->middleware('auth:sanctum');
 });
 
 

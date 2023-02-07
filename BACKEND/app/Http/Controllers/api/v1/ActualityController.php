@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\api\v1;
 
+use App\Filters\v1\ActualityFilter;
 use App\Http\Requests\StoreactualityRequest;
 use App\Http\Requests\UpdateactualityRequest;
-use App\Models\actuality;
+use App\Http\Resources\api\v1\ActualityCollection;
+use App\Http\Resources\api\v1\ActualityResource;
+use App\Models\Actuality;
+use Illuminate\Http\Request;
 
 class ActualityController extends Controller
 {
@@ -13,20 +17,23 @@ class ActualityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request )
     {
-        //
+        $filter=new ActualityFilter();
+        $queryItems=$filter->transform($request);
+        $includeEvent=$request->query('includeEvent');
+
+        if(count($queryItems)==0){
+            $actualities= ($includeEvent)?Actuality::with('evenement')->paginate():Actuality::paginate();
+            return  new ActualityCollection($actualities);
+        }
+        else{
+            $actualities= ($includeEvent)?Actuality::with('evenement')->where($queryItems)->paginate():Actuality::where($queryItems)->paginate();
+            return  new ClubCollection($actualities->appends($request->query()));
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -47,7 +54,8 @@ class ActualityController extends Controller
      */
     public function show(actuality $actuality)
     {
-        //
+        $a=Actuality::with('evenement')->findOrFail($actuality->id);
+        return new ActualityResource($a);
     }
 
     /**
