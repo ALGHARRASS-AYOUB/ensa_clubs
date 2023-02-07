@@ -11,6 +11,7 @@ class Salle extends Model
 protected $fillable=[
     'name',
     'isDisponible',
+    'isReserved',
     'description',
 ];
 

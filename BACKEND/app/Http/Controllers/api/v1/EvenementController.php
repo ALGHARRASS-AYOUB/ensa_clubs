@@ -47,7 +47,8 @@ class EvenementController extends Controller
      */
     public function store(StoreEvenementRequest $request)
     {
-
+        $sc=new SalleController();
+        $sc->sallesUpdateReservationStatus();
         if(!Auth::check() || Auth::user()->role!='president')
             response()->json(['data'=>'only authenticated clubs could create events']);
 
@@ -89,13 +90,17 @@ class EvenementController extends Controller
 //            ]);
             foreach ($salles as $salle_id){
                 $salle=Salle::where('id',$salle_id)->first();
-                if($salle->isDisponible=0)
-                    return response()->json(['message'=>'the salle'.$salle->name.'not disponible']);
+                //check disponibilty
+                if($salle->isDisponible=0 )
+                    return response()->json(['message'=>'the salle'.$salle->name.' not disponible']);
+                //check if reserved
+                if( $salle->isReserved=1)
+                    return response()->json(['message'=>'the salle'.$salle->name.' is reserved']);
             $e->salles()->attach($salle_id,[
                 'start_at'=>$request->startAt,
                 'end_at'=>$request->endAt,
             ]);
-            $this->changeSalleToNotDisponibile($salle_id);
+            $this->changeSalleToReserved($salle_id);
             }
         }
         return new EvenementResource($e);
@@ -163,7 +168,7 @@ class EvenementController extends Controller
 
         if($request->has('salles') && $request->salles!=null){
             foreach ($evenement->salles as $s){
-                $this->changeSalleToDisponibile($s->id);
+                $this->changeSalleToNotReserved($s->id);
             }
             $salles_str=str_replace(['[',']'],'',$request->salles);
             $salles=explode(',',$salles_str);
@@ -178,10 +183,13 @@ class EvenementController extends Controller
 
                 foreach ($salles as $salle_id){
                 $salle=Salle::where('id',$salle_id)->first();
-                if($salle->isDisponible=0)
-                    return response()->json(['message'=>'the salle'.$salle->name.' not disponible']);
+                    if($salle->isDisponible=0 )
+                        return response()->json(['message'=>'the salle'.$salle->name.' not disponible']);
+                    //check if reserved
+                    if( $salle->isReserved=1)
+                        return response()->json(['message'=>'the salle'.$salle->name.' is reserved']);
 
-                $this->changeSalleToNotDisponibile($salle_id);
+                $this->changeSalleToReserved($salle_id);
             }
             $e->salles()->syncWithPivotValues($salles,[
                 'start_at'=>$request->startAt??$startDate,
@@ -212,7 +220,7 @@ class EvenementController extends Controller
         if(Storage::has('public/'.$image))
             Storage::delete('public/'.$image);
         foreach ($evenement->salles as $s){
-            $this->changeSalleToDisponibile($s->id);
+            $this->changeSalleToNotReserved($s->id);
         }
         $evenement->salles()->detach();
         $evenement->delete();
@@ -220,10 +228,10 @@ class EvenementController extends Controller
         return true;
     }
 
-    private function changeSalleToDisponibile(int $id)
+    private function changeSalleToNotReserved(int $id)
     {
         $salleToUpdate=Salle::where('id',$id)->first();
-        $salleToUpdate->update(['isDisponible'=>true]);
+        $salleToUpdate->update(['isReserved'=>false]);
     }
 
     public function approuveEvent($id){
@@ -236,17 +244,10 @@ class EvenementController extends Controller
     }
 
 
-    private function changeSalleToNotDisponibile(int $id)
+    private function changeSalleToReserved(int $id)
     {
         $salleToUpdate=Salle::where('id',$id)->first();
-        $salleToUpdate->update(['isDisponible'=>false]);
+        $salleToUpdate->update(['isReserved'=>true]);
     }
-    private function isReservedNow($id):bool{
-        $salle=Salle::findOrFail($id);
-        $endDate=Carbon::make($salle->pivot->end_at);
-        if($endDate>now())
-            return false;
-        else
-            return true;
-    }
+
 }

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateSalleRequest;
 use App\Http\Resources\api\v1\SalleCollection;
 use App\Http\Resources\api\v1\SalleResource;
 use App\Models\Salle;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SalleController extends Controller
@@ -19,6 +20,7 @@ class SalleController extends Controller
      */
     public function index(Request $request )
     {
+        sallesUpdateReservationStatus();
         $filter=new SalleFilter();
         $queryItems=$filter->transform($request);
         $includeEvenement=$request->query('includeEvenement');
@@ -96,8 +98,33 @@ class SalleController extends Controller
         if(auth()->user()->role!='admin')
             return response()->json()->setData(['error'=>'unauthorized']);
         $salleToUpdate=Salle::findOrFail($id);
+        if($salleToUpdate->isDisponible==0){
+            if($this->isReservedNow($id)){
+                return  response()->json(['message'=>'you can not change the disponiblity of this salle because it is reserved, check events' ]);
+            }
+        }
         $salleToUpdate->update(['isDisponible'=>($salleToUpdate->isDisponible=='1')?false:true]);
         return new SalleResource(Salle::findOrFail($salleToUpdate->id));
     }
 
+    private function isReservedNow($id):bool{
+        $salle=Salle::where('id',$id)->first();
+        $endDate=Carbon::make($salle->evenements()->first()->pivot->start_at);
+        if($endDate>now())
+            return false;
+        else
+            return true;
+    }
+
+    public function sallesUpdateReservationStatus(){
+        $salles=Salle::all();
+        foreach ($salles as $salle){
+            if($this->isReservedNow($salle->id)){
+                $salle->update(['isReserved'=>true]);
+            }else{
+                $salle->update(['isReserved'=>false]);
+            }
+
+        }
+    }
 }

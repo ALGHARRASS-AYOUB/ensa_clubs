@@ -14,6 +14,13 @@ class ActualityResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+          'id'=>$this->id,
+          'body'=>$this->body,
+          'startAt'=>$this->start_at,
+          'endAt'=>$this->end_at,
+          'image'=>$this->image,
+          'evenement'=>EvenementResource::make($this->whenLoaded('evenement')) ,
+        ];
     }
 }

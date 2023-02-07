@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('description')->nullable();
             $table->boolean('isDisponible')->default(false);
+            $table->boolean('isReserved')->default(false);
             $table->timestamps();
         });
     }

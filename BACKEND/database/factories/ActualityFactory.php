@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\actuality>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Actuality>
  */
 class ActualityFactory extends Factory
 {

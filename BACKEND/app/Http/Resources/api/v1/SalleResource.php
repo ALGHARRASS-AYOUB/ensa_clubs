@@ -18,6 +18,7 @@ class SalleResource extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             'isDisponible'=>$this->isDisponible,
+            'isReserved'=>$this->isReserved,
             'description'=>$this->description,
             'evenements'=>$this->whenLoaded('evenements'),
         ];
