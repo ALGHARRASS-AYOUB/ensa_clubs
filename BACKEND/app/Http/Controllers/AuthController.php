@@ -36,7 +36,7 @@ class AuthController extends Controller
 
         if($user->role=='president'){
             $tokenOptions['name']='token';
-            $tokenOptions['abilities']=['read'];
+            $tokenOptions['abilities']=['read','create','update','delete'];
             //$tokenOptions['dateExpiration=1;
             $token = $user->createToken($tokenOptions['name'],  $tokenOptions['abilities'],$tokenOptions['dateExpiration']);
             $token_plain_text=$token->plainTextToken;
@@ -50,8 +50,11 @@ class AuthController extends Controller
 
     public function register(StoreUserRequest $request){
 
-        if(!($request->role=='admin' && Auth::check() && Auth::user()->role=='admin'))
-                return response()->json()->setData(['error'=>'admins only could create admins']);
+        if($request->role=='admin' ){
+//            if(!(Auth::check() && Auth::user()->role=='admin'))
+//            return response()->json()->setData(['error'=>'admins only could create admins']);
+
+        }
         $user=new User();
         $user->first_name=$request->firstName;
         $user->last_name=$request->lastName;
@@ -67,7 +70,7 @@ class AuthController extends Controller
         ];
         if($user->role=='admin'){
             $tokenOptions['name']='adminToken';
-            $tokenOptions['abilities']=['read'];
+            $tokenOptions['abilities']=[];
             //$tokenOptions['dateExpiration=1;
             $token = $user->createToken($tokenOptions['name']);
             $token_plain_text=$token->plainTextToken;

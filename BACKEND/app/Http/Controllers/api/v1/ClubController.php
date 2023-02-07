@@ -47,6 +47,7 @@ class ClubController extends Controller
      */
     public function store(StoreClubRequest $request)
     {
+        $logo=null;
         try {
 //            $logo=cloudinary()->upload($request->file('logo')->getRealPath())->getSecurePath();
 //            $bureauMemeberFile=cloudinary()->upload($request->file('bureauMembersFile')->getRealPath())->getSecurePath();
@@ -112,12 +113,11 @@ class ClubController extends Controller
             return response()->json(['error' => 'Not authorized.'],403);
 
         try {
-
-//            $bureauMemeberFile=cloudinary()->upload($request->file('logo')->getRealPath())->getSecurePath();
-
-     //storing in the local folder app/storage/public/logos and app/storage/public/files
             if($request->hasFile('logo')){
-                Storage::delete($club->logo);
+                $logoIn=trim(str_replace('/storage/','',$club->logo));
+                //dd('/storage/app/'.$file,'/storage/app/'.$logo);
+                if(Storage::has('public/'.$logoIn))
+                    Storage::delete('public/'.$logoIn);
 
                 $logoName=time().'.'.$request->file('logo')->getClientOriginalExtension();
                 $logoLocalPath=$request->file('logo')->storeAs('/public/logos',$logoName);
@@ -126,7 +126,9 @@ class ClubController extends Controller
             }
 
             if($request->hasFile('bureauMembersFile')){
-                Storage::delete($club->bureauMembersFile);
+
+                $fileIn=trim(str_replace('/storage/','',$club->bureau_members_file));
+                Storage::delete('public/'.$fileIn);
                 $bureauMemeberFileName=time().'.'.$request->file('bureauMembersFile')->getClientOriginalExtension();
                 $bureauMemeberFileLocalPath=$request->file('bureauMembersFile')->storeAs('/public/files',$bureauMemeberFileName);
 //                $bureauMemeberFile=env('APP_URL').Storage::url($bureauMemeberFileLocalPath);
