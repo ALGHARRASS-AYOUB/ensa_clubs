@@ -15,6 +15,7 @@ class ActualityFilter extends ApiFilter
     protected $columnMap=[
         'startAt'=>'start_at',
         'endAt'=>'end_at',
+        'createdAt'=>'end_at',
     ];
     protected $operatorMap=[
         'eq'=>'=',

@@ -24,7 +24,7 @@ class ActualityController extends Controller
         $includeEvent=$request->query('includeEvent');
 
         if(count($queryItems)==0){
-            $actualities= ($includeEvent)?Actuality::with('evenement')->paginate():Actuality::paginate();
+            $actualities= ($includeEvent)?Actuality::with('evenement')->latest('created_at')->paginate():Actuality::latest('created_at')->paginate();
             return  new ActualityCollection($actualities);
         }
         else{
@@ -91,4 +91,17 @@ class ActualityController extends Controller
     {
         //
     }
+
+    private function getActualitiesToPost(){
+
+    }
+
+    private function isNew($id){
+
+    }
+
+    private function isOld($id){
+
+    }
+
 }
