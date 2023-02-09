@@ -123,6 +123,7 @@ class ClubController extends Controller
                 $logoLocalPath=$request->file('logo')->storeAs('/public/logos',$logoName);
 //                $logo=env('APP_URL').Storage::url($logoLocalPath);
                  $logo=Storage::url($logoLocalPath);
+                 $request->logo=$logo;
             }
 
             if($request->hasFile('bureauMembersFile')){
@@ -133,10 +134,23 @@ class ClubController extends Controller
                 $bureauMemeberFileLocalPath=$request->file('bureauMembersFile')->storeAs('/public/files',$bureauMemeberFileName);
 //                $bureauMemeberFile=env('APP_URL').Storage::url($bureauMemeberFileLocalPath);
                  $bureauMemeberFile=Storage::url($bureauMemeberFileLocalPath);
+                 $request->bureau_members_file=$bureauMemeberFile;
             }
             }catch (Exception $e){
                 return response()->json('failed to download');
             }
+//        $clubToUpdate=[
+//            'name'=>$request->name??$club->name,
+//            'activity_domaine'=>$request->activityDomaine??$club->activity_domaine,
+//            'supervisor'=>$request->supervisor??$club->supervisor,
+//            'bureau_members_file'=>$bureauMemeberFile??$club->$bureauMemeberFile,
+//            'email'=>$request->email??$club->email,
+//            'slugon'=>$request->slugon??$club->slugon,
+//            'logo'=>$logo??$club->logo,
+//            'description'=>$request->description??$club->description,
+//            'user_id'=>Auth::user()->id,
+//        ];
+//        $club->update($clubToUpdate);
         $club->update($request->all());
         return new ClubResource(Club::with('user')->findOrFail($club->id));
     }

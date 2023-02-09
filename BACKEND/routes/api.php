@@ -38,7 +38,7 @@ Route::group(['prefix'=>'v1','namespace'=>'App\Http\Controllers\api\v1'],functio
     Route::put('actualities/{actuality}',[ActualityController::class,'update'])->middleware('auth:sanctum');
     Route::patch('actualities/{actuality}',[ActualityController::class,'update'])->middleware('auth:sanctum');
     Route::delete('actualities/{actuality}',[ActualityController::class,'destroy'])->middleware('auth:sanctum');
-    Route::patch('actualities/newest/',[ActualityController::class,'actualitiesToPost'])->middleware('auth:sanctum');
+    Route::get('newest/actualities',[ActualityController::class,'getActualitiesToPost']);
 });
 
 

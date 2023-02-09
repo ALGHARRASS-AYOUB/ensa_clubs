@@ -21,6 +21,7 @@ class ActualityFactory extends Factory
     {
         $salles=Salle::factory(6)->create();
         return [
+            'title'=>$this->faker->title(),
             'body'=>$this->faker->text(),
             'start_at'=>now(),
             'end_at'=>Carbon::now()->addDays(10),
