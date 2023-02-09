@@ -24,16 +24,19 @@ class StoreactualityRequest extends FormRequest
     public function rules()
     {
         return [
-            'body'=>['required'],
-            'startAt'=>['required','date_format:Y-m-d H:i:s','before_or_equal:endAt'],
-            'endAt'=>['required','date_format:Y-m-d H:i:s','after_or_equal:startAt'],
+            'title'=>['required','sometimes'],
+            'body'=>['required','sometimes'],
+            'startAt'=>['required','sometimes','date_format:Y-m-d H:i:s','before_or_equal:endAt'],
+            'endAt'=>['required','sometimes','date_format:Y-m-d H:i:s','after_or_equal:startAt'],
             'image'=>['image','mimes:png,jpg,jpeg','max:2048'],
+            'enverenementId'=>['numeric']
+
         ];
     }
 
     public function prepareForValidation()
     {
-        if($this->dateEvent && $this->startAt && $this->endAt){
+        if( $this->startAt && $this->endAt){
             return $this->merge([
                 'start_at'=>$this->startAt,
                 'end_at'=>$this->endAt,

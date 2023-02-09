@@ -16,6 +16,7 @@ class ActualityResource extends JsonResource
     {
         return [
           'id'=>$this->id,
+          'title'=>$this->title,
           'body'=>$this->body,
           'startAt'=>$this->start_at,
           'endAt'=>$this->end_at,

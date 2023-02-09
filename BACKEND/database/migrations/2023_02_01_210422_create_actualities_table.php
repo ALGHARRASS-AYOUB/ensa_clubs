@@ -16,9 +16,10 @@ return new class extends Migration
     {
         Schema::create('actualities', function (Blueprint $table) {
             $table->id();
+            $table->text('title')->nullable() ;
             $table->text('body')->nullable() ;
-            $table->dateTimeTz('start_at');
-            $table->dateTimeTz('end_at');
+            $table->dateTimeTz('start_at')->nullable();
+            $table->dateTimeTz('end_at')->nullable();
             $table->string('image')->nullable();
             $table->foreignIdFor(Evenement::class)->nullable()->constrained();
             $table->timestamps();

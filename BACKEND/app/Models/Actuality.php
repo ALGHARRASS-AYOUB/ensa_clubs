@@ -10,6 +10,7 @@ class Actuality extends Model
     use HasFactory;
 
     protected $fillable=[
+        'title',
         'body',
         'start_at',
         'end_at',
