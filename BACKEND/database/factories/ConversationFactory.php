@@ -18,6 +18,7 @@ class ConversationFactory extends Factory
     {
         return [
             'name'=>$this->faker->name(),
+            'image'=>$this->faker->image(),
         ];
     }
 }

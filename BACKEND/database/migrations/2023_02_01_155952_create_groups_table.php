@@ -17,6 +17,7 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
+            $table->string('image');
             $table->string('name');
             $table->boolean('isGroupAdmin')->default(false);
             $table->foreignIdFor(Club::class)->constrained();

@@ -22,7 +22,7 @@ class Club extends Model
         'verified',
         'president',
         'bureau_members_file',
-        'spervisor',
+        'supervisor',
         'logo',
         'slugon',
         'description',
@@ -35,7 +35,7 @@ class Club extends Model
 
 
     public function conversations(){
-        return $this->belongsToMany(Conversation::class,'groups','club_id','conversation_id')
+        return $this->belongsToMany(Conversation::class,'groups')
             ->withTimestamps()
             ->withPivot(['name','isGroupAdmin','joined_at','left_at']);
     }

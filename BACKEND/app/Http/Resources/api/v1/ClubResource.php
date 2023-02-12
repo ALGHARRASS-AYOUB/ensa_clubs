@@ -30,7 +30,7 @@ class ClubResource extends JsonResource
             'president'=>UserResource::make($this->user),
 //            'evenements'=>EvenementResource::collection($this->evenements),
             'bureauMembersFile'=>$this->bureau_members_file,
-            'spervisor'=>$this->supervisor,
+            'supervisor'=>$this->supervisor,
             'logo'=>$this->logo,
             'slugon'=>$this->slugon,
 
