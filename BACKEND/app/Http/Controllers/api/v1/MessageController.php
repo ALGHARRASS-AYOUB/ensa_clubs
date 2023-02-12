@@ -4,7 +4,11 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Http\Requests\StoreMessageRequest;
 use App\Http\Requests\UpdateMessageRequest;
+use App\Http\Resources\api\v1\MessageCollection;
+use App\Http\Resources\api\v1\MessageResource;
 use App\Models\Message;
+use Illuminate\Http\Request;
+
 
 class MessageController extends Controller
 {
@@ -15,7 +19,7 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
