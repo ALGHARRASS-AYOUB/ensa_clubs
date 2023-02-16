@@ -19,7 +19,7 @@ export default function Template() {
              
               </div>
               <div class="nav-profile-text d-flex flex-column pr-3">
-                <span class="font-weight-medium mb-2">Henry Klein</span>
+                <span class="font-weight-medium mb-2">admin </span>
                 <span class="font-weight-normal">$8,753.00</span>
               </div>
               <span class="badge badge-danger text-white ml-3 rounded">3</span>
