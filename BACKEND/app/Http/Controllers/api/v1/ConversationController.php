@@ -66,7 +66,7 @@ class ConversationController extends Controller
 
     }
 
-    public function storeConversation(StoreConversationRequest $request, Conversation $conversation)
+    public function storeConversation(StoreConversationRequest $request)
     {
         $image=null;
         $name=$request->name??'untitled room';
@@ -200,6 +200,7 @@ class ConversationController extends Controller
         $user=Auth::user();
         $club=Club::where('user_id',$user->id)->first();
         $conversation->clubs()->detach($club->id);
+        return true;
     }
 
     public  function makeAdmin(Request $request,Conversation $conversation)

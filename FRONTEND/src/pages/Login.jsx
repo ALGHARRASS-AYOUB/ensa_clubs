@@ -25,8 +25,6 @@ async function handleSubmit(e){
     //navigate('/')
     toast.success('you are logged in')
   }
-
-
 }
 
 

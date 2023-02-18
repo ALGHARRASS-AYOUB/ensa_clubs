@@ -1,10 +1,47 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import '../assets/css/register.css';
 import { Link } from 'react-router-dom';
+import { Container,Form,Button,Spinner } from 'react-bootstrap';
+import {useNavigate} from "react-router-dom"
+
+import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 
 
-const register = () => {
-  return (
+
+const Register = () => {
+  const navigate = useNavigate();
+  const [email,setEmail]=useState('');
+  const [password,setPassword]=useState('');
+  const [cpassword,setCpassword]=useState('');
+  const [role,setRole]=useState('president');
+  const [firstName,setFirstName]=useState('');
+  const [lastName,setLastName]=useState('');
+  const {register,isLoading,setLoading}=useAuth('')
+
+async function handleSubmit(e){
+  e.preventDefault()
+  const userinfo=await register(firstName,lastName,email,cpassword,password,role);
+  console.log('userinfo',userinfo,'???',!userinfo)
+  if(!userinfo){
+    console.log('invalid cred')
+    toast.error('invalid credentials')
+    setLoading(false)
+  }
+  else{
+    console.log('user has been registered')
+     navigate("/club-register")
+    toast.success(' user has been registered')
+  }
+}
+
+useEffect(()=>{
+console.log(firstName,lastName,email,cpassword,password,role)
+},[firstName,lastName,email,cpassword,password,role])
+
+
+
+return (
 <section className="h-100 bg-dark">
   <div className="container py-5 h-100">
     <div className="row d-flex justify-content-center align-items-center h-100">
@@ -17,125 +54,79 @@ const register = () => {
                 style={{ 'borderTopLeftRadius': '.25rem', 'borderBottomLeftRadius': '.25rem' }} />
             </div>
             <div className="col-xl-6">
+
+              <Form onSubmit={handleSubmit}>
               <div className="card-body p-md-5 text-black">
-                <h3 className="mb-5 text-uppercase">Student registration form</h3>
+                <h3 className="mb-5 text-uppercase">User registration </h3>
 
                 <div className="row">
                   <div className="col-md-6 mb-4">
                     <div className="form-outline">
-                      <input type="text" id="form3Example1m" className="form-control form-control-lg" />
-                      <label className="form-label" for="form3Example1m">First name</label>
+                      <input type="text" id="firstName" name='firstName' onChange={e=>{setFirstName(e.target.value)}} className="form-control form-control-lg" />
+                      <label className="firstName" htmlFor="form3Example1m">First name</label>
                     </div>
                   </div>
                   <div className="col-md-6 mb-4">
                     <div className="form-outline">
-                      <input type="text" id="form3Example1n" className="form-control form-control-lg" />
-                      <label className="form-label" for="form3Example1n">Last name</label>
+                      <input type="text" id="lastName"  name='lastName'  onChange={e=>{setLastName(e.target.value)}}   className="form-control form-control-lg" />
+                      <label className="lastName" htmlFor="form3Example1n">Last name</label>
                     </div>
                   </div>
                 </div>
 
-                <div className="row">
-                  <div className="col-md-6 mb-4">
-                    <div className="form-outline">
-                      <input type="text" id="form3Example1m1" className="form-control form-control-lg" />
-                      <label className="form-label" for="form3Example1m1">Mother's name</label>
-                    </div>
-                  </div>
-                  <div className="col-md-6 mb-4">
-                    <div className="form-outline">
-                      <input type="text" id="form3Example1n1" className="form-control form-control-lg" />
-                      <label className="form-label" for="form3Example1n1">Father's name</label>
-                    </div>
-                  </div>
-                </div>
+           
 
                 <div className="form-outline mb-4">
-                  <input type="text" id="form3Example8" className="form-control form-control-lg" />
-                  <label className="form-label" for="form3Example8">Address</label>
-                </div>
-
-                <div className="d-md-flex justify-content-start align-items-center mb-4 py-2">
-
-                  <h6 className="mb-0 me-4">Gender: </h6>
-
-                  <div className="form-check form-check-inline mb-0 me-4">
-                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="femaleGender"
-                      value="option1" />
-                    <label className="form-check-label" for="femaleGender">Female</label>
-                  </div>
-
-                  <div className="form-check form-check-inline mb-0 me-4">
-                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="maleGender"
-                      value="option2" />
-                    <label className="form-check-label" for="maleGender">Male</label>
-                  </div>
-
-                  <div className="form-check form-check-inline mb-0">
-                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="otherGender"
-                      value="option3" />
-                    <label className="form-check-label" for="otherGender">Other</label>
-                  </div>
-
-                </div>
-
+                  <input type="email" id="email" name='email'  onChange={e=>{setEmail(e.target.value)}}   className="form-control form-control-lg" />
+                  <label className="form-label" htmlFor="email">Email Address</label>
+      
                 <div className="row">
                   <div className="col-md-6 mb-4">
+                    <div className="form-outline">
+                      <input type="password" id="password" name='password'  onChange={e=>{setPassword(e.target.value)}}  className="form-control form-control-lg" />
+                      <label className="form-label" htmlFor="password">password</label>
+                    </div>
+                  </div>
+                  <div className="col-md-6 mb-4">
+                    <div className="form-outline">
+                      <input type="password" id="cpassword" name='cpassword' onChange={e=>{setCpassword(e.target.value)}}   className="form-control form-control-lg" />
+                      <label className="form-label" htmlFor="cpassword">confirm your password</label>
+                    </div>
+                  </div>
+                </div>
 
-                    <select className="select">
-                      <option value="1">State</option>
-                      <option value="2">Option 1</option>
-                      <option value="3">Option 2</option>
-                      <option value="4">Option 3</option>
+
+                <div className="row">
+                  <label className="form-label" htmlFor="user role">user responsability</label>
+                  <div className="col-md-6 mb-4">
+
+                    <select className="select" name='role' onChange={e=>{setRole(e.target.value)}}  title='role'>
+                      <option value="president" selected>president</option>
                     </select>
 
                   </div>
-                  <div className="col-md-6 mb-4">
-
-                    <select className="select">
-                      <option value="1">City</option>
-                      <option value="2">Option 1</option>
-                      <option value="3">Option 2</option>
-                      <option value="4">Option 3</option>
-                    </select>
-
-                  </div>
+         
                 </div>
 
-                <div className="form-outline mb-4">
-                  <input type="text" id="form3Example9" className="form-control form-control-lg" />
-                  <label className="form-label" for="form3Example9">DOB</label>
-                </div>
-
-                <div className="form-outline mb-4">
-                  <input type="text" id="form3Example90" className="form-control form-control-lg" />
-                  <label className="form-label" for="form3Example90">Pincode</label>
-                </div>
-
-                <div className="form-outline mb-4">
-                  <input type="text" id="form3Example99" className="form-control form-control-lg" />
-                  <label className="form-label" for="form3Example99">Course</label>
-                </div>
-
-                <div className="form-outline mb-4">
-                  <input type="text" id="form3Example97" className="form-control form-control-lg" />
-                  <label className="form-label" for="form3Example97">Email ID</label>
-                </div>
-
-                <div className="d-flex justify-content-end pt-3">
-                  <button type="button" className="btn btn-light btn-lg">Reset all</button>
-                  <button type="button" className="btn btn-warning btn-lg ms-2">Submit form</button>
+         
+  
+              </div>
+                 <div className="container d-grid gap-2 mb-4 ">    
+                        <Button className=' float-end' variant="primary" type="submit" disabled={isLoading}>
+                            Sign Up {isLoading && <Spinner animation='grow' />}
+                        </Button>
                 </div>
 
               </div>
-            </div>
+              </Form>
           </div>
         </div>
       </div>
     </div>
   </div>
+  </div>
 </section>
   );
 }
 
-export default register
+export default Register

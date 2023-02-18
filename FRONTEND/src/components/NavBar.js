@@ -1,47 +1,150 @@
+
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useRef } from "react";
-import { Container } from "react-bootstrap";
+import  { useRef } from "react";
 
-function Navbar({ navLinks }) {
-  const menuRef = useRef(null);
-  const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import navLinks from "../utils/constants/navLinks";
+import { useAuth } from "../context/AuthContext";
+
+import {
+  faCar,
+  faClock,
+  faEarth,
+  faPhone,
+  faSign,
+  faSignIn,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useState,useNavigate } from "react";
+import { Container, Row, Col, Image, NavDropdown, Toast } from "react-bootstrap";
+import { LinkContainer } from 'react-router-bootstrap'
+
+import { toast } from "react-toastify";
+
+
+
+
+
+const NavBar = ({navLinks}) => {
+   const menuRef = useRef(null);
+   const [userInfo,setUserInfo] = useState(localStorage.getItem('userinfo'))
+   const [role,setRole]=useState()
+
+   const {logout} = useAuth('');
+   const logoutHandler = () => {
+       
+       setUserInfo(null)
+}
+   
+
+   
+const UserMenuHead = (
+  <Image
+    src={userInfo?.photo || 'https://pixy.org/src/120/thumbs350/1206832.jpg'}
+    alt="UserName profile image"
+    roundedCircle={true}
+    style={{ width: '30px', height: '30px', border: '1px solid #3b8ac3' }}
+  />
+)
+
+const UserMenu=()=>{
+  return <>
+   (
+                        )
+  </>
+}
+
+
+   useEffect(() => {
+           const userInfo = localStorage.getItem('userinfo')
+   ? setUserInfo(JSON.parse(localStorage.getItem('userinfo'))) : null
+   if(userInfo!=null)
+      setRole(userInfo.data.role)
+   },[localStorage.getItem('userinfo')])
+
+
+
+
   return (
-    <div className="main__navbar">
-      <Container>
-        <div className="navigation__wrapper d-flex align-items-center justify-content-between">
-          <span className="mobile__menu">
-            <i className="ri-menu-line" onClick={toggleMenu}></i>
-          </span>
+    <Navbar expand="lg" collapseOnSelect bg="dark" variant="dark">
+      <Container fluid>
+        <Navbar.Brand href="/">Ensa Clubs</Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbarScroll" />
+        <Navbar.Collapse id="navbarScroll">
+          <Nav
+            className="me-auto my-2 my-lg-0"
+            style={{ maxHeight: '100px' }}
+            navbarScroll
+          >
+           {navLinks.map((item,index)=>    <Nav.Link key={index} href={item.path}> { item.display } </Nav.Link>
+           )}
 
-          <div className="navigation" ref={menuRef} onClick={toggleMenu}>
-            <div className="menu">
-              {navLinks.map((item, index) => (
-                <a
-                  href={item.path}
-                  className={(navClass) =>
-                    navClass.isActive ? "nav__active nav__item" : "nav__item"
-                  }
-                  key={index}
-                >
-                  {item.display}
-                </a>
-              ))}
-            </div>
-          </div>
 
-          <div className="nav__right">
-            <div className="search__box">
-              <input type="text" placeholder="Search" />
-              <span>
-                <FontAwesomeIcon icon={faSearch} />
-              </span>
-            </div>
-          </div>
-        </div>
+
+    
+      {userInfo  ?
+       <>
+ <NavDropdown title={UserMenuHead} id="navbarScrollingDropdown">
+
+                        <LinkContainer to='/profile' >
+                        <NavDropdown.Item>Profile</NavDropdown.Item>
+                      </LinkContainer>
+  
+                      {(role!=null && role == 'president') && (
+                        <LinkContainer to='president/dashboard'>
+                          <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                        </LinkContainer>
+                      )}
+  
+                      {(role!=null && role== 'admin') && (
+                        <LinkContainer to='/admin/dashboard'>
+                          <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                        </LinkContainer>
+                      )}
+  
+                      <LinkContainer to='/settings'>
+                        <NavDropdown.Item>Settings</NavDropdown.Item>
+                      </LinkContainer>
+
+                
+
+                      <NavDropdown.Item  href="/logout"  >
+                        Logout
+                      </NavDropdown.Item>
+                        
+                        {/* <Nav.Link className="bg-black" href="/logout"> Logout </Nav.Link> */}
+
+                         </NavDropdown>
+       </>
+       : (
+                          <>
+                            <Nav.Link href="/login"> Login </Nav.Link>
+                              <FontAwesomeIcon icon={faUser} /> 
+                            <Nav.Link href="/register"> Register</Nav.Link>                          
+                          </>)}
+
+      
+          </Nav>
+          
+          <Form className="d-flex">
+            <Form.Control
+              type="search"
+              placeholder="Search"
+              className="me-2"
+              aria-label="Search"
+            />
+            <Button variant="outline-success">Search</Button>
+          </Form>
+        </Navbar.Collapse>
+        
       </Container>
-    </div>
+    </Navbar>
   );
 }
 
-export default Navbar;
+export default NavBar
+

@@ -59,7 +59,7 @@ console.log('we are in login authcontext')
         // registeration
 
 
-    const register=async ({name,email,password,role})=>{
+    const register=async (firstName,lastName,email,cpassword,password,role)=>{
         try{
             setLoading(true)
             const config={
@@ -67,7 +67,7 @@ console.log('we are in login authcontext')
                     'content-type':'application/json',
                 },
             };
-            const userinfo=await axios.post(REGISTER_URL,{name,email,password,role},config);
+            const userinfo=await axios.post(REGISTER_URL,{firstName,lastName,email,cpassword,password,role},config);
             console.log(userinfo)
             localStorage.setItem('userinfo',JSON.stringify(userinfo.data));
             setLoading(false)
@@ -98,7 +98,6 @@ console.log('we are in login authcontext')
 
             const res=await axios.post(LOGOUT_URL,null,config);
                 localStorage.removeItem('userinfo');
-                console.log(res)
             setLoading(false)
             return res;
         } catch (error) {
