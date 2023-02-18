@@ -4,7 +4,7 @@ import { getUrl } from "../API";
 import axios from "axios";
 import { toast } from "react-toastify";
 const ClubContext=createContext();
-export const useAuth=()=>{
+export const useClub=()=>{
     const context=useContext(ClubContext)
     if(!context) throw new Error('Club provider does not exist')
     return context;
@@ -66,7 +66,7 @@ export const ClubContextProvider=({children})=>{
 
                 },
             };
-            const club=await axios.post(GET_CLUBS_URL+id,null,config);
+            const club=await axios.post(GET_CLUBS_URL+`/${id}`,null,config);
             setLoading(false)
             return club;
         }catch(error){
@@ -80,14 +80,14 @@ export const ClubContextProvider=({children})=>{
        
             var config={
                 headers:{
-                    'Content-Type':'application/json',
+                    'Content-Type':'multipart/form-data',
                     Authorization:`Bearer ${TOKEN}`,
                 },
             };
 
-            const res=await axios.post(GET_CLUBS_URL,{name,slugon,activityDomaine,email,supervisor,logo,bureauMembersFile},config);
+            const club=await axios.post(GET_CLUBS_URL,{name,slugon,activityDomaine,email,supervisor,logo,bureauMembersFile},config);
             setLoading(false)
-            return res;
+            return club;
         } catch (error) {
             toast.error('an error has been occured while logging out ')
         }

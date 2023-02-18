@@ -14,6 +14,8 @@ import Profile from './pages/Profile';
 import President from './pages/President';
 import ClubRegister from './components/ClubRegister';
 import RegisterClub from './pages/president/RegisterClub';
+import { ClubContextProvider } from './context/ClubContext';
+import { ActualityContextProvider } from './context/ActualityContext';
 
 function App() {
   return (
@@ -21,8 +23,12 @@ function App() {
     <Router>
 
             <AuthContextProvider>
-    <Header/>
-              <Routes>
+                <Header/>
+                <ClubContextProvider>
+                  <ActualityContextProvider>
+
+
+                <Routes>
                 <Route path="/" element={<Home/>} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/setting" element={<Setting />} />
@@ -35,7 +41,10 @@ function App() {
                 <Route path="/club-register" element={<RegisterClub />} />
                 <Route path="/logout" element={<Logout />} />
               </Routes>
-            </AuthContextProvider>
+              </ActualityContextProvider>
+            
+                </ClubContextProvider>
+              </AuthContextProvider>
 </Router>
 <Footer/>
     </>

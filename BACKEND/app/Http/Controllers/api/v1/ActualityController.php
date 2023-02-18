@@ -145,7 +145,7 @@ class ActualityController extends Controller
 
     public function getActualitiesToPost(){
     //this actualities may be within an evenemnet or without (indepedante) . the evenements also must be approuved by the admin.
-        $actualities=Actuality::with('evenement')->where('end_at','>',now())->latest('created_at')->get();
+        $actualities=Actuality::with('evenement')->where('end_at','>',now())->latest('created_at')->paginate();
         return new ActualityCollection($actualities);
     }
 
