@@ -3,14 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { getUrl } from "../API";
 import axios from "axios";
 import { toast } from "react-toastify";
-const ClubContext=createContext();
-export const useClub=()=>{
-    const context=useContext(ClubContext)
-    if(!context) throw new Error('Club provider does not exist')
+const ActualityContext=createContext();
+export const useActuality=()=>{
+    const context=useContext(ActualityContext)
+    if(!context) throw new Error('Actuality provider does not exist')
     return context;
 }
         
-let GET_CLUBS_URL=getUrl('Clubs');
+let ACTUALITIES_URL=getUrl('Actualities');
+let NEWEST_ACTUALITIES_URL=getUrl('NewActualities');
 
 
 var USER_INFO=null;
@@ -28,32 +29,47 @@ if(localStorage.getItem('userinfo')){
 
 }
 console.log(USER_INFO);
-export const ClubContextProvider=({children})=>{
+export const ActualityContextProvider=({children})=>{
   const navigate=useNavigate();
     const [isLoading,setLoading   ]=useState(false  )
 
-    if(!USER_INFO)
-    navigate('/login')
 
-    // attempt for login
-    const getAll=async ()=>{
+    const getAllActualities=async ()=>{
         const config={
             header:{
                 'content-type':'application/json',
-                Authorization:`Bearer ${TOKEN}`,
             },
         };
         try{
             setLoading(true)
-            const clubs=await axios.get(GET_CLUBS_URL,null,config);
+            const actualities=await axios.get(ACTUALITIES_URL,null,config);
+            if(actualities!=null)
             setLoading(false)
-            return clubs;
+        
+            return actualities;
         }catch(error){
             toast.error('an error has been occured while fetching data')
         }
 
     }
-        // registeration
+
+    const getNewsetActualities=async ()=>{
+        const config={
+            header:{
+                'content-type':'application/json',
+            },
+        };
+        try{
+            setLoading(true)
+            const actualities=await axios.get(NEWEST_ACTUALITIES_URL,null,config);
+            // if(actualities)
+            // setLoading(false)
+            return actualities;
+        }catch(error){
+            toast.error('an error has been occured while fetching data')
+        }
+
+    }
 
 
     const show=async (id)=>{
@@ -62,21 +78,27 @@ export const ClubContextProvider=({children})=>{
             const config={
                 header:{
                     'content-type':'application/json',
-                    Authorization:`Bearer ${TOKEN}`,
-
                 },
             };
-            const club=await axios.post(GET_CLUBS_URL+`/${id}`,null,config);
+            const actuality=await axios.post(ACTUALITIES_URL+`/${id}`,null,config);
             setLoading(false)
-            return club;
+            return actuality;
         }catch(error){
             toast.error('an error has been occured while fetching data')
         }
     }
 
-    const store=async (name,slugon,activityDomaine,email,supervisor,logo,bureauMembersFile)=>{
+    const store=async (title,body,startAt,endAt,image,evenementId)=>{
+        let data=null;
         try {
-            setLoading(true)
+            if(evenementId!=null){
+                setLoading(true)
+                (title,body,startAt,endAt,image,evenementId)
+            }else{
+                setLoading(true)
+                data={title,body,startAt,endAt,image,evenementId}
+
+            }
        
             var config={
                 headers:{
@@ -85,7 +107,7 @@ export const ClubContextProvider=({children})=>{
                 },
             };
 
-            const club=await axios.post(GET_CLUBS_URL,{name,slugon,activityDomaine,email,supervisor,logo,bureauMembersFile},config);
+            const club=await axios.post(ACTUALITIES_URL,data,config);
             setLoading(false)
             return club;
         } catch (error) {
@@ -96,10 +118,10 @@ export const ClubContextProvider=({children})=>{
 return (
     // the return the created context createdcontext.provider"""
     // the value prop is like we would export those data.
-    <ClubContext.Provider 
-    value={{ USER_INFO,isLoading,setLoading,getAll,show,store }}> 
+    <ActualityContext.Provider 
+    value={{ USER_INFO,isLoading,setLoading,getAllActualities,getNewsetActualities,show,store }}> 
         {children}
-    </ClubContext.Provider>
+    </ActualityContext.Provider>
 )
     
 
