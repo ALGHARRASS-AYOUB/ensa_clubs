@@ -12,14 +12,16 @@ import Footer from './components/Footer';
 import Admin from './pages/Admin';
 import Profile from './pages/Profile';
 import President from './pages/President';
+import ClubRegister from './components/ClubRegister';
+import RegisterClub from './pages/president/RegisterClub';
 
 function App() {
   return (
     <>
     <Router>
-      
+
             <AuthContextProvider>
-              <Header/>
+    <Header/>
               <Routes>
                 <Route path="/" element={<Home/>} />
                 <Route path="/login" element={<Login />} />
@@ -30,6 +32,7 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/admin/*" element={<Admin />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/club-register" element={<RegisterClub />} />
                 <Route path="/logout" element={<Logout />} />
               </Routes>
             </AuthContextProvider>
