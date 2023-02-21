@@ -1,5 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { Ellipsis } from 'react-bootstrap/esm/PageItem';
 
 function ActualityCard(props) {
   const image=`${props.image}`
@@ -10,7 +11,7 @@ function ActualityCard(props) {
       <Card.Img variant="top" style={{ maxHeight:'25rem'}} src={image} />
       <Card.Body>
         <Card.Title>{props.title}</Card.Title>
-        <Card.Text>
+        <Card.Text style={{ maxHeight:'4  rem',overflow:'ellipsis',textOverflow:'ellipsis' }}>
           {props.body}
         </Card.Text>
         <Button variant="primary">read more ...</Button>

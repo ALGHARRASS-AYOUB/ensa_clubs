@@ -99,6 +99,13 @@ class ClubController extends Controller
         return  new ClubResource($club  );
     }
 
+    public function getClubOfAuthenticatedUser()
+    {
+        $club=Club::where('user_id',Auth::id())->get();
+        $club=Club::with('user')->findOrFail($club->id);
+        return  new ClubResource($club );
+    }
+
 
     /**
      * Update the specified resource in storage.

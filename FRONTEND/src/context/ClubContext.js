@@ -11,10 +11,12 @@ export const useClub=()=>{
 }
         
 let GET_CLUBS_URL=getUrl('Clubs');
+let GET_MYCLUB_URL=getUrl('MyClub');
 
 
 var USER_INFO=null;
 var TOKEN=null;
+var CLUB_INFO=null;
 if(localStorage.getItem('userinfo')){
     USER_INFO=JSON.parse(localStorage.getItem('userinfo')).data;
     if(USER_INFO.adminToken){
@@ -27,6 +29,13 @@ if(localStorage.getItem('userinfo')){
     
 
 }
+
+if(localStorage.getItem('clubinfo')){
+    CLUB_INFO=JSON.parse(localStorage.getItem('clubinfo')).data;
+
+}
+
+
 console.log(USER_INFO);
 export const ClubContextProvider=({children})=>{
   const navigate=useNavigate();
@@ -67,6 +76,25 @@ export const ClubContextProvider=({children})=>{
                 },
             };
             const club=await axios.post(GET_CLUBS_URL+`/${id}`,null,config);
+            setLoading(false)
+            return club;
+        }catch(error){
+            toast.error('an error has been occured while fetching data')
+        }
+    }
+
+    
+    const getClubOfAuthenticatedUser=async ()=>{
+        try{
+            setLoading(true)
+            const config={
+                header:{
+                    'content-type':'application/json',
+                    Authorization:`Bearer ${TOKEN}`,
+                },
+            };
+            const club=await axios.get(GET_MYCLUB_URL,null,config);
+            localStorage.setItem('clubinfo',club);
             setLoading(false)
             return club;
         }catch(error){
