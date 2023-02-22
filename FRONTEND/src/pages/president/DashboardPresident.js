@@ -4,12 +4,10 @@ import { Route,BrowserRouter as Router, Routes, useLocation, useNavigate } from 
 import Clubs from '../../components/clubs/Clubs';
 import Events from '../../components/events/Events';
 import Salles from '../../components/salles/Salles';
-import Users from '../../components/users/Users.js';
-import ContentWrapper from '../../components/ContentWrapper';
-import Actuality from '../../components/actualities/Actuality';
-import AdminNavBar from './AdminNavBar';
-import AdminSideBar from './AdminSideBar';
 
+import ContentWrapper from '../../components/ContentWrapper';
+import PresidentNavBar from './PresidentNavBar';
+import PresidentSideBar from './PresidentSideBar';
 
   const DashboardAdmin = () =>{
   
@@ -22,25 +20,19 @@ import AdminSideBar from './AdminSideBar';
     const getRoutes = () => {
       switch (location.pathname) {
 
-        case "/admin/dashboard":
+        case "/president/dashboard":
           return <ContentWrapper/>
           break;
 
-          case "/admin/actualities":
-            return <Actuality />;
-            break;
+          
 
-            case "/admin/users":
-              return <Users />;
-              break;
-
-        case "/admin/clubs":
+        case "/president/clubs":
           return <Clubs />;
           break;
-        case "/admin/events":
+        case "/president/events":
           return <Events />;
           break;
-          case "/admin/salles":
+          case "/president/salles":
             return <Salles />;
             break;
   
@@ -50,11 +42,11 @@ import AdminSideBar from './AdminSideBar';
       }
     };
     React.useEffect(() => {
-      // console.log( userInfo.data.role=="admin")
-      // if (userInfo != null &&  userInfo.data.role == "admin") {
+      // console.log( userInfo.data.role=="president")
+      // if (userInfo != null &&  userInfo.data.role == "president") {
       //   setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
-      //   // document.documentElement.scrollTop = 0;
-      //   // document.scrollingElement.scrollTop = 0;
+      //   document.documentElement.scrollTop = 0;
+      //   document.scrollingElement.scrollTop = 0;
 
       // } else {
       //   return navigate("/");
@@ -70,11 +62,10 @@ import AdminSideBar from './AdminSideBar';
       </div>
 
     {/* Navbar */}
-
+      <PresidentNavBar/>
     {/* /.navbar */}
- <AdminNavBar/>
     {/* Main Sidebar Container */}
-<AdminSideBar/>
+      <PresidentSideBar/>
     {/* Content Wrapper. Contains page content */}
 
 

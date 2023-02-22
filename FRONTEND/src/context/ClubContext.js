@@ -12,6 +12,7 @@ export const useClub=()=>{
         
 let GET_CLUBS_URL=getUrl('Clubs');
 let GET_MYCLUB_URL=getUrl('MyClub');
+console.log("club urls",GET_CLUBS_URL,GET_MYCLUB_URL)
 
 
 var USER_INFO=null;
@@ -36,16 +37,15 @@ if(localStorage.getItem('clubinfo')){
 }
 
 
-console.log(USER_INFO);
+console.log('user info in club context',USER_INFO);
 export const ClubContextProvider=({children})=>{
   const navigate=useNavigate();
     const [isLoading,setLoading   ]=useState(false  )
 
-    if(!USER_INFO)
-    navigate('/login')
 
-    // attempt for login
     const getAll=async ()=>{
+        console.log('getAll')
+
         const config={
             header:{
                 'content-type':'application/json',
@@ -66,6 +66,8 @@ export const ClubContextProvider=({children})=>{
 
 
     const show=async (id)=>{
+        console.log('show CLUB')
+
         try{
             setLoading(true)
             const config={
@@ -85,6 +87,7 @@ export const ClubContextProvider=({children})=>{
 
     
     const getClubOfAuthenticatedUser=async ()=>{
+        console.log('getClubOfAuthenticatedUser')
         try{
             setLoading(true)
             const config={

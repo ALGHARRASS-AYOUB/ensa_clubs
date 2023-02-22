@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-const AdminNavBar = () => {
+const PresidentNavBar = () => {
   return (
       <>
 
@@ -137,4 +137,4 @@ const AdminNavBar = () => {
      )
 }
 
-export default AdminNavBar
+export default PresidentNavBar

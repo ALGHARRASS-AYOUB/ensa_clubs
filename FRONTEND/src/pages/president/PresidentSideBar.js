@@ -7,7 +7,7 @@ import ContentWrapper from '../../components/ContentWrapper';
 import Users from '../../components/users/Users';
 
 
-const AdminSideBar = () => {
+const PresidentSideBar = () => {
     const location=useLocation
 
     
@@ -84,7 +84,7 @@ const AdminSideBar = () => {
               </a>
               <ul className="nav nav-treeview">
                 <li className="nav-item">
-                  <a href="/admin/dashboard" className="nav-link active">
+                  <a href="/president/dashboard" className="nav-link active">
                     <i className="far fa-circle nav-icon" />
                     <p>Dashboard</p>
                   </a>
@@ -92,17 +92,17 @@ const AdminSideBar = () => {
             
               </ul>
             </li>
-            <li className="nav-item">
-              <Link to={'/admin/actualities'}   className="nav-link">
+            {/* <li className="nav-item">
+              <Link to={'/president/actualities'}   className="nav-link">
                 <i className="nav-icon fas fa-th" />
                 <p>
                  Actualities
               
                 </p>
               </Link>
-            </li>
+            </li> */}
             <li className="nav-item">
-            <Link to={'/admin/events'}   className="nav-link">
+            <Link to={'/president/events'}   className="nav-link">
                 <i className="nav-icon fas fa-calendar" />
                 <p>
                  Events
@@ -110,18 +110,10 @@ const AdminSideBar = () => {
               </Link>
             </li>
 
-              <li className="nav-item">
-            <Link to={'/admin/users'}   className="nav-link">
-                <i className="nav-icon fas fa-users" />
-                <p>
-                 Users
-              
-                </p>
-              </Link>
-            </li>
+
 
               <li className="nav-item">
-              <Link to={'/admin/clubs'}   className="nav-link">
+              <Link to={'/president/clubs'}   className="nav-link">
                 <i className="nav-icon fas fa-th-large" />
                 <p>
                  Clubs           
@@ -130,7 +122,7 @@ const AdminSideBar = () => {
             </li>
 
               <li className="nav-item">
-              <Link to={'/admin/salles'}   className="nav-link">
+              <Link to={'/president/salles'}   className="nav-link">
                 <i className="nav-icon fas fa-building" />
                 <p>
                  Salles
@@ -741,4 +733,4 @@ const AdminSideBar = () => {
     </aside>  )
 }
 
-export default AdminSideBar
+export default PresidentSideBar

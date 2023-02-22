@@ -22,12 +22,17 @@ async function handleSubmit(e){
     setLoading(false)
   }
   else{
-    if(userinfo.data.data.role=='admin')
-      navigate('/')
-    else 
-      navigate('/president')
-    
-    toast.success('you are logged in')
+    const role=userinfo.data.data.role;
+  console.log('user info in login:',userinfo.data.data)
+  console.log('user info in login after role :',role)
+
+  if(role=="admin")
+  navigate('/admin')
+  else
+  navigate('/president')
+
+  toast.success('you are logged in')
+
   }
 }
 

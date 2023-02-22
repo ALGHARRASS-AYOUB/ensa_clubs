@@ -33,8 +33,7 @@ import { toast } from "react-toastify";
 
 const NavBar = ({navLinks}) => {
   const menuRef = useRef(null);
-  const [userInfo,setUserInfo] = useState(localStorage.getItem('userinfo'))
-  const [role,setRole]=useState()
+  const [userInfo,setUserInfo] = useState(localStorage.getItem('userinfo')?JSON.parse(localStorage.getItem('userinfo')).data:null)
   const navigate=useNavigate()
 
    const {logout} = useAuth('');
@@ -43,7 +42,7 @@ const NavBar = ({navLinks}) => {
     const res=logout(); 
    
     toast.error('logged out')
-  navigate('/login')
+  navigate('/')
        setUserInfo(null)
 }
    
@@ -62,12 +61,14 @@ const UserMenuHead = (
 
    useEffect(() => {
 
-           const userInfo = localStorage.getItem('userinfo')
-   ? setUserInfo(JSON.parse(localStorage.getItem('userinfo'))) : null
-   if(userInfo!=null)
-      setRole(userInfo.data.role)
-
+           const userinfo = userInfo
+   ? JSON.parse(localStorage.getItem('userinfo')) : null
+   if(userinfo!=null){
+    setUserInfo(userinfo.data)
+  }
    },[localStorage.getItem('userinfo')])
+
+
 
 
 
@@ -97,18 +98,18 @@ const UserMenuHead = (
                         <NavDropdown.Item>Profile</NavDropdown.Item>
                       </LinkContainer>
   
-                      {/* {(userInfo.data.role!=null && userInfo.data.role == 'president') && (
-                        <LinkContainer to='president'>
+                      {(userInfo.role == 'president')? (
+                        <LinkContainer to='/president'>
                           <NavDropdown.Item>Dashboard</NavDropdown.Item>
                         </LinkContainer>
-                      )}
+                      ):<></>}
   
-                      {(userInfo.data.role!=null && userInfo.data.role== 'admin') && (
-                        <LinkContainer to='/admin'>
+                      {( userInfo.role ==  'admin')? (
+                        <LinkContainer to='/admin/dashboard'>
                           <NavDropdown.Item>Dashboard</NavDropdown.Item>
                         </LinkContainer>
-                      )}
-   */}
+                      ):<></>}
+  
                       <LinkContainer to='/settings'>
                         <NavDropdown.Item>Settings</NavDropdown.Item>
                       </LinkContainer>

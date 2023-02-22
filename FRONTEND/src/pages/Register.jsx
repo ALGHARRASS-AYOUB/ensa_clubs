@@ -22,16 +22,15 @@ const Register = () => {
 async function handleSubmit(e){
   e.preventDefault()
   const userinfo=await register(firstName,lastName,email,cpassword,password,role);
-  console.log('userinfo',userinfo,'???',!userinfo)
   if(!userinfo){
     console.log('invalid cred')
     toast.error('invalid credentials')
     setLoading(false)
   }
   else{
-    console.log('user has been registered')
-     navigate("/club-register")
+    
     toast.success(' user has been registered')
+    navigate("/club-register")
   }
 }
 
@@ -63,13 +62,13 @@ return (
                   <div className="col-md-6 mb-4">
                     <div className="form-outline">
                       <input type="text" id="firstName" name='firstName' onChange={e=>{setFirstName(e.target.value)}} className="form-control form-control-lg" />
-                      <label className="firstName" htmlFor="form3Example1m">First name</label>
+                      <label  htmlFor="firstName">First name</label>
                     </div>
                   </div>
                   <div className="col-md-6 mb-4">
                     <div className="form-outline">
                       <input type="text" id="lastName"  name='lastName'  onChange={e=>{setLastName(e.target.value)}}   className="form-control form-control-lg" />
-                      <label className="lastName" htmlFor="form3Example1n">Last name</label>
+                      <label  htmlFor="lastName">Last name</label>
                     </div>
                   </div>
                 </div>
@@ -116,7 +115,6 @@ return (
                             Sign Up {isLoading && <Spinner animation='grow' />}
                         </Button>
                 </div>
-
               </div>
               </Form>
           </div>

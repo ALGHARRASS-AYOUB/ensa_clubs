@@ -8,6 +8,7 @@ import Setting from './pages/Settings';
 import Logout from './pages/Logout';
 import Login from './pages/Login';
 import DashboardAdmin from './pages/admin/DashboardAdmin';
+import DashboardPresident from './pages/president/DashboardPresident';
 import Register from './pages/Register'
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -36,11 +37,11 @@ function App() {
                 <Route path="/setting" element={<Setting />} />
                 {/* <Route path="/actualities" element={< />} />
                 <Route path="/newst/actualities" element={<Login />} /> */}
-                <Route path="/president/*" element={<President />} />
+                <Route path="/club-register" element={<RegisterClub />} />
+                <Route path="/president/*" element={<DashboardPresident />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/admin/*" element={<DashboardAdmin />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/club-register" element={<RegisterClub />} />
                 {/* <Route path="/logout" element={<Logout />} /> */}
               </Routes>
               </ActualityContextProvider>
