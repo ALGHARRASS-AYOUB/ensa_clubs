@@ -28,7 +28,6 @@ if(localStorage.getItem('userinfo')){
     
 
 }
-console.log(USER_INFO);
 export const AuthContextProvider=({children})=>{
   const navigate=useNavigate();
     const [isLoading,setLoading   ]=useState(false  )
@@ -37,7 +36,6 @@ export const AuthContextProvider=({children})=>{
 
     // attempt for login
     const login=async (email,password)=>{
-console.log('we are in login authcontext')
         const config={
             header:{
                 'content-type':'application/json',
@@ -47,7 +45,6 @@ console.log('we are in login authcontext')
         try{
             setLoading(true)
             const userinfo=await axios.post(LOGIN_URL,{email,password},config);
-            console.log(userinfo)
             localStorage.setItem('userinfo',JSON.stringify(userinfo.data));
             setLoading(false)
             return userinfo;
@@ -68,7 +65,6 @@ console.log('we are in login authcontext')
                 },
             };
             const userinfo=await axios.post(REGISTER_URL,{firstName,lastName,email,cpassword,password,role},config);
-            console.log(userinfo)
             localStorage.setItem('userinfo',JSON.stringify(userinfo.data));
             setLoading(false)
             return userinfo;
@@ -87,7 +83,6 @@ console.log('we are in login authcontext')
                     Authorization:`Bearer ${TOKEN}`,
                 },
             };
-            console.log(TOKEN);
 
             // axios.interceptors.request.use(
             //     config=>{

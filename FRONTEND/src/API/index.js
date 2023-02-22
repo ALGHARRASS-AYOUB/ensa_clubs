@@ -8,6 +8,7 @@ const endpoints = {
   Logout: 'api/logout',
   Users: 'api/v1/users',
   Clubs: 'api/v1/clubs',
+  MyClub: 'api/v1/myclub/clubs',
 
   Actualities: 'api/v1/actualities',
   NewActualities: 'api/v1/newest/actualities',

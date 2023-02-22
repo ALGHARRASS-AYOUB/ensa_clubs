@@ -70,16 +70,16 @@ const Actuality = () => {
         // setNewestActualities(getNewsetActualities())
     },[])
     
-    console.log('acutalitisi:  ',newestActualities)
-    console.log('currentPage:  ',currentPage)
-    console.log('nextPage:  ',nextPage)
-    console.log('prevPage:  ',prevPage)
-    console.log('pageNum:  ',pageNum)
-    console.log('first:  ',first)
-    console.log('last:  ',last)
-    console.log('foreLinks:  ',foreLinks)
-    console.log('meta:  ',meta)
-    console.log('isloading',isLoading)
+    // console.log('acutalitisi:  ',newestActualities)
+    // console.log('currentPage:  ',currentPage)
+    // console.log('nextPage:  ',nextPage)
+    // console.log('prevPage:  ',prevPage)
+    // console.log('pageNum:  ',pageNum)
+    // console.log('first:  ',first)
+    // console.log('last:  ',last)
+    // console.log('foreLinks:  ',foreLinks)
+    // console.log('meta:  ',meta)
+    // console.log('isloading',isLoading)
 
 
 

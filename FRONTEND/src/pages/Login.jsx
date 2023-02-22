@@ -22,8 +22,17 @@ async function handleSubmit(e){
     setLoading(false)
   }
   else{
-    //navigate('/')
-    toast.success('you are logged in')
+    const role=userinfo.data.data.role;
+  console.log('user info in login:',userinfo.data.data)
+  console.log('user info in login after role :',role)
+
+  if(role=="admin")
+  navigate('/admin')
+  else
+  navigate('/president')
+
+  toast.success('you are logged in')
+
   }
 }
 
@@ -48,7 +57,7 @@ async function handleSubmit(e){
     <Form.Group className="mb-3" controlId="formBasicEmail">
       <Form.Label>Email address</Form.Label>
       <Form.Control type="email" placeholder="Enter email" onChange={e=>setEmail(e.target.value)} />
-      <Form.Text className="text-muted">
+      <Form.Text className="text">
         We'll never share your email with anyone else.
       </Form.Text>
     </Form.Group>

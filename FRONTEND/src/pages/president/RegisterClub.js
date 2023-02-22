@@ -34,7 +34,7 @@ let image='../../assets/images/background.jpg'
     
     }
     else{
-      console.log('user has been registered')
+      console.log('club has been registered')
       navigate('/')
       toast.success(' user has been registered')
     }

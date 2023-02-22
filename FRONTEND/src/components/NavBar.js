@@ -19,9 +19,11 @@ import {
   faSignIn,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import React, { useEffect, useState,useNavigate } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Image, NavDropdown, Toast } from "react-bootstrap";
 import { LinkContainer } from 'react-router-bootstrap'
+import { useNavigate } from 'react-router-dom';
+
 
 import { toast } from "react-toastify";
 
@@ -30,13 +32,17 @@ import { toast } from "react-toastify";
 
 
 const NavBar = ({navLinks}) => {
-   const menuRef = useRef(null);
-   const [userInfo,setUserInfo] = useState(localStorage.getItem('userinfo'))
-   const [role,setRole]=useState()
+  const menuRef = useRef(null);
+  const [userInfo,setUserInfo] = useState(localStorage.getItem('userinfo')?JSON.parse(localStorage.getItem('userinfo')).data:null)
+  const navigate=useNavigate()
 
    const {logout} = useAuth('');
    const logoutHandler = () => {
-       
+
+    const res=logout(); 
+   
+    toast.error('logged out')
+  navigate('/')
        setUserInfo(null)
 }
    
@@ -51,20 +57,18 @@ const UserMenuHead = (
   />
 )
 
-const UserMenu=()=>{
-  return <>
-   (
-                        )
-  </>
-}
 
 
    useEffect(() => {
-           const userInfo = localStorage.getItem('userinfo')
-   ? setUserInfo(JSON.parse(localStorage.getItem('userinfo'))) : null
-   if(userInfo!=null)
-      setRole(userInfo.data.role)
+
+           const userinfo = userInfo
+   ? JSON.parse(localStorage.getItem('userinfo')) : null
+   if(userinfo!=null){
+    setUserInfo(userinfo.data)
+  }
    },[localStorage.getItem('userinfo')])
+
+
 
 
 
@@ -94,17 +98,17 @@ const UserMenu=()=>{
                         <NavDropdown.Item>Profile</NavDropdown.Item>
                       </LinkContainer>
   
-                      {(role!=null && role == 'president') && (
-                        <LinkContainer to='president/dashboard'>
+                      {(userInfo.role == 'president')? (
+                        <LinkContainer to='/president'>
                           <NavDropdown.Item>Dashboard</NavDropdown.Item>
                         </LinkContainer>
-                      )}
+                      ):<></>}
   
-                      {(role!=null && role== 'admin') && (
+                      {( userInfo.role ==  'admin')? (
                         <LinkContainer to='/admin/dashboard'>
                           <NavDropdown.Item>Dashboard</NavDropdown.Item>
                         </LinkContainer>
-                      )}
+                      ):<></>}
   
                       <LinkContainer to='/settings'>
                         <NavDropdown.Item>Settings</NavDropdown.Item>
@@ -112,7 +116,7 @@ const UserMenu=()=>{
 
                 
 
-                      <NavDropdown.Item  href="/logout"  >
+                      <NavDropdown.Item   onClick={logoutHandler} >
                         Logout
                       </NavDropdown.Item>
                         
@@ -123,7 +127,7 @@ const UserMenu=()=>{
        : (
                           <>
                             <Nav.Link href="/login"> Login </Nav.Link>
-                              <FontAwesomeIcon icon={faUser} /> 
+                             
                             <Nav.Link href="/register"> Register</Nav.Link>                          
                           </>)}
 

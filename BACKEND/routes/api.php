@@ -63,6 +63,8 @@ Route::post('logout',[AuthController::class,'logout'])->middleware('auth:sanctum
 Route::group(['prefix'=>'v1','middleware'=>'auth:sanctum','namespace'=>'App\Http\Controllers\api\v1'],function (){
     Route::apiResource('users',UserController::class);
     Route::apiResource('clubs',ClubController::class);
+    Route::get('myclub/clubs',[ClubController::class,'getClubOfAuthenticatedUser']);
+
     Route::apiResource('salles',SalleController::class);
     Route::patch('salles/changeDisponibility/{id}',[SalleController::class,'changeDisponibility']);
 
