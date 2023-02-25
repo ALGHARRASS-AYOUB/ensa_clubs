@@ -7,9 +7,13 @@ const endpoints = {
   Register: 'api/register',
   Logout: 'api/logout',
   Users: 'api/v1/users',
+
   Clubs: 'api/v1/clubs',
   MyClub: 'api/v1/myclub/clubs',
+  VerifyClub :'api/v1/clubs/verified',
+  SuspendClub :'api/v1/clubs/suspended',
 
+  
   Actualities: 'api/v1/actualities',
   NewActualities: 'api/v1/newest/actualities',
 

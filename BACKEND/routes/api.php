@@ -64,6 +64,8 @@ Route::group(['prefix'=>'v1','middleware'=>'auth:sanctum','namespace'=>'App\Http
     Route::apiResource('users',UserController::class);
     Route::apiResource('clubs',ClubController::class);
     Route::get('myclub/clubs',[ClubController::class,'getClubOfAuthenticatedUser']);
+    Route::patch('clubs/verified/{id}',[ClubController::class,'verifyOrNotClub']);
+    Route::patch('clubs/suspended/{id}',[ClubController::class,'suspendedOrNotClub']);
 
     Route::apiResource('salles',SalleController::class);
     Route::patch('salles/changeDisponibility/{id}',[SalleController::class,'changeDisponibility']);

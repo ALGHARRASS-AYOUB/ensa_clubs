@@ -12,6 +12,10 @@ export const useClub=()=>{
         
 let GET_CLUBS_URL=getUrl('Clubs');
 let GET_MYCLUB_URL=getUrl('MyClub');
+let VERIFICATION_URL=getUrl('VerifyClub');
+let SUSPENDING_URL=getUrl('SuspendClub');
+
+
 console.log("club urls",GET_CLUBS_URL,GET_MYCLUB_URL)
 
 
@@ -47,14 +51,14 @@ export const ClubContextProvider=({children})=>{
         console.log('getAll')
 
         const config={
-            header:{
+            headers:{
                 'content-type':'application/json',
                 Authorization:`Bearer ${TOKEN}`,
             },
         };
         try{
             setLoading(true)
-            const clubs=await axios.get(GET_CLUBS_URL,null,config);
+            const clubs=await axios.get(GET_CLUBS_URL,config);
             setLoading(false)
             return clubs;
         }catch(error){
@@ -71,7 +75,7 @@ export const ClubContextProvider=({children})=>{
         try{
             setLoading(true)
             const config={
-                header:{
+                headers:{
                     'content-type':'application/json',
                     Authorization:`Bearer ${TOKEN}`,
 
@@ -85,13 +89,54 @@ export const ClubContextProvider=({children})=>{
         }
     }
 
+
+    const verifyOrNotClub=async (id)=>{
+        console.log('verification CLUB')
+
+        try{
+            setLoading(true)
+            const config={
+                headers:{
+                    'content-type':'application/json',
+                    Authorization:`Bearer ${TOKEN}`,
+
+                },
+            };
+            const club=await axios.patch(VERIFICATION_URL+`/${id}`,null,config);
+            setLoading(false)
+            return club;
+        }catch(error){
+            toast.error('an error has been occured while fetching data')
+        }
+    }
+
+    const suspendedOrNotClub=async (id)=>{
+        console.log('suspending CLUB')
+
+        try{
+            setLoading(true)
+            const config={
+                headers:{
+                    'content-type':'application/json',
+                    Authorization:`Bearer ${TOKEN}`,
+
+                },
+            };
+            const club=await axios.patch(SUSPENDING_URL+`/${id}`,null,config);
+            setLoading(false)
+            return club;
+        }catch(error){
+            toast.error('an error has been occured while fetching data')
+        }
+    }
+
     
     const getClubOfAuthenticatedUser=async ()=>{
         console.log('getClubOfAuthenticatedUser')
         try{
             setLoading(true)
             const config={
-                header:{
+                headers:{
                     'content-type':'application/json',
                     Authorization:`Bearer ${TOKEN}`,
                 },
@@ -128,7 +173,7 @@ return (
     // the return the created context createdcontext.provider"""
     // the value prop is like we would export those data.
     <ClubContext.Provider 
-    value={{ USER_INFO,isLoading,setLoading,getAll,show,store }}> 
+    value={{ USER_INFO,isLoading,setLoading,getAll,show,store,getClubOfAuthenticatedUser,verifyOrNotClub,suspendedOrNotClub }}> 
         {children}
     </ClubContext.Provider>
 )

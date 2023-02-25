@@ -18,6 +18,7 @@ import ClubRegister from './components/ClubRegister';
 import RegisterClub from './pages/president/RegisterClub';
 import { ClubContextProvider } from './context/ClubContext';
 import { ActualityContextProvider } from './context/ActualityContext';
+import { UserContextProvider } from './context/UserContext';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
                 <Header/>
                 <ClubContextProvider>
                   <ActualityContextProvider>
+                  <UserContextProvider>
 
 
                 <Routes>
@@ -44,6 +46,8 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 {/* <Route path="/logout" element={<Logout />} /> */}
               </Routes>
+              </UserContextProvider>
+
               </ActualityContextProvider>
             
                 </ClubContextProvider>
