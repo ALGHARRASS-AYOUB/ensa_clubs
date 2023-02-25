@@ -184,4 +184,20 @@ class ClubController extends Controller
          return true;
 
     }
+
+    public function verifyOrNotClub($id){
+        if(auth()->user()->role!='admin')
+            return response()->json()->setData(['error'=>'unauthorized']);
+        $clubToUpdate=Club::findOrFail($id);
+        $clubToUpdate->update(['verified'=>($clubToUpdate->verified=='1')?false:true]);
+        return new ClubResource(Club::findOrFail($clubToUpdate->id));
+    }
+
+    public function suspendedOrNotClub($id){
+        if(auth()->user()->role!='admin')
+            return response()->json()->setData(['error'=>'unauthorized']);
+        $clubToUpdate=Club::findOrFail($id);
+        $clubToUpdate->update(['suspended'=>($clubToUpdate->suspended=='1')?false:true]);
+        return new ClubResource(Club::findOrFail($clubToUpdate->id));
+    }
 }
