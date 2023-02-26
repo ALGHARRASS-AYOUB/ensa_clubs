@@ -3,17 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { getUrl } from "../API";
 import axios from "axios";
 import { toast } from "react-toastify";
-const ClubContext=createContext();
-export const useClub=()=>{
-    const context=useContext(ClubContext)
+const EventContext=createContext();
+export const useEvent=()=>{
+    const context=useContext(EventContext)
     if(!context) throw new Error('Club provider does not exist')
     return context;
 }
         
-let GET_CLUBS_URL=getUrl('Clubs');
-let GET_MYCLUB_URL=getUrl('MyClub');
-let VERIFICATION_URL=getUrl('VerifyClub');
-let SUSPENDING_URL=getUrl('SuspendClub');
+let GET_EVENTS_URL=getUrl('Evenements');
+let APPROUVE_EVENT_URL=getUrl('EvenementsChangeApprouvement');
 
 
 
@@ -39,12 +37,12 @@ if(localStorage.getItem('clubinfo')){
 }
 
 
-export const ClubContextProvider=({children})=>{
+export const EventContextProvider=({children})=>{
   const navigate=useNavigate();
     const [isLoading,setLoading   ]=useState(false  )
 
 
-    const getAll=async ()=>{
+    const getEvents=async ()=>{
 
         const config={
             headers:{
@@ -54,16 +52,16 @@ export const ClubContextProvider=({children})=>{
         };
         try{
             setLoading(true)
-            const clubs=await axios.get(GET_CLUBS_URL,config);
+            const events=await axios.get(GET_EVENTS_URL,config);
             setLoading(false)
-            return clubs;
+            return events;
         }catch(error){
             toast.error('an error has been occured while fetching data')
         }
 
     }
-
-    const getVerifiedClubs=async (status)=>{
+ 
+    const getApprouvedEvents=async (status)=>{
 
         const config={
             headers:{
@@ -73,36 +71,14 @@ export const ClubContextProvider=({children})=>{
         };
         try{
             setLoading(true)
-            const clubs=await axios.get(GET_CLUBS_URL+`?verified[eq]=${status}`,config);
+            const events=await axios.get(GET_EVENTS_URL+`?isApprouved[eq]=${status}`,config);
             setLoading(false)
-            return clubs;
+            return events;
         }catch(error){
             toast.error('an error has been occured while fetching data')
         }
 
     }
-
-    
-    const getSuspendedClubs=async (status)=>{
-
-        const config={
-            headers:{
-                'content-type':'application/json',
-                Authorization:`Bearer ${TOKEN}`,
-            },
-        };
-        try{
-            setLoading(true)
-            const clubs=await axios.get(GET_CLUBS_URL+`?suspended[eq]=${status}`,config);
-            setLoading(false)
-            return clubs;
-        }catch(error){
-            toast.error('an error has been occured while fetching data')
-        }
-
-    }
-    
-
 
     const show=async (id)=>{
         console.log('show CLUB')
@@ -116,17 +92,17 @@ export const ClubContextProvider=({children})=>{
 
                 },
             };
-            const club=await axios.post(GET_CLUBS_URL+`/${id}`,null,config);
+            const event=await axios.post(GET_EVENTS_URL+`/${id}`,null,config);
             setLoading(false)
-            return club;
+            return event;
         }catch(error){
             toast.error('an error has been occured while fetching data')
         }
     }
 
 
-    const verifyOrNotClub=async (id)=>{
-        console.log('verification CLUB')
+    const ApprouveOrNotEvent=async (id)=>{
+        console.log('approuvemetn event')
 
         try{
             setLoading(true)
@@ -137,7 +113,7 @@ export const ClubContextProvider=({children})=>{
 
                 },
             };
-            const club=await axios.patch(VERIFICATION_URL+`/${id}`,null,config);
+            const club=await axios.patch(APPROUVE_EVENT_URL+`/${id}`,null,config);
             setLoading(false)
             return club;
         }catch(error){
@@ -145,47 +121,11 @@ export const ClubContextProvider=({children})=>{
         }
     }
 
-    const suspendedOrNotClub=async (id)=>{
-        console.log('suspending CLUB')
-
-        try{
-            setLoading(true)
-            const config={
-                headers:{
-                    'content-type':'application/json',
-                    Authorization:`Bearer ${TOKEN}`,
-
-                },
-            };
-            const club=await axios.patch(SUSPENDING_URL+`/${id}`,null,config);
-            setLoading(false)
-            return club;
-        }catch(error){
-            toast.error('an error has been occured while fetching data')
-        }
-    }
+ 
 
     
-    const getClubOfAuthenticatedUser=async ()=>{
-        console.log('getClubOfAuthenticatedUser')
-        try{
-            setLoading(true)
-            const config={
-                headers:{
-                    'content-type':'application/json',
-                    Authorization:`Bearer ${TOKEN}`,
-                },
-            };
-            const club=await axios.get(GET_MYCLUB_URL,null,config);
-            localStorage.setItem('clubinfo',club);
-            setLoading(false)
-            return club;
-        }catch(error){
-            toast.error('an error has been occured while fetching data')
-        }
-    }
 
-    const store=async (name,slugon,activityDomaine,email,supervisor,logo,bureauMembersFile)=>{
+    const store=async (name,description,dateEvent,image,salles=null)=>{
         try {
             setLoading(true)
        
@@ -196,9 +136,48 @@ export const ClubContextProvider=({children})=>{
                 },
             };
 
-            const club=await axios.post(GET_CLUBS_URL,{name,slugon,activityDomaine,email,supervisor,logo,bureauMembersFile},config);
+            const event=await axios.post(GET_EVENTS_URL,{name,description,dateEvent,image,salles},config);
             setLoading(false)
-            return club;
+            return event;
+        } catch (error) {
+            toast.error('an error has been occured while logging out ')
+        }
+    }
+
+    const update=async (name,description,dateEvent,image,salles=null)=>{
+        try {
+            setLoading(true)
+       
+            var config={
+                headers:{
+                    'Content-Type':'multipart/form-data',
+                    Authorization:`Bearer ${TOKEN}`,
+                },
+            };
+
+            const event=await axios.put(GET_EVENTS_URL,{name,description,dateEvent,image,salles},config);
+            setLoading(false)
+            return event;
+        } catch (error) {
+            toast.error('an error has been occured while logging out ')
+        }
+    }
+
+
+    const deleteEvent=async (id)=>{
+        try {
+            setLoading(true)
+       
+            var config={
+                headers:{
+                    'Content-Type':'multipart/form-data',
+                    Authorization:`Bearer ${TOKEN}`,
+                },
+            };
+
+            const res=await axios.delete(GET_EVENTS_URL+`/${id}`,config);
+            setLoading(false)
+            return res;
         } catch (error) {
             toast.error('an error has been occured while logging out ')
         }
@@ -207,10 +186,10 @@ export const ClubContextProvider=({children})=>{
 return (
     // the return the created context createdcontext.provider"""
     // the value prop is like we would export those data.
-    <ClubContext.Provider 
-    value={{ USER_INFO,isLoading,setLoading,getAll,getVerifiedClubs,getSuspendedClubs,show,store,getClubOfAuthenticatedUser,verifyOrNotClub,suspendedOrNotClub }}> 
+    <EventContext.Provider 
+    value={{ USER_INFO,isLoading,setLoading,getEvents,getApprouvedEvents,show,store,deleteEvent,ApprouveOrNotEvent }}> 
         {children}
-    </ClubContext.Provider>
+    </EventContext.Provider>
 )
     
 

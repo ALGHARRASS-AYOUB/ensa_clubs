@@ -22,27 +22,7 @@ function Users() {
 
   const updateTable = (v = null, searchKey = null) => {
     if (v != null && searchKey == null) {
-      // switch (v) {
-      //   case 'favorite':
-      //     const data = users.filter(item => {
-      //       return item.favoriteList != null;
-      //     });
-      //     console.log(data);
-      //     setFiltredData(data);
-      //     break;
-      //   case 'baned':
-      //     setFiltredData(
-      //       users.filter(item => {
-      //         return item.blacklist != null;
-      //       }),
-      //     );
-      //     break;
-      //   case 'all':
-      //     setFiltredData(users);
-      //     break;
-      //   default:
-      //     break;
-      // }
+
       setFiltredData(users)
     }
     if(searchKey != null && v == null){
@@ -72,8 +52,7 @@ function Users() {
             onChange={e => updateTable(e.target.value)}
           >
             <option value='all'>All</option>
-            <option value='favorite'>Favorite Users</option>
-            <option value='baned'>Baned Users</option>
+     
           </Form.Select>
         </Col>
         <Col md='6'>

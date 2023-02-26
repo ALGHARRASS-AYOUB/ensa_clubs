@@ -6,9 +6,11 @@ import Events from '../../components/events/Events';
 import Salles from '../../components/salles/Salles';
 import Users from '../../components/users/Users.js';
 import ContentWrapper from '../../components/ContentWrapper';
-import Actuality from '../../components/actualities/Actuality';
+import AllActualities from '../../components/actualities/AllActualities';
 import AdminNavBar from './AdminNavBar';
 import AdminSideBar from './AdminSideBar';
+import ClubDetails from '../../components/clubs/ClubDetails';
+import ClubEdit from '../../components/clubs/ClubEdit';
 
 
   const DashboardAdmin = () =>{
@@ -27,7 +29,7 @@ import AdminSideBar from './AdminSideBar';
           break;
 
           case "/admin/actualities":
-            return <Actuality />;
+            return <AllActualities/>
             break;
 
             case "/admin/users":
@@ -37,6 +39,16 @@ import AdminSideBar from './AdminSideBar';
         case "/admin/clubs":
           return <Clubs />;
           break;
+
+          
+        // case "/admin/clubs/details":
+        //   return <ClubDetails  club={club}/>;
+        //   break;
+          
+        // case "/admin/clubs/edit":
+        //   return <ClubEdit />;
+        //   break;
+
         case "/admin/events":
           return <Events />;
           break;

@@ -20,7 +20,7 @@ class SalleController extends Controller
      */
     public function index(Request $request )
     {
-        sallesUpdateReservationStatus();
+        //sallesUpdateReservationStatus();
         $filter=new SalleFilter();
         $queryItems=$filter->transform($request);
         $includeEvenement=$request->query('includeEvenement');
@@ -95,9 +95,11 @@ class SalleController extends Controller
 
     public function changeDisponibility($id)
     {
+
         if(auth()->user()->role!='admin')
             return response()->json()->setData(['error'=>'unauthorized']);
         $salleToUpdate=Salle::findOrFail($id);
+
         if($salleToUpdate->isDisponible==0){
             if($this->isReservedNow($id)){
                 return  response()->json(['message'=>'you can not change the disponiblity of this salle because it is reserved, check events' ]);
@@ -109,11 +111,16 @@ class SalleController extends Controller
 
     private function isReservedNow($id):bool{
         $salle=Salle::where('id',$id)->first();
+        if($salle->evenements())
+            return false;
+        else{
         $endDate=Carbon::make($salle->evenements()->first()->pivot->start_at);
         if($endDate>now())
             return false;
         else
             return true;
+
+        }
     }
 
     public function sallesUpdateReservationStatus(){

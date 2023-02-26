@@ -9,6 +9,7 @@ const endpoints = {
   Users: 'api/v1/users',
 
   Clubs: 'api/v1/clubs',
+  Clubs: 'api/v1/clubs',
   MyClub: 'api/v1/myclub/clubs',
   VerifyClub :'api/v1/clubs/verified',
   SuspendClub :'api/v1/clubs/suspended',
@@ -18,7 +19,10 @@ const endpoints = {
   NewActualities: 'api/v1/newest/actualities',
 
   Salles: 'api/v1/salles',
-  SalleChangeDisponibility: 'api/v1/salles/changeDisponibility/{id}',
+  DispoSalles: 'api/v1/salles?isDisponible[eq]=true',
+  DispoNotReservedSalle: 'api/v1/salles?isDisponible[eq]=1&isReserved[eq]=0',
+  ReservedSalle: 'api/v1/salles?isReserved[eq]=true',
+  SalleChangeDisponibility: 'api/v1/salles/changeDisponibility',
 
   ConversationsLeft: 'api/v1/conversations/{conversation}/left-group',
   ConversationsAdmins: 'api/v1/conversations/{conversation}/admins',
@@ -27,7 +31,7 @@ const endpoints = {
   ConversationsARevokMemeber: 'api/v1/conversations/{conversation}/revoking-members',
 
   Evenements: 'api/v1/evenements',
-  EvenementsChangeApprouvement: 'api/v1/evenements/changeApprouvement/{id}',
+  EvenementsChangeApprouvement: 'api/v1/evenements/changeApprouvement',
 
 
   // Add more endpoints here as needed

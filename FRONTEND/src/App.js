@@ -19,6 +19,8 @@ import RegisterClub from './pages/president/RegisterClub';
 import { ClubContextProvider } from './context/ClubContext';
 import { ActualityContextProvider } from './context/ActualityContext';
 import { UserContextProvider } from './context/UserContext';
+import { SalleContextProvider } from './context/SalleContext';
+import { EventContextProvider } from './context/EventContext';
 
 
 function App() {
@@ -31,6 +33,9 @@ function App() {
                 <ClubContextProvider>
                   <ActualityContextProvider>
                   <UserContextProvider>
+                    <SalleContextProvider>
+                    <EventContextProvider>
+
 
 
                 <Routes>
@@ -46,6 +51,10 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 {/* <Route path="/logout" element={<Logout />} /> */}
               </Routes>
+              </EventContextProvider>
+
+              </SalleContextProvider>
+
               </UserContextProvider>
 
               </ActualityContextProvider>
