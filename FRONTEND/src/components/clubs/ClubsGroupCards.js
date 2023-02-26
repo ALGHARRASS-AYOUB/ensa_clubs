@@ -11,7 +11,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useClub } from '../../context/ClubContext';
 import CardGroup from 'react-bootstrap/CardGroup';
-import ClubsCard from './ClubsCard';
+
 
 
 // import { getUrl } from '../../API';
@@ -26,45 +26,37 @@ function ClubsGroupCards({ clubs, setClubs }) {
   const [show, setShow] = useState(false);
   const [allowSubmit, setAllowSubmit] = useState(true);
   const [verfiedClub,setVerifiedClub]=useState()
- //const [clubs,setClubs]=useState(data)
+  const [suspendedClub,setSuspendedClub]=useState()
+  const [clubsToMap,setClubsToMap]=useState(clubs)
+  const [choosenClub,setChoosenClub]=useState()
+
 
  const fetch=async()=>{
     const clubs = await getAll();
-    setClubs(clubs?.data.data);
+    setClubs(clubs?.data.data)
+    setClubsToMap(clubs?.data.data);
  }
 
 
-  function editCar(id) {
-    // navigate(`/clubDetails`, {
-    //   state: {
-    //     carId: id,
-    //   },
-    // });
-    console.log('want to edit club ??')
-  }
- 
   const _suspendedOrNotClub = async id => {
+    const club=await suspendedOrNotClub(id);
+    setVerifiedClub(club?.data.data);
     fetch()
-    await suspendedOrNotClub(id);
-
   };
 
   const _verifyOrNotClub = async id => {
-   
     const club=await verifyOrNotClub(id);
-    setVerifiedClub(club);
-
-    // const node=document.getElementById(id)
-
-    //     ReactDom.render( <ClubsCard key={club.id} club={club} />,node)
-
-
+    setVerifiedClub(club?.data.data);
     fetch()
   };
 
   const handleClose = () => setShow(false);
-  const handleShow = async (id) => {
-    setShow(true);
+  const handleShow = () => {
+    console.log('showwwwww: ',show)
+    setShow(true)
+    console.log('showwwwww after set : ',show)
+    // setChoosenClub(club)
+     
   };
 //   const { addCar, deleteCar, getOwnerCars } = useCar('');
 
@@ -129,9 +121,44 @@ function ClubsGroupCards({ clubs, setClubs }) {
 //   };
 
 
-  const editClub=(id)=>{
-    
-  }
+const ClubDetails=()=> {
+  console.log('show in details  ',show)
+  
+  return (
+    <>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Modal title</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          I will not close if you click outside me. Don't even try to press
+          escape key.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose()}>
+            Close
+          </Button>
+          <Button variant="primary">Understood</Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+}
+
+function editClub(id) {
+  // navigate(`/clubDetails`, {
+  //   state: {
+  //     carId: id,
+  //   },
+  // });
+  console.log('want to edit club ??')
+}
+
 
   const deleteClub=(id)=>{
 
@@ -162,37 +189,40 @@ const ClubsCard = ({club}) => {
                 <span className='fs-6 fw-bold bg-orange  p-1 pe-3 rounded-lg mr-2'>email </span>
                 {club.email}
             </Card.Text>
+            <hr/>
+            <Card.Text>
+                <span className='fs-6 fw-bold bg-orange  p-1 pe-3 rounded-lg mr-2'>president </span>
+                {club.president.firstName }  {club.president.lastName}
+                
+            </Card.Text>
+            <small>president email: {club.president.email}</small>
             <hr />
-            <button
-                 className='btn btn-fill btn-info me-2'
+            <Button variant="secondary" size="sm" className='m-1'
                  onClick={() => _verifyOrNotClub(club.id)}
                  >
                     {club.verified == 1
-                          ? 'unverify this club'
-                           : 'verify this club'}
-            </button>
-            <button
-                className='btn btn-fill btn-success me-2'
-                onClick={() => _suspendedOrNotClub(club.id)}
-                >
-                                
-                       {club.suspended ==1
-                           ? 'unsuspend this club'
-                           : 'suspend this club'}
-             </button>
-              <button
-                className='btn btn-fill btn-secondary me-2'
-                onClick={() => editClub(club.id)}
-                                >
-                                Edit
-            </button>
-             <button
-                className='btn btn-fill btn-danger'
+                          ? <span>Unverify this club <i className='ms-3 fa fa-times-circle ' style={{ 'color':'red' }}></i></span>
+                           : <span>Verify this club <i className='ms-3 fa fa-check-circle ' style={{ 'color':'green' }}></i></span>}
+            </Button>
+            <Button variant="secondary" size="sm" className='m-1'
+                 onClick={() => _suspendedOrNotClub(club.id)}
+                 >
+                    {club.suspended == 1
+                          ? <span>Unsuspended this club <i className='ms-3 fa fa-smile ' style={{ 'color':'white' }}></i></span>
+                           : <span>Suspend this club <i className='ms-3  fa fa-frown  ' style={{ 'color':'white' }}></i></span>}
+            </Button>
+            <Button variant="success" size="sm" className='m-1'
+                 onClick={() => editClub(club.id)}
+                 ><span><i className='fa fa-wrench'></i></span>   
+            </Button>
+            <Button variant="danger" size="sm" className='m-1'
                  onClick={() => deleteClub(club.id)}
-                                >
-                                Delete
-            </button>
-
+                 ><span><i className='fa fa-trash'></i></span>   
+            </Button>
+            <hr />
+            <Button variant="info" onClick={handleShow()}>
+                      Details
+            </Button>
                    <br />
             </Card.Body>
     <Card.Footer>
@@ -207,20 +237,26 @@ const ClubsCard = ({club}) => {
 }
 // ******************************
 useEffect(() => {
-
+    console.log('clubs group card rendered show',show)
     console.log(verfiedClub)
-  },[verfiedClub]);
+    fetch()
+  },[verfiedClub,suspendedClub ]);
 
 
-return <Container>
-            <CardGroup className='m-4'>
-                <Row xs={1} md={2} className="g-4">
-                    {clubs.map((club)=>{
-                    return<Col id={club.id} key={club.id}> <ClubsCard key={club.id} club={club} /></Col>
-                    })}
-                </Row>
-            </CardGroup>
-        </Container>
+return  (
+  <>
+    <Container>
+  <CardGroup className='m-4'>
+      <Row xs={1} md={2} className="g-4">
+          {clubs?.map((club)=>{
+          return<Col id={club.id} key={club.id}> <ClubsCard key={club.id} club={club} /></Col>
+          })}
+      </Row>
+  </CardGroup>
+</Container>
+  </>
+
+)
 //   return (
 //     <Container>
 //       <Row>

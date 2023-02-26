@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import Card from 'react-bootstrap/Card';
 import { useClub } from '../../context/ClubContext';
 
@@ -7,10 +7,12 @@ import { useClub } from '../../context/ClubContext';
 const ClubsCard = ({club,setClubs}) => {
     const {getAll,verifyOrNotClub,suspendedOrNotClub,isLoding,setLoading}=useClub()
   const [show, setShow] = useState(false);
-
+  const [reducer,forceUpdate]=useReducer(x=>x+1,0)
+  const [verfiedClub,setVerifiedClub]=useState()
     const handleClose = () => setShow(false);
     const handleShow = async (id) => {
-      
+
+
   
       setShow(true);
     };
@@ -23,8 +25,7 @@ const ClubsCard = ({club,setClubs}) => {
     
       const _verifyOrNotClub = async (id) => {
         const club=await verifyOrNotClub(id);
-        const clubs = await getAll();
-        setClubs(clubs?.data.data);
+        setVerifiedClub(club?.data.data);
       };
 
       const editClub=(id)=>{
@@ -35,10 +36,11 @@ const ClubsCard = ({club,setClubs}) => {
 
       }
 
-      useEffect(()=>{
-        console.log('a change ')
-        
-      },[club])
+      useEffect(() => {
+        console.log('club  card rendered')
+        console.log(verfiedClub)
+        forceUpdate()
+      },[verfiedClub]);
 
 
   return (
@@ -69,7 +71,7 @@ const ClubsCard = ({club,setClubs}) => {
       </Card.Text>
 
       <hr />
-      <button
+      <button type='submit'
                           className='btn btn-fill btn-info me-2'
                           onClick={() => _verifyOrNotClub(club.id)}
                         >

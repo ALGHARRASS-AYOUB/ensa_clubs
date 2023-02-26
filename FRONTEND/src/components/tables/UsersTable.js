@@ -14,8 +14,7 @@ import { useUser } from '../../context/UserContext';
 function UsersTable({ users,setUsers }) {
   const navigate = useNavigate();
   const { deleteUserByAdmin, loading } = useUser('');
-//   const { addUserToFavoriteList, removeUserFromFavoriteList } = useFav('');
-//   const { addUserToBlackList, removeUserFromBlackList } = useBlack('');
+
   const { getUsers } = useUser('');
   function editProfile(id) {
 
@@ -35,32 +34,9 @@ function UsersTable({ users,setUsers }) {
     setUsers(res?.value)
     console.log('user table delete user',res)
   }
-  
-  async function handleBlackList(id) {
-    // let user = users.find(user => user.id === id);
-    // console.log(user);
-    // if (user.blacklist === null) {
-    //   await addUserToBlackList(id);
-    // } else {
-    //   await removeUserFromBlackList(user.blacklist.id);
-    // }
-    // const res = await getUsers();
-    // setUsers(res?.value);
-    console.log('to black list a mallam')
-  }
 
-  async function handleFavoriteList(id) {
-    // let user = users.find(user => user.id === id);
-    // if (user.favoriteList === null) {
-    //    await addUserToFavoriteList(id);
-    // } else {
-    //   await removeUserFromFavoriteList(user.favoriteList.id);
-    // }
-    // const res = await getUsers();
-    // setUsers(res.value);
-    console.log('to white list a mallam')
 
-  }
+
   return (
     <Container>
       <Row>
@@ -94,24 +70,7 @@ function UsersTable({ users,setUsers }) {
                       <td>{user.role}</td>
                       <td>{moment(user.verifiedAt).format('DD-MM-YYYY')}</td>
                       <td>
-                        <button
-                          className='btn btn-fill btn-info me-2'
-                          onClick={() => handleFavoriteList(user.id)}
-                        >
-                            favorite list
-                          {/* {user.favoriteList != null
-                            ? 'Remove from Favorites'
-                            : 'Add To Favorites'} */}
-                        </button>
-                        <button
-                          className='btn btn-fill btn-success me-2'
-                          onClick={() => handleBlackList(user.id)}
-                        >
-                          black list
-                          {/* {user.blacklist != null
-                            ? 'Remove from BlackList'
-                            : 'Add To BlackList'} */}
-                        </button>
+                      
                         <button
                           className='btn btn-fill btn-secondary me-2'
                           onClick={() => editProfile(user.id)}

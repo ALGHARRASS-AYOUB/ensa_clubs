@@ -9,6 +9,7 @@ class SalleFilter extends ApiFilter
     protected $safeParms=[
         'name'=>['eq'],
         'isDisponible'=>['eq'],
+        'isReserved'=>['eq'],
 
 
     ];
