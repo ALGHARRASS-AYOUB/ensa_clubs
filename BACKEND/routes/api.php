@@ -3,12 +3,14 @@
 use App\Http\Controllers\api\v1\ActualityController;
 use App\Http\Controllers\api\v1\ClubController;
 use App\Http\Controllers\api\v1\ConversationController;
+use App\Http\Controllers\api\v1\EmailVerificationController;
 use App\Http\Controllers\api\v1\EvenementController;
 use App\Http\Controllers\api\v1\SalleController;
 use App\Http\Controllers\api\v1\UpdateProfileController;
 use App\Http\Controllers\api\v1\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,21 +27,24 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 Route::group(['prefix'=>'v1','namespace'=>'App\Http\Controllers\api\v1'],function (){
+    Route::post('verification', [EmailVerificationController::class, 'sendVerificationEmail'])->middleware('auth:sanctum');
+    Route::get('verify-email/{id}/{hash}', [EmailVerificationController::class, 'verify'])->name('verification.verify')->middleware('auth:sanctum');
 
     Route::apiResource('evenements',EvenementController::class);
     Route::post('evenements',[EvenementController::class,'store'])->middleware('auth:sanctum');
-    Route::put('evenements/{evenement}',[EvenementController::class,'update'])->middleware('auth:sanctum');
-    Route::patch('evenements/{evenement}',[EvenementController::class,'update'])->middleware('auth:sanctum');
-    Route::delete('evenements/{evenement}',[EvenementController::class,'destroy'])->middleware('auth:sanctum');
+    Route::put('evenements/{evenement}',[EvenementController::class,'update']);
+    Route::patch('evenements/{evenement}',[EvenementController::class,'update']);
+    Route::delete('evenements/{evenement}',[EvenementController::class,'destroy']);
     Route::get('myEvents/evenements/',[EvenementController::class,'clubEvents'])->middleware('auth:sanctum');
     Route::patch('evenements/changeApprouvement/{id}',[EvenementController::class,'ApprouveEvent'])->middleware('auth:sanctum');
 
     Route::apiResource('actualities',ActualityController::class);
     Route::post('actualities',[ActualityController::class,'store'])->middleware('auth:sanctum');
-    Route::put('actualities/{actuality}',[ActualityController::class,'update'])->middleware('auth:sanctum');
-    Route::patch('actualities/{actuality}',[ActualityController::class,'update'])->middleware('auth:sanctum');
-    Route::delete('actualities/{actuality}',[ActualityController::class,'destroy'])->middleware('auth:sanctum');
+    Route::put('actualities/{actuality}',[ActualityController::class,'update']);
+    Route::patch('actualities/{actuality}',[ActualityController::class,'update']);
+    Route::delete('actualities/{actuality}',[ActualityController::class,'destroy']);
     Route::get('newest/actualities',[ActualityController::class,'getActualitiesToPost']);
 
     Route::apiResource('conversations',ConversationController::class)->middleware('auth:sanctum');

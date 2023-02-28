@@ -1,8 +1,10 @@
 import React from 'react'
+import { Container } from 'react-bootstrap'
 
 const About = () => {
   return (
-<section className="module modulebgM">
+<Container id='contact' >
+  <h2>About Section</h2>
   <div className="container">
     <div className="row">
       <div className="col-sm-12">
@@ -84,8 +86,8 @@ const About = () => {
       </div>
     </div>
   </div>
-</section>
-
+<hr />
+</Container>
   )
 }
 

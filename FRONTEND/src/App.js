@@ -14,13 +14,14 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Profile from './pages/Profile';
 import President from './pages/President';
-import ClubRegister from './components/ClubRegister';
 import RegisterClub from './pages/president/RegisterClub';
 import { ClubContextProvider } from './context/ClubContext';
 import { ActualityContextProvider } from './context/ActualityContext';
 import { UserContextProvider } from './context/UserContext';
 import { SalleContextProvider } from './context/SalleContext';
 import { EventContextProvider } from './context/EventContext';
+import VerificationEmail from './pages/VerificationEmail';
+import Verified from './pages/Verified';
 
 
 function App() {
@@ -49,7 +50,10 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/admin/*" element={<DashboardAdmin />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/email-verification/:status" element={<VerificationEmail />} />
+                <Route path="/email-verification/verified/email_verify_url/http://localhost/api/v1/verify-email/:id/:hash" element={<Verified />} />
                 {/* <Route path="/logout" element={<Logout />} /> */}
+                
               </Routes>
               </EventContextProvider>
 

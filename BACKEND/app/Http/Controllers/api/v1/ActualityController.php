@@ -31,7 +31,7 @@ class ActualityController extends Controller
             return  new ActualityCollection($actualities);
         }
         else{
-            $actualities= ($includeEvent)?Actuality::with('evenement')->where($queryItems)->paginate():Actuality::where($queryItems)->paginate();
+            $actualities= ($includeEvent)?Actuality::with('evenement')->latest()->where($queryItems)->paginate():Actuality::where($queryItems)->latest()->paginate();
             return  new ClubCollection($actualities->appends($request->query()));
         }
     }

@@ -8,7 +8,7 @@ const Hero = () => {
         <Carousel variant="dark">
           <Carousel.Item>
             <img
-            style={{ 'maxHeight':'40rem','maxWidth':'90rem' }}
+            style={{ backgroundRepeat:"repeat",backgroundSize:"contain",maxHeight:'45rem' }}
               className="d-block w-100 "
               src="https://www.infomaroc.net/wp-content/uploads/2021/09/LUniversite%CC%81-Sidi-Mohamed-Ben-Abdellah-de-Fe%CC%80s.jpg"
               alt="First slide"
@@ -20,8 +20,9 @@ const Hero = () => {
           </Carousel.Item>
           <Carousel.Item>
             <img
-                style={{ 'maxHeight':'40rem','maxWidth':'90rem' }}
-              className="d-block w-100"
+            style={{ backgroundRepeat:"repeat",backgroundSize:"contain",maxHeight:'45rem' }}
+
+                              className="d-block w-100"
               src="https://www.ensaf.ac.ma/assets/images/ensa3.jpg"
               alt="Second slide"
             />
@@ -32,7 +33,8 @@ const Hero = () => {
           </Carousel.Item>
           <Carousel.Item>
             <img
-                style={{ 'maxHeight':'40rem','maxWidth':'90rem' }}
+            style={{ backgroundRepeat:"repeat",backgroundSize:"contain",maxHeight:'45rem' }}
+               
               className="d-block w-100"
               src="https://asiaexchange.org/wp-content/uploads/2020/03/Hankuk-University-of-Foreign-Studies-Seoul-South-Korea-students.jpg"
               alt="Third slide"

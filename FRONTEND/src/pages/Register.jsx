@@ -30,7 +30,7 @@ async function handleSubmit(e){
   else{
     
     toast.success(' user has been registered')
-    navigate("/club-register")
+    navigate("/email-verification/false")
   }
 }
 

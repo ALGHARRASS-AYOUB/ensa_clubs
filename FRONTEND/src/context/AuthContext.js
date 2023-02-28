@@ -84,12 +84,7 @@ export const AuthContextProvider=({children})=>{
                 },
             };
 
-            // axios.interceptors.request.use(
-            //     config=>{
-            //         config.headers.authorization=`Bearer ${TOKEN}`
-            //         return config
-            //     },error=>{return Promise.reject(error)}
-            // )
+
 
             const res=await axios.post(LOGOUT_URL,null,config);
                 localStorage.removeItem('userinfo');

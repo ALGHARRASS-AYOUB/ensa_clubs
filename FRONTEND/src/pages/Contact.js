@@ -3,7 +3,8 @@ import { Container } from 'react-bootstrap'
 
 const Contact = () => {
   return (
-    <Container>
+    <Container id='about'>
+      <h2>Contact Section</h2>
 <div className="col-md-4">
    <div className="">
     <div className=""><span className="" /></div>
@@ -29,6 +30,7 @@ const Contact = () => {
   </div>
 </div>
 </div>
+<hr />
 </Container>
 
   )

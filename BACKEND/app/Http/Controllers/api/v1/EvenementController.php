@@ -42,6 +42,7 @@ class EvenementController extends Controller
     public function clubEvents(Request $request )
     {
         $club=Club::where('user_id',Auth::id())->first();
+
 //     return $club->id;
         $filter=new EvenementFilter();
         $queryItems=$filter->transform($request);

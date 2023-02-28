@@ -33,7 +33,7 @@ const PresidentSideBar = () => {
       {/* Brand Logo */}
       <a href="/admin/dashboard" className="brand-link">
         <img  className="brand-image img-circle elevation-3" style={{opacity: '.8'}} />
-        <span className="brand-text font-weight-light">Admin Dashboard</span>
+        <span className="brand-text font-weight-light">President Dashboard</span>
       </a>
    
 

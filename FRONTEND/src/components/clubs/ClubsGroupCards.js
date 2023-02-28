@@ -30,7 +30,7 @@ function ClubsGroupCards({ clubs, setClubs }) {
  const fetch=async()=>{
 
 
-  if(userInfo=='admin'){
+  if(userInfo.role=='admin'){
     const clubs = await getAll();
     setClubs(clubs?.data.data)
     setClubsToMap(clubs?.data.data);
@@ -181,7 +181,7 @@ const ClubsCard = ({club}) => {
                             : <span className=' mx-4 fw-bold'>not verified</span>}
    
         </Card.Header>
-         <Card.Img variant="top" src={club.logo}  />
+         <Card.Img variant="top" src={club.logo} style={{ 'maxHeight':'25rem',borderRadius:'50%' }} />
           <Card.Body>
             <Card.Title>   <span className='fs-6 fw-bold bg-orange p-1 pe-3 rounded-lg mr-2'> slugon </span>{club.slugon} <br /><br/></Card.Title>  
             <Card.Text>
