@@ -62,7 +62,6 @@ function App() {
                 </ClubContextProvider>
               </AuthContextProvider>
 </Router>
-<Footer/>
     </>
   );
 }

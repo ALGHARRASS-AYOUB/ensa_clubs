@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useEvent } from '../../context/EventContext';
-import EventTable from '../tables/EventsTable';
+import PresidentEventTable from '../tables/PresidentEventTable';
 
 
-function Events() {
+function PresidentEvents() {
 
   const navigate = useNavigate('');
-  const { isLoading,setLoading,getEvents,getMyEvents,getApprouvedEvents,show,store,deleteEvent,ApprouveOrNotEvent  } = useEvent('');
+  const { isLoading,setLoading,getMyEvents,getApprouvedMyEvents,show,store,deleteEvent,ApprouveOrNotEvent  } = useEvent('');
   const [events, setEvents] = useState([]);
   const [userInfo,setUserInfo] = useState(localStorage.getItem('userinfo')?JSON.parse(localStorage.getItem('userinfo')).data:null)
   const [filtredData, setFiltredData] = useState([]);
@@ -16,9 +16,8 @@ function Events() {
   
   const fetchData = async () => {
   
-      const _events = await getEvents();
+      const _events = await getMyEvents();
       setEvents(_events?.data.data);
- 
     //setFiltredData(_events?.data.data);
   };
 
@@ -28,16 +27,16 @@ function Events() {
     setFilter(v)
       switch (v) {
         case 'approuved':
-          const approuvedEvents=await getApprouvedEvents(1)
+          const approuvedEvents=await getApprouvedMyEvents(1)
           setEvents(approuvedEvents?.data.data)
           break;
         case 'not_approuved':
-          const notApprouvedEvents=await getApprouvedEvents(0)
+          const notApprouvedEvents=await getApprouvedMyEvents(0)
           setEvents(notApprouvedEvents?.data.data)
           break;
         case 'all':
           
-            const _events = await getEvents();
+            const _events = await getMyEvents();
             setEvents(_events?.data.data);
         
           break;
@@ -88,8 +87,8 @@ function Events() {
           />
         </Col>
       </Row>
-      <EventTable events={filtredData} setEvents={setEvents} />
+      <PresidentEventTable events={filtredData} setEvents={setEvents} />
     </Container>
   );
 }
-export default Events;
+export default PresidentEvents;

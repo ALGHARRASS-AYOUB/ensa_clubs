@@ -33,7 +33,7 @@ if(localStorage.getItem('userinfo')){
 
 }
 
-if(localStorage.getItem('clubinfo')){
+if(localStorage.getItem('clubinfo')!=null){
     CLUB_INFO=JSON.parse(localStorage.getItem('clubinfo')).data;
 
 }
@@ -75,6 +75,26 @@ export const ClubContextProvider=({children})=>{
             setLoading(true)
             const clubs=await axios.get(GET_CLUBS_URL+`?verified[eq]=${status}`,config);
             setLoading(false)
+            return clubs;
+        }catch(error){
+            toast.error('an error has been occured while fetching data')
+        }
+
+    }
+
+    const getVerifiedAndNotSuspendedClubs=async ()=>{
+
+        const config={
+            headers:{
+                'content-type':'application/json',
+                Authorization:`Bearer ${TOKEN}`,
+            },
+        };
+        try{
+            setLoading(true)
+            const clubs=await axios.get(GET_CLUBS_URL+`?verified[eq]=1&suspended[eq]=0`,config);
+            setLoading(false)
+            console.log(clubs)
             return clubs;
         }catch(error){
             toast.error('an error has been occured while fetching data')
@@ -167,7 +187,7 @@ export const ClubContextProvider=({children})=>{
 
     
     const getClubOfAuthenticatedUser=async ()=>{
-        console.log('getClubOfAuthenticatedUser')
+      
         try{
             setLoading(true)
             const config={
@@ -176,9 +196,9 @@ export const ClubContextProvider=({children})=>{
                     Authorization:`Bearer ${TOKEN}`,
                 },
             };
-            const club=await axios.get(GET_MYCLUB_URL,null,config);
-            localStorage.setItem('clubinfo',club);
+            const club=await axios.get(GET_MYCLUB_URL,config);
             setLoading(false)
+            localStorage.setItem('clubinfo',JSON.stringify(club?.data.data));
             return club;
         }catch(error){
             toast.error('an error has been occured while fetching data')
@@ -204,11 +224,41 @@ export const ClubContextProvider=({children})=>{
         }
     }
 
+    const update=async (id,name,slugon,activityDomaine,email,supervisor,logo=null,bureauMembersFile=null)=>{
+       
+        try {
+            setLoading(true)
+       
+            var config={
+                headers:{
+                    'Content-Type':'multipart/form-data',
+                    Authorization:`Bearer ${TOKEN}`,
+                },
+            };
+            const data={name,slugon,activityDomaine,email,supervisor};
+            console.log('data in update :',data,id)
+            if(logo!=null){
+                data={name,slugon,activityDomaine,email,supervisor,logo}
+                if(bureauMembersFile!=null){
+                    data={name,slugon,activityDomaine,email,supervisor,logo,bureauMembersFile}
+                    }
+            }
+            const club=await axios.put(GET_CLUBS_URL+`/${id}`,{name,slugon,activityDomaine,email,supervisor,logo},config);
+            console.log('club updated:',club,GET_CLUBS_URL+`/${id}`)
+            setLoading(false)
+           if( localStorage.getItem('clubinfo'))
+            // localStorage.removeItem('clubinfo')
+            return club;
+        } catch (error) {
+            toast.error('an error has been occured while logging out ')
+        }
+    }
+
 return (
     // the return the created context createdcontext.provider"""
     // the value prop is like we would export those data.
     <ClubContext.Provider 
-    value={{ USER_INFO,isLoading,setLoading,getAll,getVerifiedClubs,getSuspendedClubs,show,store,getClubOfAuthenticatedUser,verifyOrNotClub,suspendedOrNotClub }}> 
+    value={{ USER_INFO,isLoading,setLoading,getAll,getVerifiedClubs,getVerifiedAndNotSuspendedClubs,getSuspendedClubs,show,store,update,getClubOfAuthenticatedUser,verifyOrNotClub,suspendedOrNotClub }}> 
         {children}
     </ClubContext.Provider>
 )

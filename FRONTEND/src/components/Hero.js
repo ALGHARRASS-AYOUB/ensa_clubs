@@ -8,34 +8,37 @@ const Hero = () => {
         <Carousel variant="dark">
           <Carousel.Item>
             <img
-              className="d-block w-100"
-              src="https://static.lematin.ma/files/lematin/images/articles/2020/07/03580012e04974cc23e17a5fd5970dcc.jpg"
+            style={{ 'maxHeight':'40rem','maxWidth':'90rem' }}
+              className="d-block w-100 "
+              src="https://www.infomaroc.net/wp-content/uploads/2021/09/LUniversite%CC%81-Sidi-Mohamed-Ben-Abdellah-de-Fe%CC%80s.jpg"
               alt="First slide"
             />
             <Carousel.Caption>
-              <h5>First slide label</h5>
+              <h1 className='fw-bold text-white'  >Université Sidi Mohamed Ben Abdellah </h1>
               <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
             </Carousel.Caption>
           </Carousel.Item>
           <Carousel.Item>
             <img
+                style={{ 'maxHeight':'40rem','maxWidth':'90rem' }}
               className="d-block w-100"
-              src="https://static.lematin.ma/files/lematin/images/articles/2020/07/03580012e04974cc23e17a5fd5970dcc.jpg"
+              src="https://www.ensaf.ac.ma/assets/images/ensa3.jpg"
               alt="Second slide"
             />
             <Carousel.Caption>
-              <h5>Second slide label</h5>
+            <h1 className='fw-bold text-white'  >Université Sidi Mohamed Ben Abdellah </h1>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             </Carousel.Caption>
           </Carousel.Item>
           <Carousel.Item>
             <img
+                style={{ 'maxHeight':'40rem','maxWidth':'90rem' }}
               className="d-block w-100"
-              src="https://static.lematin.ma/files/lematin/images/articles/2020/07/03580012e04974cc23e17a5fd5970dcc.jpg"
+              src="https://asiaexchange.org/wp-content/uploads/2020/03/Hankuk-University-of-Foreign-Studies-Seoul-South-Korea-students.jpg"
               alt="Third slide"
             />
             <Carousel.Caption>
-              <h5>Third slide label</h5>
+            <h1 className='fw-bold text-white'  >Université Sidi Mohamed Ben Abdellah </h1>
               <p>
                 Praesent commodo cursus magna, vel scelerisque nisl consectetur.
               </p>

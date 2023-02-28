@@ -10,9 +10,9 @@ import { useNavigate } from 'react-router-dom';
 import { useEvent } from '../../context/EventContext';
 
 
-function EventTable({ events,setEvents}) {
+function PresidentEventTable({ events,setEvents}) {
   const navigate = useNavigate();
-  const { setLoading,loading,getEvents,show,store,deleteEvent,ApprouveOrNotEvent } = useEvent('')
+  const { setLoading,loading,getMyEvents,show,store,deleteEvent } = useEvent('')
   const [approuved,setApprouved]=useState()
   const [eventsToMap,setEventsToMap]=useState()
 //   const { addUserToFavoriteList, removeUserFromFavoriteList } = useFav('');
@@ -21,7 +21,7 @@ function EventTable({ events,setEvents}) {
 
   
  const fetch=async()=>{
-    const events = await getEvents();
+    const events = await getMyEvents();
     setEvents(events?.data.data)
     setEventsToMap(events?.data.data)
  }
@@ -40,17 +40,13 @@ function EventTable({ events,setEvents}) {
     if (data != null) {
       toast.success('event Deleted');
     }
-    const res = await getEvents()
+    const res = await getMyEvents()
     setEvents(res?.data.data)
 
   }
   
 
-  const _changeApprouvment= async id => {
-    const event=await ApprouveOrNotEvent(id);
-    setApprouved(event?.data.data);
-    fetch()
-  };
+
 
 
 
@@ -92,17 +88,18 @@ function EventTable({ events,setEvents}) {
                       <td>{event.name}</td>
            
                       <td>{event.descreption}</td>
-                      <td>{event.isApprouved}</td>
+                      <td>
+                       
+                        { (event.isApprouved == 1) ?
+                          <span> Approuved <i className='ms-3 fa fa-check-circle ' style={{ 'color':'green' }}></i></span>
+                        :
+                        <span> Not Approuved <i className='ms-3 fa fa-times-circle ' style={{ 'color':'red' }}></i></span>
+                        }
+                          </td>
                       <td>{event.club.name}</td>
                       <td>{moment(event.dateEvent).format('DD-MM-YYYY')}</td>
                       <td>
-                        <Button variant="secondary" size="sm" className='m-1'
-                            onClick={() => _changeApprouvment(event.id)}
-                            >
-                    {event.isApprouved == 1
-                          ? <span>UnApprouve <i className='ms-3 fa fa-times-circle ' style={{ 'color':'red' }}></i></span>
-                           : <span> Approuve <i className='ms-3 fa fa-check-circle ' style={{ 'color':'green' }}></i></span>}
-            </Button>
+                   
         
                         <button
                           className='btn btn-fill btn-secondary me-2'
@@ -129,4 +126,4 @@ function EventTable({ events,setEvents}) {
   );
 }
 
-export default EventTable;
+export default PresidentEventTable;

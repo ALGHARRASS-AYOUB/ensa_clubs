@@ -107,7 +107,7 @@ const AllActualities = () => {
 
 
 return (<Container>
-
+   
       <Row className='m-4'>
 
         <Col md='6'>
@@ -117,6 +117,11 @@ return (<Container>
             aria-describedby='basic-addon2'
             onChange={(e)=>updateTable(null,e.target.value)}
           />
+        </Col>
+        <Col>        
+         <Button variant="secondary" size="sm" href='/admin/actualities/createActuality'>
+            <i className='mx-3 fa fa-plus-square '></i>
+        </Button>
         </Col>
       </Row>
 

@@ -9,7 +9,6 @@ const endpoints = {
   Users: 'api/v1/users',
 
   Clubs: 'api/v1/clubs',
-  Clubs: 'api/v1/clubs',
   MyClub: 'api/v1/myclub/clubs',
   VerifyClub :'api/v1/clubs/verified',
   SuspendClub :'api/v1/clubs/suspended',
@@ -30,6 +29,7 @@ const endpoints = {
   ConversationsAddMemeber: 'api/v1/conversations/{conversation}/adding-members',
   ConversationsARevokMemeber: 'api/v1/conversations/{conversation}/revoking-members',
 
+  MyEvenements: 'api/v1/myEvents/evenements',
   Evenements: 'api/v1/evenements',
   EvenementsChangeApprouvement: 'api/v1/evenements/changeApprouvement',
 

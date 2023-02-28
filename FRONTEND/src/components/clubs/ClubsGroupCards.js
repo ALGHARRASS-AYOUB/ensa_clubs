@@ -14,14 +14,10 @@ import CardGroup from 'react-bootstrap/CardGroup';
 
 
 
-// import { getUrl } from '../../API';
-// import { useCar } from '../../Context/CarContext';
-// import { useBrand } from '../../Context/MarqueContext';
-
 
 function ClubsGroupCards({ clubs, setClubs }) {
   const navigate = useNavigate();
-  const {getAll,verifyOrNotClub,suspendedOrNotClub,isLoding,setLoading}=useClub('')
+  const {getAll,verifyOrNotClub,suspendedOrNotClub,getVerifiedAndNotSuspendedClubs,isLoding,setLoading}=useClub('')
   const [userInfo,setUserInfo] = useState(localStorage.getItem('userinfo')?JSON.parse(localStorage.getItem('userinfo')).data:null)
   const [show, setShow] = useState(false);
   const [allowSubmit, setAllowSubmit] = useState(true);
@@ -32,9 +28,17 @@ function ClubsGroupCards({ clubs, setClubs }) {
 
 
  const fetch=async()=>{
+
+
+  if(userInfo=='admin'){
     const clubs = await getAll();
     setClubs(clubs?.data.data)
     setClubsToMap(clubs?.data.data);
+  }else{
+    const clubs = await getVerifiedAndNotSuspendedClubs();
+    setClubs(clubs?.data.data)
+    setClubsToMap(clubs?.data.data);
+  }
  }
 
 
@@ -52,9 +56,9 @@ function ClubsGroupCards({ clubs, setClubs }) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => {
-    console.log('showwwwww: ',show)
+
     setShow(true)
-    console.log('showwwwww after set : ',show)
+  
     // setChoosenClub(club)
      
   };
@@ -193,32 +197,46 @@ const ClubsCard = ({club}) => {
             <Card.Text>
                 <span className='fs-6 fw-bold bg-orange  p-1 pe-3 rounded-lg mr-2'>president </span>
                 {club.president.firstName }  {club.president.lastName}
+
+      
                 
             </Card.Text>
             <small>president email: {club.president.email}</small>
-            <hr />
-            <Button variant="secondary" size="sm" className='m-1'
-                 onClick={() => _verifyOrNotClub(club.id)}
-                 >
-                    {club.verified == 1
-                          ? <span>Unverify this club <i className='ms-3 fa fa-times-circle ' style={{ 'color':'red' }}></i></span>
-                           : <span>Verify this club <i className='ms-3 fa fa-check-circle ' style={{ 'color':'green' }}></i></span>}
-            </Button>
-            <Button variant="secondary" size="sm" className='m-1'
-                 onClick={() => _suspendedOrNotClub(club.id)}
-                 >
-                    {club.suspended == 1
-                          ? <span>Unsuspended this club <i className='ms-3 fa fa-smile ' style={{ 'color':'white' }}></i></span>
-                           : <span>Suspend this club <i className='ms-3  fa fa-frown  ' style={{ 'color':'white' }}></i></span>}
-            </Button>
-            <Button variant="success" size="sm" className='m-1'
-                 onClick={() => editClub(club.id)}
-                 ><span><i className='fa fa-wrench'></i></span>   
-            </Button>
-            <Button variant="danger" size="sm" className='m-1'
-                 onClick={() => deleteClub(club.id)}
-                 ><span><i className='fa fa-trash'></i></span>   
-            </Button>
+            <hr/>
+            <Card.Text>
+                <span className='fs-6 fw-bold bg-orange  p-1 pe-3 rounded-lg mr-2'>supervisor </span>
+                {club.supervisor == null ? 'none' : club.supervisor}
+                
+            </Card.Text>
+      
+            {
+              userInfo?.role=='admin' ?
+            <>
+              <hr />
+              <Button variant="secondary" size="sm" className='m-1'
+                   onClick={() => _verifyOrNotClub(club.id)}
+                   >
+                      {club.verified == 1
+                            ? <span>Unverify this club <i className='ms-3 fa fa-times-circle ' style={{ 'color':'red' }}></i></span>
+                             : <span>Verify this club <i className='ms-3 fa fa-check-circle ' style={{ 'color':'green' }}></i></span>}
+              </Button>
+              <Button variant="secondary" size="sm" className='m-1'
+                   onClick={() => _suspendedOrNotClub(club.id)}
+                   >
+                      {club.suspended == 1
+                            ? <span>Unsuspended this club <i className='ms-3 fa fa-smile ' style={{ 'color':'white' }}></i></span>
+                             : <span>Suspend this club <i className='ms-3  fa fa-frown  ' style={{ 'color':'white' }}></i></span>}
+              </Button>
+              <Button variant="success" size="sm" className='m-1'
+                   onClick={() => editClub(club.id)}
+                   ><span><i className='fa fa-wrench'></i></span>   
+              </Button>
+              <Button variant="danger" size="sm" className='m-1'
+                   onClick={() => deleteClub(club.id)}
+                   ><span><i className='fa fa-trash'></i></span>   
+              </Button></>
+              :<></>
+            }
             <hr />
             <Button variant="info" onClick={handleShow()}>
                       Details
@@ -238,7 +256,7 @@ const ClubsCard = ({club}) => {
 // ******************************
 useEffect(() => {
     console.log('clubs group card rendered show',show)
-    console.log(verfiedClub)
+ 
     fetch()
   },[verfiedClub,suspendedClub ]);
 
@@ -257,7 +275,7 @@ return  (
   </>
 
 )
-//   return (
+
 //     <Container>
 //       <Row>
 //         <ToastContainer />

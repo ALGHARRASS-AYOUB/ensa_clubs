@@ -23,6 +23,7 @@ class ClubController extends Controller
      */
     public function index(Request $request )
     {
+
         $filter=new ClubFilter();
         $queryItems=$filter->transform($request);
         $includeUser=$request->query('includeUser');
@@ -101,7 +102,8 @@ class ClubController extends Controller
 
     public function getClubOfAuthenticatedUser()
     {
-        $club=Club::where('user_id',Auth::id())->get();
+
+        $club=Club::where('user_id',Auth::id())->first();
         $club=Club::with('user')->findOrFail($club->id);
         return  new ClubResource($club );
     }

@@ -32,6 +32,7 @@ Route::group(['prefix'=>'v1','namespace'=>'App\Http\Controllers\api\v1'],functio
     Route::put('evenements/{evenement}',[EvenementController::class,'update'])->middleware('auth:sanctum');
     Route::patch('evenements/{evenement}',[EvenementController::class,'update'])->middleware('auth:sanctum');
     Route::delete('evenements/{evenement}',[EvenementController::class,'destroy'])->middleware('auth:sanctum');
+    Route::get('myEvents/evenements/',[EvenementController::class,'clubEvents'])->middleware('auth:sanctum');
     Route::patch('evenements/changeApprouvement/{id}',[EvenementController::class,'ApprouveEvent'])->middleware('auth:sanctum');
 
     Route::apiResource('actualities',ActualityController::class);
