@@ -11,6 +11,7 @@ export const useEvent=()=>{
 }
         
 let GET_EVENTS_URL=getUrl('Evenements');
+let GET_MY_EVENTS_URL=getUrl('MyEvenements');
 let APPROUVE_EVENT_URL=getUrl('EvenementsChangeApprouvement');
 
 
@@ -61,6 +62,28 @@ export const EventContextProvider=({children})=>{
 
     }
  
+
+    
+    const getMyEvents=async ()=>{
+        console.log(GET_MY_EVENTS_URL)
+        const config={
+            headers:{
+                'content-type':'application/json',
+                Authorization:`Bearer ${TOKEN}`,
+            },
+        };
+        try{
+            setLoading(true)
+            const my_events=await axios.get(GET_MY_EVENTS_URL,config);
+            setLoading(false)
+            return my_events;
+        }catch(error){
+            toast.error('an error has been occured while fetching data')
+        }
+
+    }
+ 
+
     const getApprouvedEvents=async (status)=>{
 
         const config={
@@ -79,6 +102,27 @@ export const EventContextProvider=({children})=>{
         }
 
     }
+
+
+    const getApprouvedMyEvents=async (status)=>{
+
+        const config={
+            headers:{
+                'content-type':'application/json',
+                Authorization:`Bearer ${TOKEN}`,
+            },
+        };
+        try{
+            setLoading(true)
+            const events=await axios.get(GET_MY_EVENTS_URL+`?isApprouved[eq]=${status}`,config);
+            setLoading(false)
+            return events;
+        }catch(error){
+            toast.error('an error has been occured while fetching data')
+        }
+
+    }
+
 
     const show=async (id)=>{
         console.log('show CLUB')
@@ -187,7 +231,7 @@ return (
     // the return the created context createdcontext.provider"""
     // the value prop is like we would export those data.
     <EventContext.Provider 
-    value={{ USER_INFO,isLoading,setLoading,getEvents,getApprouvedEvents,show,store,deleteEvent,ApprouveOrNotEvent }}> 
+    value={{ USER_INFO,isLoading,setLoading,getEvents,getMyEvents,getApprouvedEvents,getApprouvedMyEvents,show,store,deleteEvent,ApprouveOrNotEvent }}> 
         {children}
     </EventContext.Provider>
 )

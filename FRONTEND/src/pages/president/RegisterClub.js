@@ -1,4 +1,5 @@
 import React, { useState,useEffect } from 'react';
+import { ToastContainer } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import '../../assets/css/register-club.css'
@@ -20,8 +21,8 @@ const {store,isLoading,setLoading}=useClub('')
 const navigate=useNavigate()
 
 
-let image='../../assets/images/background.jpg'
-
+let image='../../assets/images/background.jpg' 
+let activitiesImages='https://onramps.utexas.edu/wp-content/uploads/2020/11/group-partnership-scaled.jpg'
   async function handleSubmit(e){
     e.preventDefault()
     console.log('in the handle submission')
@@ -48,6 +49,7 @@ let image='../../assets/images/background.jpg'
 
   return (
     <section className="h-100  gradient-custom-2" >
+      <ToastContainer/>
   <div className="container py-5 "  style={{ backgroundImage:"url(../../assets/images/background.jpg)",backgroundRepeat:"no-repeat",backgroundSize:"contain" }}>
     <div className="row d-flex justify-content-center align-items-center h-100">
       <div className="col-12">

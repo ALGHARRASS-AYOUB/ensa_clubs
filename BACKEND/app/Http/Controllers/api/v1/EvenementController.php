@@ -39,6 +39,25 @@ class EvenementController extends Controller
         }
     }
 
+    public function clubEvents(Request $request )
+    {
+        $club=Club::where('user_id',Auth::id())->first();
+
+//     return $club->id;
+        $filter=new EvenementFilter();
+        $queryItems=$filter->transform($request);
+        $includeSalle=$request->query('includeSalle');
+
+        if(count($queryItems)==0){
+            $events= ($includeSalle)?Evenement::with(['salles','club'])->where('club_id',$club->id)->paginate():Evenement::where('club_id',$club->id)->paginate();
+            return  new EvenementCollection($events);
+        }
+        else{
+            $events= ($includeSalle)?Evenement::with(['salles','club'])->where('club_id',$club->id)->where($queryItems)->paginate():Evenement::where('club_id',$club->id)->where($queryItems)->paginate();
+            return  new EvenementCollection($events->appends($request->query()));
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      *

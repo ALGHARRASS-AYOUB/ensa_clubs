@@ -11,6 +11,11 @@ import AdminNavBar from './AdminNavBar';
 import AdminSideBar from './AdminSideBar';
 import ClubDetails from '../../components/clubs/ClubDetails';
 import ClubEdit from '../../components/clubs/ClubEdit';
+import ClubEditByAdmin from '../../components/clubs/ClubEditByAdmin';
+import CreateSalle from '../../components/salles/CreateSalle';
+import EditSalle from '../../components/salles/EditSalle';
+import CreateActuality from '../../components/actualities/CreateActuality';
+import EditActuality from '../../components/actualities/EditActuality';
 
 
   const DashboardAdmin = () =>{
@@ -28,6 +33,14 @@ import ClubEdit from '../../components/clubs/ClubEdit';
           return <ContentWrapper/>
           break;
 
+          case "/admin/actualities/createActuality":
+            return <CreateActuality/>
+            break;
+
+            case "/admin/actualities/editActuality":
+              return <EditActuality/>
+              break;
+
           case "/admin/actualities":
             return <AllActualities/>
             break;
@@ -40,14 +53,17 @@ import ClubEdit from '../../components/clubs/ClubEdit';
           return <Clubs />;
           break;
 
+          case "/admin/clubs/edit":
+            return <ClubEditByAdmin />;
+            break;
+
+        case "/admin/salles/createSalle":
+          return <CreateSalle/>
+          break;
           
-        // case "/admin/clubs/details":
-        //   return <ClubDetails  club={club}/>;
-        //   break;
-          
-        // case "/admin/clubs/edit":
-        //   return <ClubEdit />;
-        //   break;
+        case "/admin/salles/editSalle":
+          return <EditSalle />;
+          break;
 
         case "/admin/events":
           return <Events />;

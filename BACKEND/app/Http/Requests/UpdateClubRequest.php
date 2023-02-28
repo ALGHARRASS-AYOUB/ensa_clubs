@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateClubRequest extends FormRequest
 {
@@ -48,10 +49,16 @@ class UpdateClubRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        if($this->bureauMembersFile && $this->activityDomaine){
+        if($this->bureauMembersFile){
+            $this->merge([
+                'bureau_members_file'=> $this->bureauMembersFile,
+            ]);
+        }
+
+        if($this->activityDomaine){
             $this->merge([
                 'activity_domaine'=>$this->activityDomaine,
-                'bureau_members_file'=> $this->bureauMembersFile,
+
             ]);
         }
     }
