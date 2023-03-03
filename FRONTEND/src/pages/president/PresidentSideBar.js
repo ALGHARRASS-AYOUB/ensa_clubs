@@ -1,5 +1,7 @@
 import { render } from '@testing-library/react';
 import React from 'react'
+import { useEffect, useState } from 'react';
+
 import { NavLink } from 'react-bootstrap';
 import ReactDOM from 'react-dom/client';
 import { Link, useLocation } from 'react-router-dom';
@@ -8,10 +10,9 @@ import Users from '../../components/users/Users';
 
 
 const PresidentSideBar = () => {
-    const location=useLocation
+    const location=useLocation;
+  const [userInfo,setUserInfo] = useState(localStorage.getItem('userinfo')?JSON.parse(localStorage.getItem('userinfo')).data:null)
 
-    
-    
     const choosenContent=(e)=>{
         e.preventDefault();
         console.log('section')
@@ -45,7 +46,7 @@ const PresidentSideBar = () => {
             <img  src='https://pixy.org/src/120/thumbs350/1206832.jpg' className="img-circle elevation-2" />
           </div>
           <div className="info">
-            <a href="#" className="d-block">Alexander Pierce</a>
+            <a href="/profile" className="d-block">{userInfo && userInfo.firstName}  {userInfo && userInfo.lastName}</a>
           </div>
         </div>
         {/* SidebarSearch Form */}
