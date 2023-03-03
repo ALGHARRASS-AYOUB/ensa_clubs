@@ -98,7 +98,7 @@ export const SalleContextProvider=({children})=>{
 }
 
     const show=async (id)=>{
-        console.log('show USER')
+     
 
         try{
             setLoading(true)
@@ -109,8 +109,9 @@ export const SalleContextProvider=({children})=>{
 
                 },
             };
-            const salle=await axios.post(SALLES_URL+`/${id}`,null,config);
+            const salle=await axios.get(SALLES_URL+`/${id}`,config);
             setLoading(false)
+            console.log('context',salle)
             return salle;
         }catch(error){
             toast.error('an error has been occured while fetching data')
@@ -154,7 +155,7 @@ export const SalleContextProvider=({children})=>{
                 Authorization:`Bearer ${TOKEN}`,
             },
           };
-          const { data } = await axios.put(
+          const  data  = await axios.put(
             `${SALLES_URL}/${id}`,
             {
                 id,
@@ -164,7 +165,8 @@ export const SalleContextProvider=({children})=>{
             },
             config,
           );
-          toast.success('Updated successfully');
+          console.log('update context',data)
+          // toast.success('Updated successfully');
           setLoading(false);
           return data;
         } catch (error) {

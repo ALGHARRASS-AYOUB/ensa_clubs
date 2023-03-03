@@ -61,8 +61,8 @@ import EditActuality from '../../components/actualities/EditActuality';
           return <CreateSalle/>
           break;
           
-        case "/admin/salles/editSalle":
-          return <EditSalle />;
+        case "/admin/salles/editSalle/":
+          return <EditSalle id={location.state.id} />;
           break;
 
         case "/admin/events":

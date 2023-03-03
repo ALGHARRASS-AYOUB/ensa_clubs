@@ -5,10 +5,12 @@ import ReactDOM from 'react-dom/client';
 import { Link, useLocation } from 'react-router-dom';
 import ContentWrapper from '../../components/ContentWrapper';
 import Users from '../../components/users/Users';
+import { useEffect, useState } from 'react';
 
 
 const AdminSideBar = () => {
     const location=useLocation
+    const [userInfo,setUserInfo] = useState(localStorage.getItem('userinfo')?JSON.parse(localStorage.getItem('userinfo')).data:null)
 
     
     
@@ -45,7 +47,8 @@ const AdminSideBar = () => {
             <img  src='https://pixy.org/src/120/thumbs350/1206832.jpg' className="img-circle elevation-2" />
           </div>
           <div className="info">
-            <a href="#" className="d-block">Alexander Pierce</a>
+          <a href="/profile" className="d-block">{userInfo && userInfo.firstName }  {userInfo && userInfo.lastName}</a>
+
           </div>
         </div>
         {/* SidebarSearch Form */}

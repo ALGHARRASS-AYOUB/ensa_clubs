@@ -27,9 +27,9 @@ function SallesTable({ salles,setSalles}) {
 
   function editSalle(id) {
 
-    return navigate('/admin/profile', {
+    return navigate('/admin/salles/editSalle/', {
       state: {
-        userId: id,
+        id: id,
       },
     });
   }
