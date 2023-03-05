@@ -32,11 +32,7 @@ Route::group(['prefix'=>'v1','namespace'=>'App\Http\Controllers\api\v1'],functio
     Route::post('verification', [EmailVerificationController::class, 'sendVerificationEmail'])->middleware('auth:sanctum');
     Route::get('verify-email/{id}/{hash}', [EmailVerificationController::class, 'verify'])->name('verification.verify')->middleware('auth:sanctum');
 
-    Route::apiResource('evenements',EvenementController::class);
-    Route::post('evenements',[EvenementController::class,'store'])->middleware('auth:sanctum');
-    Route::put('evenements/{evenement}',[EvenementController::class,'update']);
-    Route::patch('evenements/{evenement}',[EvenementController::class,'update']);
-    Route::delete('evenements/{evenement}',[EvenementController::class,'destroy']);
+    Route::apiResource('evenements',EvenementController::class)->middleware('auth:sanctum');
     Route::get('myEvents/evenements/',[EvenementController::class,'clubEvents'])->middleware('auth:sanctum');
     Route::patch('evenements/changeApprouvement/{id}',[EvenementController::class,'ApprouveEvent'])->middleware('auth:sanctum');
 

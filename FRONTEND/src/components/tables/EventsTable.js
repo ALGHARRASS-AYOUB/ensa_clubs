@@ -5,7 +5,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // react-bootstrap components
-import { Card, Table, Row, Col, Container, Button } from 'react-bootstrap';
+import { Card, Table, Row, Col, Container, Button, Badge } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useEvent } from '../../context/EventContext';
 
@@ -26,14 +26,22 @@ function EventTable({ events,setEvents}) {
     setEventsToMap(events?.data.data)
  }
 
-  function editEvent(id) {
+ function detailsEvent(id) {
 
-    return navigate('/admin/profile', {
-      state: {
-        userId: id,
-      },
-    });
-  }
+  return navigate('/admin/events/DetailsEvent', {
+    state: {
+      id: id,
+    },
+  });
+}
+function editEvent(id) {
+
+  return navigate('/admin/events/editEvent', {
+    state: {
+      id: id,
+    },
+  });
+}
 
   async function _deleteEvent(id) {
     const data = await deleteEvent(id);
@@ -80,6 +88,7 @@ function EventTable({ events,setEvents}) {
                     <th className='border-0'>description</th>
                     <th className='border-0'>Approuved ? </th>
                     <th className='border-0'>of club</th>
+                    <th className='border-0'>salles</th>
                     <th className='border-0'>event date</th>
                     <th>Actions</th>
                   </tr>
@@ -94,6 +103,7 @@ function EventTable({ events,setEvents}) {
                       <td>{event.descreption}</td>
                       <td>{event.isApprouved}</td>
                       <td>{event.club.name}</td>
+                      <td style={{ 'maxWidth':'10rem' }}>{event?.salles.map((salle)=><Badge pill bg="light" text="dark" >{salle.name}</Badge>)}</td>
                       <td>{moment(event.dateEvent).format('DD-MM-YYYY')}</td>
                       <td>
                         <Button variant="secondary" size="sm" className='m-1'
@@ -103,18 +113,23 @@ function EventTable({ events,setEvents}) {
                           ? <span>UnApprouve <i className='ms-3 fa fa-times-circle ' style={{ 'color':'red' }}></i></span>
                            : <span> Approuve <i className='ms-3 fa fa-check-circle ' style={{ 'color':'green' }}></i></span>}
             </Button>
-        
+                      
+                    <button
+                          className='btn btn-fill btn-primary mx-1'
+                          onClick={() => detailsEvent(event.id)}
+                          ><span><i className='fa fa-info-circle'></i></span> 
+                   </button>   
                         <button
-                          className='btn btn-fill btn-secondary me-2'
+                          className='btn btn-fill btn-success mx-1'
                           onClick={() => editEvent(event.id)}
                         >
-                          Edit
+                         <span><i className='fa fa-wrench'></i></span> 
                         </button>
                         <button
                           className='btn btn-fill btn-danger'
                           onClick={() => _deleteEvent(event.id)}
                         >
-                          Delete
+                          <span><i className='fa fa-trash'></i></span> 
                         </button>
                       </td>
                     </tr>

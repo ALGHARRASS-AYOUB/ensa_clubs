@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useEvent } from '../../context/EventContext';
 import PresidentEventTable from '../tables/PresidentEventTable';
@@ -66,6 +66,8 @@ function PresidentEvents() {
   return (
     
     <Container>
+            <h1 className='p-2 mt-2' style={{  borderBottom: '3px solid #365b81' }}><i className='mx-1 fa fa-calendar-o'></i> events </h1>
+
       <Row className='m-4'>
         <Col md='6'>
           <Form.Select
@@ -87,6 +89,17 @@ function PresidentEvents() {
           />
         </Col>
       </Row>
+      <Row className='mx-1 my-4'>
+        <Col>
+        { userInfo?.role=='president' &&
+          <Button variant="primary" size="lg" className='text-white fw-bold ' href='/president/events/createEvent'>
+          add an event <i className='mx-3 fa fa-plus-square '></i>
+      </Button>
+        }
+      
+        </Col>
+      </Row>
+      
       <PresidentEventTable events={filtredData} setEvents={setEvents} />
     </Container>
   );

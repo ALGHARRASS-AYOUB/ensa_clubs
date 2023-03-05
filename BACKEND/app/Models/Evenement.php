@@ -19,7 +19,7 @@ class Evenement extends Model
     ];
 
     public function actuality(){
-        return $this->belongsTo(actuality::class  );
+        return $this->belongsTo(Actuality::class  );
     }
 
     public function salles(){

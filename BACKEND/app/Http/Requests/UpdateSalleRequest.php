@@ -37,4 +37,5 @@ class UpdateSalleRequest extends FormRequest
             ];
         }
     }
+
 }

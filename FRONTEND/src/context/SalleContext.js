@@ -141,6 +141,7 @@ export const SalleContextProvider=({children})=>{
           setLoading(false);
         }
       };
+
       const updateSalleByAdmin = async (
         id,
         name,
@@ -175,7 +176,45 @@ export const SalleContextProvider=({children})=>{
           setLoading(false);
         }
       };
-    
+
+      
+      const storeSalle = async (
+
+        name,
+        isDisponible,
+        description,
+      ) => {
+        setLoading(true);
+        try {
+          const config = {
+            headers: {
+                'content-type':'application/json',
+                Authorization:`Bearer ${TOKEN}`,
+            },
+          };
+          const  data  = await axios.post(
+            `${SALLES_URL}`,
+            {
+     
+                name,
+                isDisponible,
+                description,
+            },
+            config,
+          );
+          console.log('store salle context',data)
+          // toast.success('Updated successfully');
+          setLoading(false);
+          return data;
+        } catch (error) {
+          toast.error('Something went wrong');
+          console.log(error);
+          setLoading(false);
+        }
+      };
+
+
+
       const getDispoAndNotReservedSalles = async ( ) => {
         setLoading(true);
         try {
@@ -275,7 +314,7 @@ return (
     // the return the created context createdcontext.provider"""
     // the value prop is like we would export those data.
     <salleContext.Provider 
-    value={{ USER_INFO,isLoading,setLoading,getSalles,getSallesByDisponibility,getSallesByReservedStatus,show,changeDiponibilitySalle,updateSalleByAdmin,deleteSalleByAdmin,getDispoAndNotReservedSalles,getDispoSalles,getReservedSalles }}> 
+    value={{ USER_INFO,isLoading,setLoading,getSalles,getSallesByDisponibility,storeSalle,getSallesByReservedStatus,show,changeDiponibilitySalle,updateSalleByAdmin,deleteSalleByAdmin,getDispoAndNotReservedSalles,getDispoSalles,getReservedSalles }}> 
         {children}
     </salleContext.Provider>
 )

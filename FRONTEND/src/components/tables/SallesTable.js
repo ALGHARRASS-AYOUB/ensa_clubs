@@ -25,6 +25,14 @@ function SallesTable({ salles,setSalles}) {
     setSallesToMap(salles?.data.data)
  }
 
+  function detailsSalle(id) {
+
+    return navigate('/admin/salles/DetailsSalle', {
+      state: {
+        id: id,
+      },
+    });
+  }
   function editSalle(id) {
 
     return navigate('/admin/salles/editSalle/', {
@@ -100,17 +108,24 @@ function SallesTable({ salles,setSalles}) {
                  : <span> Make Disponible <i className='ms-3 fa fa-check-circle ' style={{ 'color':'green' }}></i></span>}
              </Button>
         
+
+                      <button
+                          className='btn btn-fill btn-primary mx-2'
+                          onClick={() => detailsSalle(salle.id)}
+                          >
+                          <span><i className='fa fa-info-circle'></i></span> 
+                        </button>
                         <button
-                          className='btn btn-fill btn-secondary me-2'
+                          className='btn btn-fill btn-success me-2'
                           onClick={() => editSalle(salle.id)}
                           >
-                          Edit
+                          <span><i className='fa fa-wrench'></i></span> 
                         </button>
                         <button
                           className='btn btn-fill btn-danger'
                           onClick={() => deleteSalle(salle.id)}
                           >
-                          Delete
+                          <span><i className='fa fa-trash'></i></span> 
                         </button>
                       </td>
                           : <></>
