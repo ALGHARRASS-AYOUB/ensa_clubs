@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateEvenementRequest extends FormRequest
 {
@@ -23,23 +24,33 @@ class UpdateEvenementRequest extends FormRequest
      */
     public function rules()
     {
+           $method=$this->method();
+               if($method=='PUT'){
+                   return [
+                       'name'=>['required','sometimes'],
+                       'description'=>['required','sometimes'],
+                       'startAt'=>['required','sometimes','date_format:Y-m-d H:i:s','before_or_equal:endAt'],
+                       'endAt'=>['date_format:Y-m-d H:i:s','after_or_equal:startAt'],
+                       'image'=>['image','mimes:png,jpg,jpeg','max:500000'],
+                   ];
+               }else{
+                   return [
+                       'name'=>['sometimes'],
+                       'description'=>['sometimes'],
+                       'startAt'=>['sometimes','date_format:Y-m-d H:i:s','before_or_equal:endAt'],
+                       'endAt'=>['date_format:Y-m-d H:i:s','after_or_equal:startAt'],
 
-            return [
-                'name'=>['required','sometimes'],
-                'description'=>['required','sometimes'],
-                'startAt'=>['required','sometimes','date_format:Y-m-d H:i:s','before_or_equal:endAt'],
-                'endAt'=>['required','date_format:Y-m-d H:i:s','after_or_equal:startAt'],
-                'image'=>['image','mimes:png,jpg,jpeg','max:2048'],
-            ];
+                   ];
+               }
 
     }
 
     public function prepareForValidation()
     {
 
-        if($this->dateEvent && $this->startAt && $this->endAt){
+        if( $this->startAt && $this->endAt){
             return $this->merge([
-                'date_event'=>$this->dateEvent,
+
                 'start_at'=>$this->startAt,
                 'end_at'=>$this->endAt,
             ]);

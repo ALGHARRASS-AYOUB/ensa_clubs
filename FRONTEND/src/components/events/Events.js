@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useEvent } from '../../context/EventContext';
 import EventTable from '../tables/EventsTable';
@@ -67,6 +67,8 @@ function Events() {
   return (
     
     <Container>
+            <h1 className='p-2 mt-2' style={{  borderBottom: '3px solid #365b81' }}><i className='mx-1 fa fa-calendar-o'></i> events </h1>
+
       <Row className='m-4'>
         <Col md='6'>
           <Form.Select
@@ -88,6 +90,8 @@ function Events() {
           />
         </Col>
       </Row>
+ 
+    
       <EventTable events={filtredData} setEvents={setEvents} />
     </Container>
   );

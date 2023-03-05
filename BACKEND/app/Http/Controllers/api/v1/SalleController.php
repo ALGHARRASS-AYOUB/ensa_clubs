@@ -26,11 +26,11 @@ class SalleController extends Controller
         $includeEvenement=$request->query('includeEvenement');
 
         if(count($queryItems)==0){
-            $salles= ($includeEvenement)?Salle::with('evenements')->paginate():Salle::paginate();
+            $salles= ($includeEvenement)?Salle::with('evenements')->latest()->paginate(100):Salle::latest()->paginate(100);
             return  new SalleCollection($salles);
         }
         else{
-            $salles= ($includeEvenement)?Salle::with('evenements')->where($queryItems)->paginate():Salle::where($queryItems)->paginate();
+            $salles= ($includeEvenement)?Salle::with('evenements')->where($queryItems)->latest()->paginate(100):Salle::where($queryItems)->latest()->paginate(100);
             return  new SalleCollection($salles->appends($request->query()));
         }
     }

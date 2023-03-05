@@ -16,6 +16,9 @@ import CreateSalle from '../../components/salles/CreateSalle';
 import EditSalle from '../../components/salles/EditSalle';
 import CreateActuality from '../../components/actualities/CreateActuality';
 import EditActuality from '../../components/actualities/EditActuality';
+import DetailsSalle from '../../components/salles/DetailsSalle';
+import DetailsEvent from '../../components/events/DetailsEvent';
+import EditEvent from '../../components/events/EditEvent';
 
 
   const DashboardAdmin = () =>{
@@ -57,6 +60,10 @@ import EditActuality from '../../components/actualities/EditActuality';
             return <ClubEditByAdmin />;
             break;
 
+            case "/admin/salles":
+              return <Salles />;
+              break;
+
         case "/admin/salles/createSalle":
           return <CreateSalle/>
           break;
@@ -65,12 +72,22 @@ import EditActuality from '../../components/actualities/EditActuality';
           return <EditSalle id={location.state.id} />;
           break;
 
+          case "/admin/salles/DetailsSalle":
+            return <DetailsSalle id={location.state.id} />;
+            break;
+  
+
         case "/admin/events":
           return <Events />;
           break;
-          case "/admin/salles":
-            return <Salles />;
+
+          case "/admin/events/editEvent":
+            return <EditEvent id={location.state.id} />;
             break;
+  
+            case "/admin/events/DetailsEvent":
+              return <DetailsEvent id={location.state.id} />;
+              break;
   
         default:
           return <ContentWrapper/> 

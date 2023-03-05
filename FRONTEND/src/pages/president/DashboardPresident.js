@@ -13,6 +13,8 @@ import PresidentNavBar from './PresidentNavBar';
 import PresidentSideBar from './PresidentSideBar';
 import MyClub from '../../components/clubs/MyClub';
 import ClubEdit from '../../components/clubs/ClubEdit';
+import DetailsEvent from '../../components/events/DetailsEvent';
+import DetailsSalle from '../../components/salles/DetailsSalle';
 
 
   const DashboardPresident = () =>{
@@ -46,14 +48,23 @@ import ClubEdit from '../../components/clubs/ClubEdit';
             return <Salles />;
             break;
 
-            case "/president/createEvent":
+            case "/president/salles/DetailsSalle":
+            return <DetailsSalle id={location.state.id}/>
+            break;
 
-              return <CreateEvent/>
+            
+            case "/president/events/editEvent":
+              return <EditEvent id={location.state.id} />;
               break;
-
-              case "/president/editEvent":
-                return <EditEvent/>
+            
+    
+              case "/president/events/DetailsEvent":
+                return <DetailsEvent id={location.state.id} />;
                 break;
+                case "/president/events/createEvent":
+                  return <CreateEvent/>
+                  break;
+    
 
             case "/president/editMyclub":
               return <ClubEdit/>

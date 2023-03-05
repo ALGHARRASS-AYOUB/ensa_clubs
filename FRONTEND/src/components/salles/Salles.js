@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useSalle } from '../../context/SalleContext';
 import SallesTable from '../tables/SallesTable';
@@ -86,6 +86,7 @@ function Salles() {
   return (
     
     <Container>
+      <h1 className='p-2 mt-2' style={{  borderBottom: '3px solid #365b81' }}><i className='mx-1 fa fa-building'></i> salles </h1>
       <Row className='m-4'>
         <Col md='6'>
           <Form.Select
@@ -108,6 +109,14 @@ function Salles() {
             aria-describedby='basic-addon2'
             onChange={(e)=>updateTable(null,e.target.value)}
           />
+        </Col>
+      </Row>
+      <Row className='mx-1 my-4'>
+        <Col>
+        <Button variant="primary" size="lg" className='text-white fw-bold ' href='/admin/salles/createSalle'>
+            add salle <i className='mx-3 fa fa-plus-square '></i>
+        </Button>
+      
         </Col>
       </Row>
       <SallesTable salles={filtredData} setSalles={setSalles} />

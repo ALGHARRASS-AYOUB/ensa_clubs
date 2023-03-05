@@ -110,10 +110,10 @@ class EvenementController extends Controller
             foreach ($salles as $salle_id){
                 $salle=Salle::where('id',$salle_id)->first();
                 //check disponibilty
-                if($salle->isDisponible=0 )
+                if($salle->isDisponible==0 )
                     return response()->json(['message'=>'the salle'.$salle->name.' not disponible']);
                 //check if reserved
-                if( $salle->isReserved=1)
+                if( $salle->isReserved==1)
                     return response()->json(['message'=>'the salle'.$salle->name.' is reserved']);
             $e->salles()->attach($salle_id,[
                 'start_at'=>$request->startAt,
@@ -148,7 +148,6 @@ class EvenementController extends Controller
     public function update(UpdateEvenementRequest $request, Evenement $evenement)
     {
 
-
         //$evenement=Evenement::where('id',$id)->first();
         if(!Auth::check() || Auth::user()->role!='president'){
             response()->json(['data'=>'only authenticated clubs could create events']);
@@ -158,9 +157,12 @@ class EvenementController extends Controller
         }
             $image=null;
         try {
+
             //updating in the local folder app/storage/public/logos and app/storage/public/files
             if($request->hasFile('image')){
+
                 $imageIn=trim(str_replace('/storage/','',$evenement->image));
+
                 if(Storage::has('public/'.$imageIn))
                     Storage::delete('public/'.$imageIn);
                 $imageName=time().'.'.$request->file('image')->getClientOriginalExtension();
@@ -183,6 +185,7 @@ class EvenementController extends Controller
             'description'=>$request->description??$evenement->description,
             'date_event'=>$request->startAt??$evenement->date_event,
         ];
+
         $evenement->update($eventToUpdate);
 
         if($request->has('salles') && $request->salles!=null){
@@ -198,24 +201,26 @@ class EvenementController extends Controller
 //            ]);
             $startDate= $evenement->salles()->first()->pivot->start_at;
             $endDate= $evenement->salles()->first()->pivot->end_at;
-            $e=Evenement::where('id',$evenement->id)->first();
+            $ev=Evenement::where('id',$evenement->id)->first();
+
 
                 foreach ($salles as $salle_id){
                 $salle=Salle::where('id',$salle_id)->first();
-                    if($salle->isDisponible=0 )
+                    if($salle->isDisponible==0 )
                         return response()->json(['message'=>'the salle'.$salle->name.' not disponible']);
                     //check if reserved
-                    if( $salle->isReserved=1)
+                    if( $salle->isReserved==1)
                         return response()->json(['message'=>'the salle'.$salle->name.' is reserved']);
 
                 $this->changeSalleToReserved($salle_id);
             }
-            $e->salles()->syncWithPivotValues($salles,[
+            $ev->salles()->syncWithPivotValues($salles,[
                 'start_at'=>$request->startAt??$startDate,
                 'end_at'=>$request->endAt??$endDate,
             ]);
         }
-        return new EvenementResource($e);
+        $updated_ev=Evenement::where('id',$evenement->id)->first();
+        return new EvenementResource($updated_ev);
     }
 
     /**

@@ -82,6 +82,8 @@ export const EventContextProvider=({children})=>{
         }
 
     }
+
+    
  
 
     const getApprouvedEvents=async (status)=>{
@@ -136,7 +138,7 @@ export const EventContextProvider=({children})=>{
 
                 },
             };
-            const event=await axios.post(GET_EVENTS_URL+`/${id}`,null,config);
+            const event=await axios.get(GET_EVENTS_URL+`/${id}`,config);
             setLoading(false)
             return event;
         }catch(error){
@@ -169,7 +171,7 @@ export const EventContextProvider=({children})=>{
 
     
 
-    const store=async (name,description,dateEvent,image,salles=null)=>{
+    const store=async (name,description,startAt,endAt,image,salles=null)=>{
         try {
             setLoading(true)
        
@@ -180,7 +182,7 @@ export const EventContextProvider=({children})=>{
                 },
             };
 
-            const event=await axios.post(GET_EVENTS_URL,{name,description,dateEvent,image,salles},config);
+            const event=await axios.post(GET_EVENTS_URL,{name,description,startAt,endAt,image,salles},config);
             setLoading(false)
             return event;
         } catch (error) {
@@ -188,22 +190,27 @@ export const EventContextProvider=({children})=>{
         }
     }
 
-    const update=async (name,description,dateEvent,image,salles=null)=>{
-        try {
-            setLoading(true)
-       
-            var config={
-                headers:{
-                    'Content-Type':'multipart/form-data',
-                    Authorization:`Bearer ${TOKEN}`,
-                },
-            };
+    const update=async (id,name,description,startAt,endAt,image,salles=null)=>{
 
-            const event=await axios.put(GET_EVENTS_URL,{name,description,dateEvent,image,salles},config);
-            setLoading(false)
-            return event;
-        } catch (error) {
-            toast.error('an error has been occured while logging out ')
+        if(true){
+            try {
+                setLoading(true)
+                var config={
+                    headers:{
+                        'Content-Type':'application/json',
+                        Authorization:`Bearer ${TOKEN}`,
+                    },
+                };
+    
+                const event=await axios.patch(GET_EVENTS_URL+`/${id}`,{name,description,startAt,endAt,image,salles}
+             ,config);
+                setLoading(false)
+                return event;
+            } catch (error) {
+                toast.error('an error has been occured while logging out ')
+            }
+
+
         }
     }
 
@@ -231,7 +238,7 @@ return (
     // the return the created context createdcontext.provider"""
     // the value prop is like we would export those data.
     <EventContext.Provider 
-    value={{ USER_INFO,isLoading,setLoading,getEvents,getMyEvents,getApprouvedEvents,getApprouvedMyEvents,show,store,deleteEvent,ApprouveOrNotEvent }}> 
+    value={{ USER_INFO,isLoading,setLoading,getEvents,update,getMyEvents,getApprouvedEvents,getApprouvedMyEvents,show,store,deleteEvent,ApprouveOrNotEvent }}> 
         {children}
     </EventContext.Provider>
 )

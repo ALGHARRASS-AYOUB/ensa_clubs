@@ -87,15 +87,15 @@ useEffect(()=>{
                   </div>
                 </div>
 
-                <div className="my-4 pb-2">
+                <div className="mt-4  pb-2">
                   <div className="form-outline form-white">
                   <Button className='btn btn-success' type='submit' onClick={e=>handleSubmit(e)} >Update</Button>
                   </div>
                 </div>         
 
-                <div className="my-4 pb-2">
+                <div className="my-2 ">
                   <div className="form-outline form-white">
-                  <Link className='btn btn-secondary' to='/admin/salles' >Home</Link>
+                  <Link className='btn btn-secondary' to='/admin/salles' ><i className='mx-1 fa fa-chevron-left'> BACK</i></Link>
                   </div>
                 </div>    
 
