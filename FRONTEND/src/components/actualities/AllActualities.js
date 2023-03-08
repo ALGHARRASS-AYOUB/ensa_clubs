@@ -76,7 +76,7 @@ const AllActualities = () => {
         }
         if(searchKey != null && v == null){
           const data = actualities.filter(item => {
-            return item.title.toLowerCase().search(searchKey.toLowerCase()) != -1;
+            return item.title.toLowerCase().search(searchKey.toLowerCase()) != -1 || item.evenement.name.toLowerCase().search(searchKey.toLowerCase()) != -1;
           });
           console.log(data);
           setFiltredData(data);
@@ -118,14 +118,21 @@ return (<Container>
             onChange={(e)=>updateTable(null,e.target.value)}
           />
         </Col>
-        <Col>        
-         <Button variant="secondary" size="sm" href='/admin/actualities/createActuality'>
-            <i className='mx-3 fa fa-plus-square '></i>
+      </Row>
+      <Row>
+      <Container className='mx-4 my-2'>
+      <Button className='mx-2 my-1' variant="info" size="md" href='/admin/actualities/createActuality'>
+            <span>add new actuality</span><i className='mx-3 fa fa-plus-square '></i>
         </Button>
-        </Col>
+        
+        <Button className='mx-2 my-1' variant="info" title='check events' size="md" href='/admin/events'>
+            <span>add new actuality for local event</span><i className='mx-3 fa fa-plus-square '></i>
+        </Button>
+      
+        </Container>  
       </Row>
 
-        {actualities!=null && filtredData.map(item =>{return <div key={item.id} className='m-5 p-2'><ActualityCard title={item.title} body={item.body} image={item.image} startAt={item.startAt} endAt={item.endAt} /></div>})}
+        {actualities!=null && filtredData.map(item =>{return <div key={item.id} className='m-5 p-2'><ActualityCard actuality={item} /></div>})}
         </Container>)    
 
 

@@ -77,7 +77,7 @@ const updateEvent=async(id)=>{
   
   console.log('res update',_event)
   if(_event?.data.data)
-  toast.success('the salle has been updated')
+  toast.success('the event has been updated')
   setEvent(_event?.data.data)
   setName(_event?.data.data.name)
   setDescription(_event?.data.data.description)

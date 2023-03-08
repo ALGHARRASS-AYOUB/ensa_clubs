@@ -27,11 +27,11 @@ class ActualityController extends Controller
         $includeEvent=$request->query('includeEvent');
 
         if(count($queryItems)==0){
-            $actualities= ($includeEvent)?Actuality::with('evenement')->latest('created_at')->paginate():Actuality::latest('created_at')->paginate();
+            $actualities= ($includeEvent)?Actuality::with('evenement')->latest('created_at')->paginate(20):Actuality::latest('created_at')->paginate(20);
             return  new ActualityCollection($actualities);
         }
         else{
-            $actualities= ($includeEvent)?Actuality::with('evenement')->latest()->where($queryItems)->paginate():Actuality::where($queryItems)->latest()->paginate();
+            $actualities= ($includeEvent)?Actuality::with('evenement')->latest()->where($queryItems)->paginate(20):Actuality::where($queryItems)->latest()->paginate(20);
             return  new ClubCollection($actualities->appends($request->query()));
         }
     }
@@ -61,10 +61,10 @@ class ActualityController extends Controller
 
             if($request->has('evenementId')){
                 $event=Evenement::findOrFail($request->evenementId);
-                if($event->isApprouved=0)
+                if($event->isApprouved==0)
                     return response()->json(['message'=>'the event you have choosen for this actuality is not approuved, you must approuve it first']);
 
-                return new ActualityResource(Actuality::create(['evenement_id'=>$request->evenementId]));
+                return new ActualityResource(Actuality::create([  'start_at'=>$request->startAt, 'end_at'=>$request->endAt,'evenement_id'=>$request->evenementId]));
 
             }else{
                 $actualityToStore=[

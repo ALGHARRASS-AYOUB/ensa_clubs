@@ -98,14 +98,16 @@ function editEvent(id) {
                       <td>{event.name}</td>
            
                       <td>{event.descreption}</td>
-                      <td>
+                      {/* <td>
                        
                         { (event.isApprouved == 1) ?
                           <span> Approuved <i className='ms-3 fa fa-check-circle ' style={{ 'color':'green' }}></i></span>
                         :
                         <span> Not Approuved <i className='ms-3 fa fa-times-circle ' style={{ 'color':'red' }}></i></span>
                         }
-                          </td>
+                          </td> */}
+                        <td>{event.isApprouved == 1 ? <Badge  pill bg="success">Approuved</Badge>:<Badge pill  bg="danger">Not Approuved</Badge>}</td>
+
                       <td>{event.club.name}</td>
                       <td style={{ 'maxWidth':'10rem' }}>{event?.salles.map((salle)=><Badge pill bg="light" text="dark" >{salle.name}</Badge>)}</td>
                       <td>{moment(event.dateEvent).format('DD-MM-YYYY')}</td>

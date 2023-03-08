@@ -16,9 +16,11 @@ import CreateSalle from '../../components/salles/CreateSalle';
 import EditSalle from '../../components/salles/EditSalle';
 import CreateActuality from '../../components/actualities/CreateActuality';
 import EditActuality from '../../components/actualities/EditActuality';
+import DetailsActuality from '../../components/actualities/DetailsActuality';
 import DetailsSalle from '../../components/salles/DetailsSalle';
 import DetailsEvent from '../../components/events/DetailsEvent';
 import EditEvent from '../../components/events/EditEvent';
+import CreateActualityForEvent from '../../components/actualities/CreateActualityForEvent';
 
 
   const DashboardAdmin = () =>{
@@ -84,7 +86,22 @@ import EditEvent from '../../components/events/EditEvent';
           case "/admin/events/editEvent":
             return <EditEvent id={location.state.id} />;
             break;
+
+            case "/admin/actualities/actualitiesForEvent":
+              return <CreateActualityForEvent id={location.state.id} />;
+              break;
   
+              
+            case "/admin/actualities/DetailsActuality":
+              return <DetailsActuality id={location.state.id} />;
+              
+              break;
+
+              
+            case "/admin/actualities/EditActuality":
+              return <EditActuality id={location.state.id} />;
+              break;
+
             case "/admin/events/DetailsEvent":
               return <DetailsEvent id={location.state.id} />;
               break;
