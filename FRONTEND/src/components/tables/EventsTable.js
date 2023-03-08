@@ -34,6 +34,17 @@ function EventTable({ events,setEvents}) {
     },
   });
 }
+
+function createActuality(id) {
+
+  return navigate('/admin/actualities/actualitiesForEvent', {
+    state: {
+      id: id,
+    },
+  });
+}
+
+
 function editEvent(id) {
 
   return navigate('/admin/events/editEvent', {
@@ -101,7 +112,7 @@ function editEvent(id) {
                       <td>{event.name}</td>
            
                       <td>{event.descreption}</td>
-                      <td>{event.isApprouved}</td>
+                      <td>{event.isApprouved == 1 ? <Badge  pill bg="success">Approuved</Badge>:<Badge pill  bg="danger">Not Approuved</Badge>}</td>
                       <td>{event.club.name}</td>
                       <td style={{ 'maxWidth':'10rem' }}>{event?.salles.map((salle)=><Badge pill bg="light" text="dark" >{salle.name}</Badge>)}</td>
                       <td>{moment(event.dateEvent).format('DD-MM-YYYY')}</td>
@@ -131,6 +142,17 @@ function editEvent(id) {
                         >
                           <span><i className='fa fa-trash'></i></span> 
                         </button>
+                        
+                        {
+                          event.isApprouved==1 &&
+                          <button
+                          title='create an actuality for this event'
+                            className='btn m-1 btn-sm btn-secondary'
+                            onClick={() => createActuality(event.id)}
+                          ><small>create actuality</small>
+                            <span><i className='ms-2 fa fa-newspaper'></i></span> 
+                          </button>
+                        }
                       </td>
                     </tr>
                   ))}

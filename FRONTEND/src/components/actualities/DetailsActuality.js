@@ -7,28 +7,23 @@ import { toast } from 'react-toastify'
 import { useEvent } from '../../context/EventContext'
 import { useActuality } from '../../context/ActualityContext'
 
-const EditActuality = ({id}) => {
+const DetailsActuality = ({id}) => {
 const {update,show}=useActuality('')
 const [title,setTitle]=useState()
 const [startAt,setStartAt]=useState()
 const [endAt,setEndAt]=useState()
 const [body,setBody]=useState()
-const [image,setImage]=useState(null)
-const [event,setEvent]=useState()
 
+const [event,setEvent]=useState()
+const [image,setImage]=useState('')
+const [Url,setUrl]=useState('http://localhost:80')
 const navigate=useNavigate()
 
 
-const handleSubmit=(e)=>{
-  e.preventDefault()
-  console.log('info',(title,body,startAt,endAt,image))
-  updateActuality();
-}
+
 
 const fetchActuality=async()=>{
   const _actuality=await show(id);
-  
-  
 
   setTitle(_actuality?.data.data.title)
   setBody(_actuality?.data.data.body)
@@ -37,21 +32,16 @@ const fetchActuality=async()=>{
   setEvent(_actuality?.data.data.evenement)
 }
 
-
-const updateActuality=async()=>{
-
-  const _actuality=await update(id,title,body,startAt,endAt,image);
-  console.log('res update',_actuality)
-  if(_actuality?.data.data){
-    
-    toast.success('the actuality has been updated')
-    setTitle(_actuality?.data.data.title)
-    setBody(_actuality?.data.data.body)
-    navigate('/admin/actualities')
-  }else{
-    toast.error(_actuality)
+const _editActuality=(id)=>{
+    return navigate('/admin/actualities/EditActuality', {
+      state: {
+        id: id,
+      },
+    });
   }
-}
+  
+
+
 
 useEffect(()=>{
 fetchActuality()
@@ -71,11 +61,16 @@ const checkEvent=(id)=>{
    
             <Container className='m-5'>
               
-            <h3 className="fw-normal mb-5">Editting Actuality</h3>
+            <h3 className="fw-normal mb-5">Details Actuality</h3>
             <hr />
-  
+                
+             {image && 
+                <div className="mb-4 pb-2">
+                <img src={Url+image} alt="" style={{ 'borderRadius':'8rem','maxHeight':'30rem',maxWidth:'40rem' }} />
+              </div>
+             }
               { 
-              <Form onSubmit={e=>handleSubmit(e)} encType={'multipart/form-data'}>
+              <Form  >
     
                 {
                   event ? <>
@@ -85,13 +80,14 @@ const checkEvent=(id)=>{
                   <>
                               <div className="mb-4 pb-2">
                   <div className="form-outline form-white">
-                    <input type="text" id="title" name='title' value={title} onChange={e=>{setTitle(e.target.value)}} className="form-control form-control-lg" />
+                    <input type="text" id="title" name='title' value={title} disabled onChange={e=>{setTitle(e.target.value)}} className="form-control form-control-lg" />
                     <label className="form-label" htmlFor="title">title</label>
                   </div>
                 </div>
 
                 <FloatingLabel controlId="floatingTextarea2" className='py-2 mb-4' label="Description">
                 <Form.Control
+                
                 name='body'
                 value={body}
                 className=''
@@ -99,33 +95,28 @@ const checkEvent=(id)=>{
                   placeholder="Leave a description here"
                   style={{ height: '100px' }}
                   onChange={e=>{setBody(e.target.value)}}
+                  disabled
                 />
               </FloatingLabel>
                   </>
                 }
                 <Row className='my-2'>
-                  <Col className='m-2'>
-                  <label htmlFor="startdate">starting date : </label><Form.Control format='Y-m-d H:i:s'   type='Date'  value={ moment(new Date(startAt)).format('YYYY-MM-DD')}  name='startAt' min={moment(Date.now()).format("YYYY-MM-DD") }    onChange={e=>{setStartAt(moment(e.target.value).format('YYYY-MM-DD HH:mm:ss'))} }    />
-                  </Col>
-                  <Col className='m-2'>
-                  <label htmlFor="enddate">ending date : </label><Form.Control type='Date' format='Y-m-d H:i:s'  value={ moment(new Date(endAt)).format('YYYY-MM-DD')} min={moment(Date.now()).format("YYYY-MM-DD") }  onChange={e=>setEndAt(moment(e.target.value).format('YYYY-MM-DD HH:mm:ss'))} />
-                  </Col>
+                    <Col className='m-2'>
+                         <label htmlFor="startdate">starting date of actuality : </label> <small className='t-black fw-bold rounded-lg bg-yellow p-2 m-2'>{moment(startAt).format('YYYY-MM-DD')}</small> 
+                     </Col> 
+                </Row>
+                <Row className='my-2'>
+                    <Col className='m-2'>
+                         <label htmlFor="startdate">ending date of actuality : </label> <small className='t-black fw-bold rounded-lg bg-yellow p-2 m-2'>{moment(endAt).format('YYYY-MM-DD')}</small> 
+                     </Col> 
                 </Row>
                 <Row>
-                {
-                  !event &&    
-                 <div className="my-4">
-                  <div className="form-outline form-white">
-                    <input type="file" name='image'  id="image" className="form-control form-control-lg"  onChange={e=>{setImage(e.target.files[0])}}  />
-                    <label className="form-label" htmlFor="image">upload the Image of event</label>
-                  </div>
-                </div>
-                }
+
                 </Row>
 
                 <div className="mt-5  pb-2">
                   <div className="form-outline form-white fw-bold">
-                  <Button className='btn btn-success' type='submit'  >UPDATE</Button>
+                  <Button className='btn btn-success' onClick={()=>_editActuality()} >Edit</Button>
                   </div>
                 </div>         
 
@@ -142,4 +133,4 @@ const checkEvent=(id)=>{
   )
 }
 
-export default EditActuality
+export default DetailsActuality

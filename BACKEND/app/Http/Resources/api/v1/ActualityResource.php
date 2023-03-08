@@ -21,7 +21,7 @@ class ActualityResource extends JsonResource
           'startAt'=>$this->start_at,
           'endAt'=>$this->end_at,
           'image'=>$this->image,
-          'evenement'=>EvenementResource::make($this->whenLoaded('evenement')) ,
+          'evenement'=>EvenementResource::make($this->evenement),
         ];
     }
 }
